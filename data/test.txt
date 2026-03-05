@@ -1,0 +1,280 @@
+1 User: Hi.
+2 Assistant: Hi! Is it cold where you are right now?
+3 User: It is cold outside.
+4 Assistant: Do you want advice on what to wear?
+5 User: Yes. What should I wear?
+6 Assistant: Wear a warm jacket.
+
+1 User: Hello.
+2 Assistant: Hello. Is it raining where you are?
+3 User: It is raining.
+4 Assistant: Are you going outside now?
+5 User: Yes. What do I need?
+6 Assistant: You need an umbrella.
+
+1 User: Hey.
+2 Assistant: Hey. Is it sunny today where you are?
+3 User: It is sunny today.
+4 Assistant: Are you going out for a walk?
+5 User: Yes. What should I take with me?
+6 Assistant: Take sunglasses.
+
+1 User: Hi.
+2 Assistant: Hi. Is it windy outside right now?
+3 User: It is windy.
+4 Assistant: Do you want clothing advice?
+5 User: Yes. What should I wear?
+6 Assistant: Wear a windbreaker.
+
+1 User: Hello.
+2 Assistant: Hello. Is it hot outside today?
+3 User: It is hot today.
+4 Assistant: Are you planning to stay outside long?
+5 User: Yes. What should I wear?
+6 Assistant: Wear a t-shirt and shorts.
+
+1 User: Hi.
+2 Assistant: Hi. Is it snowing where you are?
+3 User: It is snowing.
+4 Assistant: Are you going outside?
+5 User: Yes. What do I need?
+6 Assistant: You need a hat and gloves.
+
+1 User: Hello.
+2 Assistant: Hello. Are you feeling cold at home right now?
+3 User: I feel cold at home.
+4 Assistant: Do you want ideas to warm up?
+5 User: Yes. What can I do?
+6 Assistant: Close the window and drink tea.
+
+1 User: Hi.
+2 Assistant: Hi. Is the weather cloudy today?
+3 User: It is cloudy.
+4 Assistant: Are you worried it might rain?
+5 User: Yes. Do I need an umbrella?
+6 Assistant: No, you do not need it now.
+
+1 User: Hey.
+2 Assistant: Hey. Is it freezing outside where you are?
+3 User: It is freezing outside.
+4 Assistant: Do you want advice on warm clothes?
+5 User: Yes. What should I wear?
+6 Assistant: Wear a coat and a scarf.
+
+1 User: Hello.
+2 Assistant: Hello. Is it warm outside today?
+3 User: It is warm outside.
+4 Assistant: Are you going out soon?
+5 User: Yes. What should I wear?
+6 Assistant: Wear light clothes.
+
+1 User: Hi.
+2 Assistant: Hi. Are you hungry right now?
+3 User: I am hungry.
+4 Assistant: Do you want a quick idea for food?
+5 User: Yes. What can I eat?
+6 Assistant: You can eat a sandwich.
+
+1 User: Hello.
+2 Assistant: Hello. Do you want to make some tea?
+3 User: I want tea.
+4 Assistant: Do you want simple steps to make it?
+5 User: Yes. How do I make it?
+6 Assistant: Boil water and add a tea bag.
+
+1 User: Hi.
+2 Assistant: Hi. Do you want to cook something with what you have?
+3 User: I have eggs and bread.
+4 Assistant: Do you want to cook something easy?
+5 User: Yes. What can I cook?
+6 Assistant: You can make an omelet.
+
+1 User: Hey.
+2 Assistant: Hey. Are you looking for something fast to eat?
+3 User: I do not have time.
+4 Assistant: Do you want a very fast meal idea?
+5 User: Yes. What is a fast meal?
+6 Assistant: Yogurt and a banana.
+
+1 User: Hello.
+2 Assistant: Hello. Do you want something sweet right now?
+3 User: I want something sweet.
+4 Assistant: Do you want a simple snack idea?
+5 User: Yes. What can I eat?
+6 Assistant: Eat chocolate or fruit.
+
+1 User: Hi.
+2 Assistant: Hi. Do you want to cook with pasta and cheese?
+3 User: I have pasta and cheese.
+4 Assistant: Do you want a quick recipe?
+5 User: Yes. What can I cook?
+6 Assistant: Cook pasta and add cheese.
+
+1 User: Hello.
+2 Assistant: Hello. Are you thirsty right now?
+3 User: I am thirsty.
+4 Assistant: Do you want a drink suggestion?
+5 User: Yes. What can I drink?
+6 Assistant: Drink water.
+
+1 User: Hi.
+2 Assistant: Hi. Do you want an easy meal idea with what you have?
+3 User: I have chicken and rice.
+4 Assistant: Do you want an easy meal idea?
+5 User: Yes. What can I cook?
+6 Assistant: Cook chicken with rice.
+
+1 User: Hello.
+2 Assistant: Hello. Do you want to make coffee now?
+3 User: I want coffee.
+4 Assistant: Do you want the simplest way to make it?
+5 User: Yes. How do I make it?
+6 Assistant: Add coffee to hot water or use a coffee machine.
+
+1 User: Hi.
+2 Assistant: Hi. Do you still want cereal even without milk?
+3 User: I have no milk.
+4 Assistant: Do you still want to eat cereal?
+5 User: Yes. What can I put in cereal?
+6 Assistant: You can use yogurt or water.
+
+1 User: Hi.
+2 Assistant: Hi. Do you want help cleaning your room?
+3 User: My room is messy.
+4 Assistant: Do you want a simple first step?
+5 User: Yes. What should I do first?
+6 Assistant: Put clothes away first.
+
+1 User: Hello.
+2 Assistant: Hello. Do you want to clean the floor?
+3 User: The floor is dirty.
+4 Assistant: Do you want the fastest way to clean it?
+5 User: Yes. What should I do?
+6 Assistant: Vacuum the floor.
+
+1 User: Hi.
+2 Assistant: Hi. Do you want to deal with the dishes now?
+3 User: There are dishes in the sink.
+4 Assistant: Do you want to fix it now?
+5 User: Yes. What should I do?
+6 Assistant: Wash the dishes.
+
+1 User: Hey.
+2 Assistant: Hey. Do you want to take care of the trash?
+3 User: The trash is full.
+4 Assistant: Do you want to know what to do next?
+5 User: Yes. What should I do?
+6 Assistant: Take out the trash.
+
+1 User: Hello.
+2 Assistant: Hello. Do you want to clean the window?
+3 User: The window is dirty.
+4 Assistant: Do you want a quick cleaning tip?
+5 User: Yes. What should I do?
+6 Assistant: Clean the window with a cloth.
+
+1 User: Hi.
+2 Assistant: Hi. Do you want help with a quick cleanup?
+3 User: I spilled water on the table.
+4 Assistant: Do you want to clean it right away?
+5 User: Yes. What should I do?
+6 Assistant: Wipe it with a towel.
+
+1 User: Hello.
+2 Assistant: Hello. Do you want to freshen up the bathroom?
+3 User: The bathroom smells bad.
+4 Assistant: Do you want an easy way to improve it?
+5 User: Yes. What should I do?
+6 Assistant: Clean it and open the window.
+
+1 User: Hi.
+2 Assistant: Hi. Do you need help finding something?
+3 User: I cannot find my keys.
+4 Assistant: Do you want ideas where to look first?
+5 User: Yes. Where should I check?
+6 Assistant: Check your jacket and your bag.
+
+1 User: Hello.
+2 Assistant: Hello. Do you want to tidy up the bed quickly?
+3 User: The bed is not made.
+4 Assistant: Do you want a quick reminder?
+5 User: Yes. What should I do?
+6 Assistant: Make the bed.
+
+1 User: Hi.
+2 Assistant: Hi. Do you want to take care of the laundry?
+3 User: The laundry basket is full.
+4 Assistant: Do you want to know the next step?
+5 User: Yes. What should I do?
+6 Assistant: Do the laundry.
+
+1 User: Hi.
+2 Assistant: Hi. Are you making a shopping list right now?
+3 User: I need bread and milk.
+4 Assistant: Do you want me to repeat what to buy?
+5 User: Yes. What should I buy?
+6 Assistant: Buy bread and milk.
+
+1 User: Hello.
+2 Assistant: Hello. Are you planning to buy ingredients for pasta?
+3 User: I want to cook pasta.
+4 Assistant: Do you need the basic ingredients?
+5 User: Yes. What do I need?
+6 Assistant: You need pasta and sauce.
+
+1 User: Hi.
+2 Assistant: Hi. Did you forget your shopping list?
+3 User: I forgot my shopping list.
+4 Assistant: Do you have it saved somewhere?
+5 User: Maybe. What should I do?
+6 Assistant: Check your phone notes.
+
+1 User: Hey.
+2 Assistant: Hey. Are you looking for a gift idea?
+3 User: I need a gift for a friend.
+4 Assistant: Do you want a simple gift idea?
+5 User: Yes. What can I buy?
+6 Assistant: Buy a book or chocolates.
+
+1 User: Hello.
+2 Assistant: Hello. Are you trying to save money on vegetables?
+3 User: I want cheap vegetables.
+4 Assistant: Do you want the best place to look?
+5 User: Yes. Where should I go?
+6 Assistant: Go to a local market.
+
+1 User: Hi.
+2 Assistant: Hi. Are you paying by card today?
+3 User: I need to pay by card.
+4 Assistant: Are you at the checkout now?
+5 User: Yes. What should I do?
+6 Assistant: Use the card terminal at checkout.
+
+1 User: Hello.
+2 Assistant: Hello. Are you looking for shampoo in the store?
+3 User: I need shampoo.
+4 Assistant: Do you want to know where it is in the store?
+5 User: Yes. Where can I find it?
+6 Assistant: In the hygiene aisle.
+
+1 User: Hi.
+2 Assistant: Hi. Are you buying apples today?
+3 User: I want apples.
+4 Assistant: Do you want a suggestion for how many to buy?
+5 User: Yes. How many should I buy?
+6 Assistant: Buy 1–2 kilograms.
+
+1 User: Hello.
+2 Assistant: Hello. Are you looking for batteries right now?
+3 User: I need batteries.
+4 Assistant: Do you want to know where they usually are?
+5 User: Yes. Where are they?
+6 Assistant: Near electronics or checkout.
+
+1 User: Hi.
+2 Assistant: Hi. Is the store crowded today?
+3 User: The store is crowded.
+4 Assistant: Do you want a tip for next time?
+5 User: Yes. What should I do?
+6 Assistant: Go early in the morning next time.
+
