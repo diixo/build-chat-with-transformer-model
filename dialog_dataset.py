@@ -97,7 +97,11 @@ class DialogDataset(Dataset):
             if lm[i] == 1:
                 labels[i] = input_ids[i]
 
-        return {"input_ids": input_ids, "attention_mask": attention_mask, "labels": labels}
+        return {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+            "labels": labels
+            }
 
     # ------------------------- parsing -------------------------
 
@@ -177,10 +181,9 @@ class DialogDataset(Dataset):
 
     def _make_text_and_parts(self, pairs: List[Tuple[str, str]]) -> Tuple[str, List[Tuple[str, bool]]]:
         """
-        Единственная сборка:
         parts = [(text_piece, is_answer)]
-          - is_answer=True только для контента ответов Assistant (плюс eos, если включено)
-          - "User:" и "Assistant:" префиксы — is_answer=False (их не учим)
+          - is_answer=True only for content of Assistant (plus eos, if included)
+          - "User:" и "Assistant:" префиксы - is_answer=False (do not lern them)
         """
         sep = self.cfg.line_sep
         eos = self.tokenizer.eos_token if (self.cfg.add_eos and self.tokenizer.eos_token) else ""
@@ -205,34 +208,36 @@ class DialogDataset(Dataset):
         return "".join(full_chunks), parts
 
 
-def make_lm_collate_fn(tokenizer, pad_to_multiple_of: Optional[int] = None):
+def collate_lm_batch(
+    batch: List[Dict[str, torch.Tensor]],
+    padding_value: int,
+    label_padding_value: int = -100
+) -> Dict[str, torch.Tensor]:
     """
-    Паддинг для dict{'input_ids','attention_mask','labels'}.
+    batch: items list from DialogDataset, each item is:
+      {"input_ids": 1D LongTensor, "attention_mask": 1D LongTensor, "labels": 1D LongTensor}
+
+    padding_value: padding value for input_ids
+    label_padding_value: should be -100 for causal LM
     """
-    pad_id = tokenizer.pad_token_id
-    if pad_id is None:
-        # часто для GPT pad делают = eos
-        if tokenizer.eos_token_id is None:
-            raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
-        pad_id = tokenizer.eos_token_id
+    if len(batch) == 0:
+        raise ValueError("Empty batch")
 
-    def collate(batch: List[Dict[str, torch.Tensor]]) -> Dict[str, torch.Tensor]:
-        max_len = max(x["input_ids"].numel() for x in batch)
-        if pad_to_multiple_of:
-            r = max_len % pad_to_multiple_of
-            if r != 0:
-                max_len += (pad_to_multiple_of - r)
+    max_len = max(x["input_ids"].numel() for x in batch)
 
-        input_ids = torch.full((len(batch), max_len), pad_id, dtype=torch.long)
-        attention_mask = torch.zeros((len(batch), max_len), dtype=torch.long)
-        labels = torch.full((len(batch), max_len), -100, dtype=torch.long)
+    bsize = len(batch)
+    input_ids = torch.full((bsize, max_len), padding_value, dtype=torch.long)
+    attention_mask = torch.zeros((bsize, max_len), dtype=torch.long)
+    labels = torch.full((bsize, max_len), label_padding_value, dtype=torch.long)
 
-        for i, x in enumerate(batch):
-            L = x["input_ids"].numel()
-            input_ids[i, :L] = x["input_ids"]
-            attention_mask[i, :L] = x["attention_mask"]
-            labels[i, :L] = x["labels"]
+    for i, x in enumerate(batch):
+        ids = x["input_ids"]
+        am = x["attention_mask"]
+        lab = x["labels"]
 
-        return {"input_ids": input_ids, "attention_mask": attention_mask, "labels": labels}
+        L = ids.numel()
+        input_ids[i, :L] = ids
+        attention_mask[i, :L] = am
+        labels[i, :L] = lab
 
-    return collate
+    return {"input_ids": input_ids, "attention_mask": attention_mask, "labels": labels}

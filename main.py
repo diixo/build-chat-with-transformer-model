@@ -1,7 +1,7 @@
 
 from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer
 
-from dialog_dataset import DialogDataset, make_lm_collate_fn
+from dialog_dataset import DialogDataset, collate_lm_batch
 
 
 import torch
@@ -28,12 +28,37 @@ MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
 EPOCHS = 5
 BATCH_SIZE = 4
+MAX_LENGTH = 1024
 
 model_dir = "trained_model"
+model_output_dir = model_dir
 
 
 if __name__ == "__main__":
 
+    tokenizer = GPT2TokenizerFast.from_pretrained(
+        MODEL_NAME,
+        additional_special_tokens=["User:", "Assistant:"],
+        padding_side="right",
+        model_max_length=MAX_LENGTH
+        )
+
+    train_dataset = DialogDataset("data/test.txt", tokenizer)
+
+    print(len(train_dataset))
+
+    for item in train_dataset:
+        print(tokenizer.decode(item["input_ids"]))
+        print(item["labels"])
+        break
+    
+    exit(0)
+    ##################################################################
+
+    model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
+    model.config.pad_token_id = tokenizer.pad_token_id
+
+    model.to(device)
 
     training_args = TrainingArguments(
         output_dir=model_dir,
@@ -52,23 +77,19 @@ if __name__ == "__main__":
         fp16=False,
     )
 
-    tokenizer = GPT2TokenizerFast.from_pretrained(MODEL_NAME)
-    model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
-    model.config.pad_token_id = tokenizer.pad_token_id
-
-    model.to(device)
-
-    train_dataset = DialogDataset("data/test.txt", tokenizer)
-
-    print(len(train_dataset))
-
-
     trainer = Trainer(
         model=model,
         args=training_args,
         train_dataset=train_dataset,
-        data_collator=make_lm_collate_fn(tokenizer),
+        data_collator=lambda x: collate_lm_batch(
+            x,
+            padding_value=tokenizer.eos_token_id,
+            label_padding_value=tokenizer.eos_token_id
+        ),
     )
 
-    #trainer.train()
+    trainer.train()
     #trainer.save_model(model_dir)
+
+    #model.save_pretrained(model_output_dir)
+    #tokenizer.save_pretrained(model_output_dir)
