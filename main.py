@@ -1,5 +1,5 @@
 
-from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer
+from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer, GenerationConfig
 
 from dialog_dataset import DialogDataset, collate_lm_batch
 from torch.utils.data import ConcatDataset
@@ -8,6 +8,7 @@ import torch
 import random
 import numpy as np
 from transformers import set_seed
+from utils import check_local_model_dir
 
 
 seed = 42
@@ -34,76 +35,140 @@ model_dir = "trained_model"
 model_output_dir = model_dir
 
 
+def dialog(model, tokenizer, gen_cfg):
+
+    print("Type 'exit' to stop.\n")
+
+    while True:
+        user = input("User: ").strip()
+        if user.lower() in {"exit", "quit"}:
+            break
+
+        #prompt = history + f"User: {user}\n{assistant}:"
+
+        prompt = f"User: {user}\nAssistant:"
+
+        inputs = tokenizer(prompt, return_tensors="pt").to(device)
+
+        with torch.no_grad():
+            out = model.generate(**inputs, generation_config=gen_cfg)
+
+        prompt_len = inputs["input_ids"].shape[1]
+
+        out = out[0][prompt_len:]   # cut out the prompt tokens, keep only the generated part
+
+        full = tokenizer.decode(out, skip_special_tokens=True)
+
+        # cut out the answer from the full generated text — отрезаем всё до последнего "Lexor:", а дальше — до следующего "User:" (если есть)
+        tail = full.split("Assistant:")[-1]
+
+        # часто модель тянет дальше "User:" — обрежем
+        answer = tail.split("User:")[0].strip()
+
+        print(f"Assistant: {answer}\n")
+
+        history += f"User: {user}\nAssistant: {answer}\n"
+
+
+
 if __name__ == "__main__":
 
-    tokenizer = GPT2TokenizerFast.from_pretrained(
-        MODEL_NAME,
-        additional_special_tokens=["User:", "Assistant:"],
-        padding_side="right",
-        model_max_length=MAX_LENGTH
+    ok, msg = check_local_model_dir(f"{model_output_dir}")
+
+    if not ok:
+        tokenizer = GPT2TokenizerFast.from_pretrained(
+            MODEL_NAME,
+            additional_special_tokens=["User:", "Assistant:"],
+            padding_side="right",
+            model_max_length=MAX_LENGTH
+            )
+
+        train_dataset = ConcatDataset([
+            DialogDataset("data/test.txt", tokenizer),
+            DialogDataset("data/dialogue_dataset_300.txt", tokenizer),
+            DialogDataset("data/dialogue_dataset_700.txt", tokenizer),
+            DialogDataset("data/dialogue_dataset_2000.txt", tokenizer),
+            DialogDataset("data/dialogue_dataset_2000_v2.txt", tokenizer),
+            DialogDataset("data/dialogue_dataset_5000_v3.txt", tokenizer),
+        ])
+
+
+        print(len(train_dataset))
+
+
+        for item in train_dataset:
+
+            txt = item["text"]
+
+            print(f"Tokens: {tokenizer.tokenize(txt)}")
+
+            batch = collate_lm_batch(
+                batch = [item],
+                padding_value=tokenizer.eos_token_id,
+                label_padding_value=-100
+                )
+
+            #print(tokenizer.decode(batch["input_ids"]))
+            print(batch["labels"])
+            print(batch["attention_mask"])
+
+            break
+
+        exit(0)
+        ##################################################################
+
+        model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
+        model.config.pad_token_id = tokenizer.pad_token_id
+
+        model.to(device)
+
+        training_args = TrainingArguments(
+            output_dir=model_output_dir,
+            save_strategy="no",
+            eval_strategy="no",
+            learning_rate=LEARNING_RATE,
+            num_train_epochs=EPOCHS,
+            weight_decay=0.0,
+            push_to_hub=False,
+            load_best_model_at_end=False,
+            per_device_train_batch_size=BATCH_SIZE,
+            gradient_accumulation_steps=1,
+            lr_scheduler_type="constant",
+
+            bf16=True,
+            fp16=False,
         )
 
-    train_dataset = ConcatDataset([
-        DialogDataset("data/test.txt", tokenizer),
-        DialogDataset("data/dialogue_dataset_300.txt", tokenizer),
-        DialogDataset("data/dialogue_dataset_700.txt", tokenizer),
-        DialogDataset("data/dialogue_dataset_2000.txt", tokenizer),
-        DialogDataset("data/dialogue_dataset_2000_v2.txt", tokenizer),
-        DialogDataset("data/dialogue_dataset_5000_v3.txt", tokenizer),
-    ])
+        trainer = Trainer(
+            model=model,
+            args=training_args,
+            train_dataset=train_dataset,
+            data_collator=lambda x: collate_lm_batch(
+                x,
+                padding_value=tokenizer.eos_token_id,
+                label_padding_value=-100
+            ),
+        )
 
+        trainer.train()
+        trainer.save_model(model_output_dir)
 
-    print(len(train_dataset))
+        #model.save_pretrained(model_output_dir)
+        tokenizer.save_pretrained(model_output_dir)
+    else:
 
+        tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir)
+        model = AutoModelForCausalLM.from_pretrained(model_output_dir).to(device)
 
-    for item in train_dataset:
+    #############################################################################
 
-        txt = item["text"]
-
-        print(f"Tokens: {tokenizer.tokenize(txt)}")
-
-        #print(tokenizer.decode(item["input_ids"]))
-        print(item["labels"])
-        break
-    
-    exit(0)
-    ##################################################################
-
-    model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
-    model.config.pad_token_id = tokenizer.pad_token_id
-
-    model.to(device)
-
-    training_args = TrainingArguments(
-        output_dir=model_dir,
-        save_strategy="no",
-        eval_strategy="no",
-        learning_rate=LEARNING_RATE,
-        num_train_epochs=EPOCHS,
-        weight_decay=0.0,
-        push_to_hub=False,
-        load_best_model_at_end=False,
-        per_device_train_batch_size=BATCH_SIZE,
-        gradient_accumulation_steps=1,
-        lr_scheduler_type="constant",
-
-        bf16=True,
-        fp16=False,
+    gen_cfg = GenerationConfig(
+        max_new_tokens=100,
+        do_sample=True,
+        temperature=0.8,
+        top_p=0.95,
+        repetition_penalty=1.1,
+        pad_token_id=tokenizer.pad_token_id,
+        eos_token_id=tokenizer.eos_token_id,
+        bos_token_id=tokenizer.bos_token_id
     )
-
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_dataset,
-        data_collator=lambda x: collate_lm_batch(
-            x,
-            padding_value=tokenizer.eos_token_id,
-            label_padding_value=tokenizer.eos_token_id
-        ),
-    )
-
-    trainer.train()
-    #trainer.save_model(model_dir)
-
-    #model.save_pretrained(model_output_dir)
-    #tokenizer.save_pretrained(model_output_dir)
