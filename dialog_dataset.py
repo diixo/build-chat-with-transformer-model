@@ -100,7 +100,8 @@ class DialogDataset(Dataset):
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
-            "labels": labels
+            "labels": labels,
+            "text": full_text
             }
 
     # ------------------------- parsing -------------------------

@@ -45,18 +45,24 @@ if __name__ == "__main__":
 
     train_dataset = ConcatDataset([
         DialogDataset("data/test.txt", tokenizer),
-        DialogDataset("data/dialogue_datset_300.txt", tokenizer),
-        DialogDataset("data/dialogue_datset_700.txt", tokenizer),
-        DialogDataset("data/dialogue_datset_2000.txt", tokenizer),
-        DialogDataset("data/dialogue_datset_2000_v2.txt", tokenizer),
-        DialogDataset("data/dialogue_datset_5000.txt", tokenizer),
+        DialogDataset("data/dialogue_dataset_300.txt", tokenizer),
+        DialogDataset("data/dialogue_dataset_700.txt", tokenizer),
+        DialogDataset("data/dialogue_dataset_2000.txt", tokenizer),
+        DialogDataset("data/dialogue_dataset_2000_v2.txt", tokenizer),
+        DialogDataset("data/dialogue_dataset_5000_v3.txt", tokenizer),
     ])
 
 
     print(len(train_dataset))
 
+
     for item in train_dataset:
-        print(tokenizer.decode(item["input_ids"]))
+
+        txt = item["text"]
+
+        print(f"Tokens: {tokenizer.tokenize(txt)}")
+
+        #print(tokenizer.decode(item["input_ids"]))
         print(item["labels"])
         break
     
