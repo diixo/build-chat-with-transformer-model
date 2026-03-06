@@ -2,7 +2,7 @@
 from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer
 
 from dialog_dataset import DialogDataset, collate_lm_batch
-
+from torch.utils.data import ConcatDataset
 
 import torch
 import random
@@ -27,7 +27,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
 EPOCHS = 5
-BATCH_SIZE = 4
+BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
 model_dir = "trained_model"
@@ -43,7 +43,15 @@ if __name__ == "__main__":
         model_max_length=MAX_LENGTH
         )
 
-    train_dataset = DialogDataset("data/test.txt", tokenizer)
+    train_dataset = ConcatDataset([
+        DialogDataset("data/test.txt", tokenizer),
+        DialogDataset("data/dialogue_datset_300.txt", tokenizer),
+        DialogDataset("data/dialogue_datset_700.txt", tokenizer),
+        DialogDataset("data/dialogue_datset_2000.txt", tokenizer),
+        DialogDataset("data/dialogue_datset_2000_v2.txt", tokenizer),
+        DialogDataset("data/dialogue_datset_5000.txt", tokenizer),
+    ])
+
 
     print(len(train_dataset))
 

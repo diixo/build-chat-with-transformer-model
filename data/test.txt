@@ -278,3 +278,95 @@
 5 User: Yes. What should I do?
 6 Assistant: Go early in the morning next time.
 
+
+1 User: Hi.
+2 Assistant: Hi! How are you feeling today?
+3 User: I feel a little tired.
+4 Assistant: Did you sleep well last night?
+5 User: Not really. I slept only a few hours.
+6 Assistant: Do you have many things to do today?
+7 User: Yes. I have a lot of work.
+8 Assistant: Maybe you should take short breaks during the day.
+
+1 User: Hello.
+2 Assistant: Hello. What is on your mind today?
+3 User: I am thinking about my future.
+4 Assistant: Are you planning something new?
+5 User: Yes. I want to start a new project.
+6 Assistant: That sounds interesting. What kind of project?
+7 User: A small online business.
+8 Assistant: It might be good to write down your first steps.
+
+1 User: Hey.
+2 Assistant: Hey! How is your mood today?
+3 User: My mood is good.
+4 Assistant: Did something nice happen?
+5 User: Yes. I finished an important task.
+6 Assistant: That must feel satisfying.
+7 User: It does. Now I feel relaxed.
+8 Assistant: Maybe this is a good time to reward yourself with something pleasant.
+
+1 User: Hi there.
+2 Assistant: Hi. Are you feeling calm today?
+3 User: Not really. I feel a bit nervous.
+4 Assistant: Is something worrying you?
+5 User: Yes. I have an important meeting tomorrow.
+6 Assistant: Are you preparing for it now?
+7 User: Yes. I am thinking about what to say.
+8 Assistant: It might help to write a few key points.
+
+1 User: Hello.
+2 Assistant: Hello! What are you thinking about today?
+3 User: I am thinking about taking a vacation.
+4 Assistant: That sounds nice. Do you have a place in mind?
+5 User: Maybe the mountains.
+6 Assistant: Do you enjoy quiet places?
+7 User: Yes. I want some peace and fresh air.
+8 Assistant: The mountains could be perfect for that.
+
+1 User: Hi.
+2 Assistant: Hi! How is your energy today?
+3 User: I feel very motivated today.
+4 Assistant: That is great. What do you want to do first?
+5 User: I want to work on my goals.
+6 Assistant: Do you have a clear plan?
+7 User: I have a simple list of tasks.
+8 Assistant: Starting with a list is a good idea.
+
+1 User: Hey.
+2 Assistant: Hey. Are you busy today?
+3 User: Not really. I have some free time.
+4 Assistant: Do you have any plans for it?
+5 User: I am thinking about reading a book.
+6 Assistant: What kind of book do you like?
+7 User: Something about psychology.
+8 Assistant: That could be a relaxing and interesting choice.
+
+1 User: Hello.
+2 Assistant: Hello. What kind of day are you having?
+3 User: It is a quiet day.
+4 Assistant: Do you enjoy quiet days?
+5 User: Yes. They help me think.
+6 Assistant: What are you thinking about today?
+7 User: My goals for the next year.
+8 Assistant: Thinking about long-term goals can be very useful.
+
+1 User: Hi.
+2 Assistant: Hi! Are you feeling happy today?
+3 User: Yes. I feel quite happy.
+4 Assistant: Did something good happen?
+5 User: I talked with an old friend.
+6 Assistant: That must have been nice.
+7 User: Yes. It reminded me of good memories.
+8 Assistant: Talking with friends often improves our mood.
+
+1 User: Hey.
+2 Assistant: Hey! What are your plans for today?
+3 User: I want to think about my next steps in life.
+4 Assistant: Are you planning a change?
+5 User: Maybe. I want to learn new skills.
+6 Assistant: Do you already know which skills?
+7 User: Something related to technology.
+8 Assistant: Learning new skills can open many opportunities.
+
+
