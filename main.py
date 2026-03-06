@@ -25,6 +25,7 @@ torch.backends.cudnn.allow_tf32 = False
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
 EPOCHS = 5
@@ -39,14 +40,17 @@ def dialog(model, tokenizer, gen_cfg):
 
     print("Type 'exit' to stop.\n")
 
+    history = ""
+
     while True:
-        user = input("User: ").strip()
-        if user.lower() in {"exit", "quit"}:
+
+        user_msg = input("User: ").strip()
+        if user_msg.lower() in {"exit", "quit"}:
             break
 
-        #prompt = history + f"User: {user}\n{assistant}:"
+        #prompt = history + f"User: {user_msg}\n{assistant}:"
 
-        prompt = f"User: {user}\nAssistant:"
+        prompt = f"User: {user_msg}\nAssistant:"
 
         inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
@@ -67,7 +71,7 @@ def dialog(model, tokenizer, gen_cfg):
 
         print(f"Assistant: {answer}\n")
 
-        history += f"User: {user}\nAssistant: {answer}\n"
+        history += f"User: {user_msg}\nAssistant: {answer}\n"
 
 
 
@@ -78,10 +82,15 @@ if __name__ == "__main__":
     if not ok:
         tokenizer = GPT2TokenizerFast.from_pretrained(
             MODEL_NAME,
-            additional_special_tokens=["User:", "Assistant:"],
+            local_files_only=False,
             padding_side="right",
             model_max_length=MAX_LENGTH
             )
+
+        if tokenizer.pad_token_id is None:
+            if tokenizer.eos_token_id is None:
+                raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
+            tokenizer.pad_token = tokenizer.eos_token
 
         train_dataset = ConcatDataset([
             DialogDataset("data/test.txt", tokenizer),
@@ -95,29 +104,9 @@ if __name__ == "__main__":
 
         print(len(train_dataset))
 
-
-        for item in train_dataset:
-
-            txt = item["text"]
-
-            print(f"Tokens: {tokenizer.tokenize(txt)}")
-
-            batch = collate_lm_batch(
-                batch = [item],
-                padding_value=tokenizer.eos_token_id,
-                label_padding_value=-100
-                )
-
-            #print(tokenizer.decode(batch["input_ids"]))
-            print(batch["labels"])
-            print(batch["attention_mask"])
-
-            break
-
-        exit(0)
         ##################################################################
 
-        model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
+        model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, local_files_only=False)
         model.config.pad_token_id = tokenizer.pad_token_id
 
         model.to(device)
@@ -145,7 +134,7 @@ if __name__ == "__main__":
             train_dataset=train_dataset,
             data_collator=lambda x: collate_lm_batch(
                 x,
-                padding_value=tokenizer.eos_token_id,
+                padding_value=tokenizer.pad_token_id,
                 label_padding_value=-100
             ),
         )
@@ -157,10 +146,17 @@ if __name__ == "__main__":
         tokenizer.save_pretrained(model_output_dir)
     else:
 
-        tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir)
-        model = AutoModelForCausalLM.from_pretrained(model_output_dir).to(device)
+        tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir, local_files_only=True)
+        model = AutoModelForCausalLM.from_pretrained(model_output_dir, local_files_only=True).to(device)
 
     #############################################################################
+
+    if tokenizer.pad_token_id is None:
+        if tokenizer.eos_token_id is None:
+            raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
+        tokenizer.pad_token = tokenizer.eos_token
+
+    print("EOS_id:", tokenizer.eos_token_id, ", BOS_id:", tokenizer.bos_token_id, ", PAD_id:", tokenizer.pad_token_id)
 
     gen_cfg = GenerationConfig(
         max_new_tokens=100,
@@ -172,3 +168,5 @@ if __name__ == "__main__":
         eos_token_id=tokenizer.eos_token_id,
         bos_token_id=tokenizer.bos_token_id
     )
+
+    dialog(model, tokenizer, gen_cfg)
