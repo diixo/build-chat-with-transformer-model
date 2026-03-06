@@ -4,14 +4,14 @@ def check_local_model_dir(model_dir: str):
     p = Path(model_dir)
 
     if not p.exists():
-        return False, f"Директория не существует: {p}"
+        return False, f"Directory does not exist: {p}"
 
     if not p.is_dir():
-        return False, f"Это не директория: {p}"
+        return False, f"Directory invalid: {p}"
 
     config_file = p / "config.json"
     if not config_file.exists():
-        return False, f"Нет config.json в {p}"
+        return False, f"Absent config.json into {p}"
 
     has_weights = (
         (p / "pytorch_model.bin").exists()
@@ -21,6 +21,6 @@ def check_local_model_dir(model_dir: str):
     )
 
     if not has_weights:
-        return False, f"Не найден файл весов в {p}"
+        return False, f"Weights file was not found in: {p}"
 
-    return True, f"Похоже, локальная модель готова к загрузке: {p}"
+    return True, f"Local model is ready for loading from: {p}"
