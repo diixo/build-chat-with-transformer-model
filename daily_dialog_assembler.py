@@ -87,6 +87,23 @@ def build_split_dataset(split_dir, split_name):
     return items
 
 
+def daily_dialog_expanded_gen_filter():
+
+    file_path = "data/daily-dialog-expanded-gen/daily_dialog_expanded-all.txt"
+
+    lines = []
+    with open(Path(file_path), "r", encoding="utf-8") as fin:
+        for line in fin:
+            lines.append(line)
+
+    #overwrrite the original file with filtered lines:
+    with open(Path(file_path), "w", encoding="utf-8") as fout:
+        for line in lines:
+            line = line.replace(": , ", ": ")
+            line = line.replace(". , ", ". ")
+            fout.write(line)
+
+
 def main():
 
     all_items = []
@@ -118,6 +135,8 @@ def main():
             fout.write("\n")
 
     print(f"Saved to: {output_txt}")
+
+    daily_dialog_expanded_gen_filter()
 
 
 if __name__ == "__main__":
