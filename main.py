@@ -2,7 +2,7 @@
 from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer, GenerationConfig
 
 from dialog_dataset import DialogDataset, collate_lm_batch
-from torch.utils.data import ConcatDataset
+
 
 import torch
 import random
@@ -28,8 +28,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
-EPOCHS = 5
-BATCH_SIZE = 8
+EPOCHS = 10
+BATCH_SIZE = 16
 MAX_LENGTH = 1024
 
 model_dir = "trained_model"
@@ -92,17 +92,29 @@ if __name__ == "__main__":
                 raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
             tokenizer.pad_token = tokenizer.eos_token
 
-        train_dataset = ConcatDataset([
-            DialogDataset("data/test.txt", tokenizer),
-            DialogDataset("data/dialogue_dataset_300.txt", tokenizer),
-            DialogDataset("data/dialogue_dataset_700.txt", tokenizer),
-            DialogDataset("data/dialogue_dataset_2000.txt", tokenizer),
-            DialogDataset("data/dialogue_dataset_2000_v2.txt", tokenizer),
-            DialogDataset("data/dialogue_dataset_5000_v3.txt", tokenizer),
-        ])
+        train_dataset = DialogDataset([
+            #"data/test_50.txt",
+
+            "data/dialogue_dataset_300.txt",
+            "data/dialogue_dataset_700.txt",
+            "data/dialogue_dataset_2000.txt",
+            "data/dialogue_dataset_2000_v2.txt",
+            "data/dialogue_dataset_5000_v3.txt",
+
+            "data/dialogue_mood_3000.txt",
+            "data/dialogue_mood_12000.txt",
+            "data/dialogue_mood_20000_v3.txt",
+
+            "data/dialogues_clarification_12000.txt",
+
+            "data/assistant_reasoning/assistant_reasoning_dialogues_part1.txt",
+            "data/assistant_reasoning/assistant_reasoning_dialogues_part2.txt",
+            "data/assistant_reasoning/assistant_reasoning_dialogues_part3.txt",
+        ], tokenizer)
 
 
-        print(len(train_dataset))
+        print("dialogues: size=", len(train_dataset))
+
 
         ##################################################################
 
