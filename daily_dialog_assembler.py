@@ -16,10 +16,11 @@ def read_lines(path):
 
 
 def parse_dialog_line(text_line):
-    # В DailyDialog реплики обычно разделены __eou__
+    import re
+
     parts = text_line.split("__eou__")
     items = []
-    # Последний элемент часто пустой, убираем
+
     parts = [x.strip() for x in parts if x.strip()]
 
     for x in parts:
@@ -34,6 +35,7 @@ def parse_dialog_line(text_line):
             item = item.replace(" ;", ";")
             item = item.replace(" ,", ",")
             item = item.replace(" ’ ", "'")
+            item = re.sub(r'([a-z])\.([A-Z])', r'\1. \2', item)
             items.append(item)
     return items
 
@@ -99,6 +101,21 @@ def main():
             f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
     print(64*"-" + f"\nDone: {len(all_items)} dialogs \nSaved to: {output_path}")
+
+    ################################################################################
+
+    output_txt = base_dir / "daily-dialog_all.txt"
+
+    with open(output_path, "r", encoding="utf-8") as fin, open(output_txt, "w", encoding="utf-8") as fout:
+        for line in fin:
+            obj = json.loads(line)
+            #fout.write(f"### SPLIT: {obj['split']} | DIALOGUE: {obj['dialog_id']}\n")
+            for idx, utterance in enumerate(obj["dialog"], start=1):
+                speaker = "Speaker1" if idx % 2 == 1 else "Speaker2"
+                fout.write(f"{idx} {speaker}: {utterance}\n")
+            fout.write("\n")
+
+    print(f"Saved to: {output_txt}")
 
 
 if __name__ == "__main__":
