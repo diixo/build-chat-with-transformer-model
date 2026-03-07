@@ -18,9 +18,24 @@ def read_lines(path):
 def parse_dialog_line(text_line):
     # В DailyDialog реплики обычно разделены __eou__
     parts = text_line.split("__eou__")
+    items = []
     # Последний элемент часто пустой, убираем
     parts = [x.strip() for x in parts if x.strip()]
-    return parts
+
+    for x in parts:
+        item = x.strip()
+        if item:
+            item = item.replace(" ' ", "'")
+            item = item.replace(" ?", "?")
+            item = item.replace(" )", ")")
+            item = item.replace("( ", "(")
+            item = item.replace(" !", "!")
+            item = item.replace(" .", ".")
+            item = item.replace(" ;", ";")
+            item = item.replace(" ,", ",")
+            item = item.replace(" ’ ", "'")
+            items.append(item)
+    return items
 
 
 def parse_int_line(line):
@@ -77,13 +92,13 @@ def main():
         all_items.extend(split_items)
         print(f"{split_name}: {len(split_items)} dialogs")
 
-    output_path = base_dir / "dailydialog_all.jsonl"
+    output_path = base_dir / "daily-dialog_all.jsonl"
 
     with open(output_path, "w", encoding="utf-8") as f:
         for item in all_items:
             f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
-    print(f"Done: {len(all_items)} dialogs saved to {output_path}")
+    print(64*"-" + f"\nDone: {len(all_items)} dialogs \nSaved to: {output_path}")
 
 
 if __name__ == "__main__":
