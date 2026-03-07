@@ -35,6 +35,8 @@ def parse_dialog_line(text_line):
             item = item.replace(" ;", ";")
             item = item.replace(" ,", ",")
             item = item.replace(" ’ ", "'")
+            item = item.replace(" / ", "/")
+            item = item.replace(" & ", "&")
             item = re.sub(r'([a-z])\.([A-Z])', r'\1. \2', item)
             items.append(item)
     return items
