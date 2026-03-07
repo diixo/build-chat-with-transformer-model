@@ -99,14 +99,11 @@ def daily_dialog_expanded_gen_filter():
     #overwrrite the original file with filtered lines:
     with open(Path(file_path), "w", encoding="utf-8") as fout:
         for line in lines:
-            line = line.replace(": , ", ": ")
-            line = line.replace(". , ", ". ")
-            line = line.replace(". . .", "...")
-            line = line.replace(", ...", ",")
-            line = line.replace(". .", ".")
-            line = line.replace(", ,", ",")
-            line = line.replace(", , ,", ",")
-            line = line.replace(", , , ,", ",")
+            line = line.replace(": . ", ": ")
+            line = line.replace(" .", ".")
+            line = line.replace(" ,", ",")
+            line = line.replace(" ?", "?")
+            line = line.replace(" !", "!")
             fout.write(line)
 
 
