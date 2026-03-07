@@ -29,7 +29,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
 EPOCHS = 10
-BATCH_SIZE = 16
+BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
 model_dir = "trained_model"
