@@ -101,6 +101,12 @@ def daily_dialog_expanded_gen_filter():
         for line in lines:
             line = line.replace(": , ", ": ")
             line = line.replace(". , ", ". ")
+            line = line.replace(". . .", "...")
+            line = line.replace(", ...", ",")
+            #line = line.replace(". .", ".")
+            #line = line.replace(", ,", ",")
+            #line = line.replace(", , ,", ",")
+            #line = line.replace(", , , ,", ",")
             fout.write(line)
 
 
