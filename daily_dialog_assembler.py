@@ -97,12 +97,17 @@ def daily_dialog_expanded_gen_filter():
             lines.append(line)
 
     #overwrrite the original file with filtered lines:
+    counter = 0
+
     with open(Path(file_path), "w", encoding="utf-8") as fout:
         for line in lines:
-            line = line.replace(",!", "!")
 
-            if line.strip() == "User:":
-                line = "User: maybe\n"
+            if line.strip() == "1 User:":
+                counter += 1
+                if counter % 2 == 0:
+                    line = "1 User: maybe\n"
+                else:
+                    line = "1 User: somehow\n"
             fout.write(line)
 
 
