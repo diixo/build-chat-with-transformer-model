@@ -103,10 +103,10 @@ def daily_dialog_expanded_gen_filter():
             line = line.replace(". , ", ". ")
             line = line.replace(". . .", "...")
             line = line.replace(", ...", ",")
-            #line = line.replace(". .", ".")
-            #line = line.replace(", ,", ",")
-            #line = line.replace(", , ,", ",")
-            #line = line.replace(", , , ,", ",")
+            line = line.replace(". .", ".")
+            line = line.replace(", ,", ",")
+            line = line.replace(", , ,", ",")
+            line = line.replace(", , , ,", ",")
             fout.write(line)
 
 
