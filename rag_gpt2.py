@@ -191,7 +191,7 @@ def rag_generate(chunks: list,
     CONTEXT_WINDOW = tokenizer.model_max_length  # 1024 for GPT‑2
 
     # leave room for generation
-    max_input_tokens = CONTEXT_WINDOW - (max_gen_len + 20) # buffer for formatting
+    max_input_tokens = CONTEXT_WINDOW - (max_gen_len+1)
 
     # retrieve related “memories”
     memories = retrieve_top_k(chunks, user_input, k=k_retrieval)
@@ -201,34 +201,32 @@ def rag_generate(chunks: list,
         prefix = "\n---\n".join(mems)
         return f"{prefix}\n\nUser: {user_input}\nAssistant:"
 
+    # initial prompt with all retrieved memories
     prompt = build_prompt(memories)
 
     # if too long, drop memories until it fits
-    tokenized = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
-    while tokenized.input_ids.shape[1] > max_input_tokens and memories:
-        # drop the least relevant (last) chunk
+    input_ids = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
+
+    while input_ids.input_ids.shape[1] > max_input_tokens and memories:
+        # drop the least relevant (last) item and rebuild prompt
         memories.pop(-1)
         prompt = build_prompt(memories)
-        tokenized = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
-    
+        input_ids = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
+
+    len_input = input_ids.input_ids.shape[1]
+
     # tokenize & generate
-    inputs = tokenizer(
-        prompt,
-        return_tensors="pt",
-        truncation=True,
-        max_length=max_input_tokens
-    )
     outputs = model_gpt2.generate(
-        **inputs,
-        max_length=inputs.input_ids.shape[1] + max_gen_len,
-        pad_token_id=tokenizer.eos_token_id,
+        **input_ids,
+        max_new_tokens=max_gen_len,
+        eos_token_id=tokenizer.eos_token_id,
         do_sample=True,
         top_p=0.95,
         temperature=temperature
     )
 
     # decode completion
-    gen = tokenizer.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
+    gen = tokenizer.decode(outputs[0][len_input:], skip_special_tokens=True)
     return gen.strip()
 
 # def add_to_memory(text:str):
@@ -236,9 +234,12 @@ def rag_generate(chunks: list,
 #     index.add(emb)
 #     docs.append(text)
 
-
+# Can you explain how transformers can work in your model?
 user_input = "Can you explain how transformers use attention mechanisms to understand context in a sentence?"
-assistant_reply = rag_generate(text, user_input, 1, 200, 0.7)
+#user_input = "Can you explain how transformers use attention mechanisms by LLM model to understand context?"
+assistant_reply = rag_generate(text, user_input, 1, 100, 0.7)
+
+assistant_reply = assistant_reply.split("\nAssistant:")[0].strip()  # in case model tries to continue with more dialogue
 
 print("assistant_reply:", assistant_reply)
 
