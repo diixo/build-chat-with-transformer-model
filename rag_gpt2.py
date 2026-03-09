@@ -187,11 +187,13 @@ def rag_generate(chunks: list,
                  max_gen_len: int=100,
                  temperature: float=0.7):
 
+    print(f"[Debug] User input: {user_input}")
+
     # model’s absolute context window
     CONTEXT_WINDOW = tokenizer.model_max_length  # 1024 for GPT‑2
 
     # leave room for generation
-    max_input_tokens = CONTEXT_WINDOW - (max_gen_len+1)
+    max_input_tokens = CONTEXT_WINDOW - (max_gen_len + 1)
 
     # retrieve related “memories”
     memories = retrieve_top_k(chunks, user_input, k=k_retrieval)
@@ -220,30 +222,31 @@ def rag_generate(chunks: list,
         **input_ids,
         max_new_tokens=max_gen_len,
         eos_token_id=tokenizer.eos_token_id,
+        pad_token_id=tokenizer.eos_token_id,
+        forced_eos_token_id=tokenizer.eos_token_id,
         do_sample=True,
         top_p=0.95,
         temperature=temperature
     )
 
     # decode completion
-    gen = tokenizer.decode(outputs[0][len_input:], skip_special_tokens=True)
-    return gen.strip()
+    answer = tokenizer.decode(outputs[0][len_input:], skip_special_tokens=True)
+    answer = answer.split("\nAssistant:")[0].strip()
+    return answer.split("\nUser:")[0].strip()
 
-# def add_to_memory(text:str):
-#     emb = model_emb.encode([text], convert_to_numpy=True)
-#     index.add(emb)
-#     docs.append(text)
+
+def add_to_memory(msg: str):
+    emb = model_emb.encode([msg], convert_to_numpy=True)
+    index.add(emb)
+
 
 # Can you explain how transformers can work in your model?
-user_input = "Can you explain how transformers use attention mechanisms to understand context in a sentence?"
-#user_input = "Can you explain how transformers use attention mechanisms by LLM model to understand context?"
+#user_input = "Can you explain how transformers use attention mechanisms to understand context in a sentence?"
+user_input = "Can you explain how transformers use attention mechanisms by LLM model to understand context?"
 assistant_reply = rag_generate(text, user_input, 1, 100, 0.7)
 
-assistant_reply = assistant_reply.split("\nAssistant:")[0].strip()  # in case model tries to continue with more dialogue
+print("\n\nAssistant:", assistant_reply)
 
-print("assistant_reply:", assistant_reply)
-
-exit(0)
 
 with gr.Blocks() as demo:
     chatbot = gr.Chatbot()
@@ -252,7 +255,7 @@ with gr.Blocks() as demo:
         msg = gr.Textbox(label="Your question", placeholder="Type here…")
         temp = gr.Slider(0.1, 1.0, value=0.7, step=0.05, label="Generation temperature")
     with gr.Row():
-        k_slider = gr.Slider(1, 5, value=2, step=1, label="k_retrieval")
+        k_slider = gr.Slider(1, 5, value=1, step=1, label="k_retrieval")
         maxlen_slider = gr.Slider(50, 500, value=200, step=10, label="max_gen_len")
     
     def chat_fn(message, history, temperature, k_retrieval, max_gen_len):
@@ -263,7 +266,10 @@ with gr.Blocks() as demo:
             max_gen_len=int(max_gen_len),
             temperature=float(temperature)
         )
-        history.append((message, answer))
+        #history.append((message, answer))
+        # gradio==6.9.0 + uses dict format for chatbot history
+        history.append({"role": "user", "content": message})
+        history.append({"role": "assistant", "content": answer})
         return history, history
 
     msg.submit(chat_fn, inputs=[msg, chatbot, temp, k_slider, maxlen_slider], outputs=[chatbot, chatbot])
