@@ -1,8 +1,10 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import numpy as np
+import pandas as pd
 import re
+import json
 import nltk
-nltk.download('punkt')
+#nltk.download('punkt')
+
 from nltk.tokenize import sent_tokenize
 import os
 from pathlib import Path
@@ -20,7 +22,8 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 save_dir = "trained_model/rag-embeddings"
 file_path = "datasets/Plain-text-Wikipedia-(SimpleEnglish)/AllCombined.txt"
 
-dir_path = f"{save_dir}/embeddings.json"
+embd_txt = f"{save_dir}/embeddings.jsonl"
+embd_npy = f"{save_dir}/embeddings.npy"
 
 
 def clean_text(text):
@@ -84,21 +87,30 @@ def create_sliding_chunks(text, max_tokens=300, stride=150):
 #clean_text = clean_text(raw_text)
 #chunks = create_sliding_chunks(clean_text, max_tokens=400, stride=200)
 
-def load_emb(dir_path):
-    df = pd.read_json(dir_path, lines=True)
+def load_emb(file_npy: str, file_jsonl: str):
 
-    # Convert embeddings column (lists) to NumPy array
-    embeddings = np.vstack(df['embedding'].values)
-    
-    # Extract text
-    text = df['text'].tolist()
-    return embeddings, text
+    text_list = []
+
+    with open(file_jsonl, "r", encoding="utf-8") as f:
+        for line in f:
+            obj = json.loads(line)
+            text_list.append(obj["text"])
+
+    # load binary
+    embeddings = np.load(file_npy)
+
+    assert len(embeddings) == len(text_list), "Embeddings and text count mismatch"
+
+    return embeddings, text_list
+
 
 model_emb = SentenceTransformer("data/all-MiniLM-L6-v2", device=device, local_files_only = True)
 
-if Path(file_path).is_file():
+################################################################################################
 
-    embeddings, text = load_emb(dir_path)
+if Path(embd_npy).exists() and Path(embd_txt).exists():
+
+    embeddings, text = load_emb(embd_npy, embd_txt)
 
 else:
 
@@ -106,22 +118,24 @@ else:
 
     embeddings = model_emb.encode(
         text,
-        batch_size=64,               # tune for memory
-        show_progress_bar=True,     # shows tqdm progress
+        batch_size=64,
+        show_progress_bar=True,
         convert_to_numpy=True,
         device=device
     )
 
     os.makedirs(save_dir, exist_ok=True)
 
-    df = pd.DataFrame({
-        "text": text,
-        "embedding": [e.tolist() for e in embeddings]  # convert vectors to JSON-style lists
-    })
+    np.save(embd_npy, embeddings)
 
-    df.to_json(f"{save_dir}/embeddings.json", orient="records", lines=True)
+    with open(embd_txt, "w", encoding="utf-8") as f:
+        for t in text:
+            obj = {"text": t}
+            f.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
+    print("Embeddings data saved to:", save_dir)
 
+################################################################################################
 
 dim = embeddings.shape[1]
 index = faiss.IndexFlatL2(dim)
@@ -137,7 +151,7 @@ model_gpt2 = GPT2LMHeadModel.from_pretrained('gpt2')
 model_gpt2.eval()
 
 
-def rag_generate(chunks:list,
+def rag_generate_old(chunks:list,
                  user_input:str, 
                  k_retrieval:int=3, 
                  max_gen_len:int=100):
@@ -148,11 +162,14 @@ def rag_generate(chunks:list,
     prefix = "\n---\n".join(memories)
     prompt = f"{prefix}\n\nUser: {user_input}\nAssistant:"
 
+    max_gen_len = min(1024, inputs.input_ids.shape[1] + max_gen_len)
+
     # 3) tokenize & generate
-    inputs = tokenizer(prompt, return_tensors='pt')
+    inputs = tokenizer(prompt, return_tensors='pt', add_special_tokens=False)
+
     outputs = model_gpt2.generate(
         **inputs,
-        max_length=inputs.input_ids.shape[1] + max_gen_len,
+        max_length=max_gen_len,
         pad_token_id=tokenizer.eos_token_id,
         do_sample=True,
         top_p=0.95,
@@ -163,15 +180,19 @@ def rag_generate(chunks:list,
     gen = tokenizer.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
     return gen.strip()
 
-def rag_generate(chunks:list,
-                 user_input:str, 
-                 k_retrieval:int=3, 
-                 max_gen_len:int=100,
-                 temperature:float=0.7):
+
+def rag_generate(chunks: list,
+                 user_input: str,
+                 k_retrieval: int=3, 
+                 max_gen_len: int=100,
+                 temperature: float=0.7):
+
     # model’s absolute context window
     CONTEXT_WINDOW = tokenizer.model_max_length  # 1024 for GPT‑2
+
     # leave room for generation
     max_input_tokens = CONTEXT_WINDOW - (max_gen_len + 20) # buffer for formatting
+
     # retrieve related “memories”
     memories = retrieve_top_k(chunks, user_input, k=k_retrieval)
 
@@ -217,7 +238,11 @@ def rag_generate(chunks:list,
 
 
 user_input = "Can you explain how transformers use attention mechanisms to understand context in a sentence?"
-assistant_reply = rag_generate(text, user_input, 2, 200, 0.7)
+assistant_reply = rag_generate(text, user_input, 1, 200, 0.7)
+
+print("assistant_reply:", assistant_reply)
+
+exit(0)
 
 with gr.Blocks() as demo:
     chatbot = gr.Chatbot()
