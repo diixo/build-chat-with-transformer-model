@@ -65,17 +65,16 @@ def load_text(path: str) -> List[Dict[str, str]]:
     return items
 
 
-def format_example(ex: dict, eos_token: str = "") -> str:
-    parts = []
+def format_item(example: dict) -> str:
+    knowledge="", user="", assistant=""
 
-    if ex["knowledge"]:
-        parts.append(f"<|knowledge|>\n{ex['knowledge']}")
-    if ex["user"]:
-        parts.append(f"<|user|>\n{ex['user']}")
-    if ex["assistant"]:
-        parts.append(f"<|assistant|>\n{ex['assistant']}{eos_token}")
-
-    return "\n".join(parts)
+    if example["knowledge"]:
+        knowledge = f"<|knowledge|>\n{example['knowledge']}"
+    if example["user"]:
+        user = f"<|user|>\n{example['user']}"
+    if example["assistant"]:
+        assistant = f"<|assistant|>\n{example['assistant']}"
+    return knowledge, user, assistant
 
 
 class TextDataset(Dataset):
@@ -99,6 +98,63 @@ class TextDataset(Dataset):
         self.items: List[str] = []
         for fp in self.files:
             self.items.extend(load_text(str(fp)))
+
+    def __len__(self):
+        return len(self.data)
+
+
+    def __getitem__(self, index):
+
+        raw_item = self.data[index]
+        knowledge, user, assistant = format_item(raw_item)
+
+        knowledge_ids = self.tokenizer(
+            knowledge, truncation=True, add_special_tokens=False, max_length=(1024-1), return_tensors="pt")["input_ids"]
+        
+
+        if user != "" and assistant != "":
+
+            qa_ids = self.tokenizer(
+                user+assistant, truncation=True, add_special_tokens=False, max_length=(1024-1), return_tensors="pt")["input_ids"]
+            
+            # combine into one sequence, add eos_token_id at the end to prevent GPT2 from cutting the answer
+            input_ids = torch.cat([
+                knowledge_ids,                                                  # (1, N)
+                qa_ids,                                                         # (1, M)
+                torch.tensor([[self.tokenizer.eos_token_id]], dtype=torch.long) # (1, 1)
+            ], dim=1)                                                           # (1, N+M+1)=shape([0],[1])
+            # create new array
+            labels = input_ids.clone()
+        else:
+            # use only knowledge
+            input_ids = torch.cat([
+                knowledge_ids,                                                  # (1, N)
+                torch.tensor([[self.tokenizer.eos_token_id]], dtype=torch.long) # (1, 1)
+            ], dim=1)                                                           # (1, N+M+1)=shape([0],[1])
+            # create new array
+            labels = input_ids.clone()
+
+
+def collate_batch(batch, padding_value, label_padding_value=-100):
+    from torch.nn.utils.rnn import pad_sequence
+    from collections import defaultdict
+
+    new_batch = defaultdict(lambda:[])
+    for x in batch:
+        for x_key in x.keys():
+            new_batch[x_key].append(x[x_key][0])
+
+    new_batch = dict(new_batch)
+    for batch_key in new_batch.keys():
+        if batch_key == "labels":
+            new_batch[batch_key] = pad_sequence(new_batch[batch_key], batch_first=True, padding_value=label_padding_value)
+        else:
+            new_batch[batch_key] = pad_sequence(new_batch[batch_key], batch_first=True, padding_value=padding_value)
+
+    if "input_ids" in new_batch:
+        new_batch["attention_mask"] = (new_batch["input_ids"] != padding_value).long()
+
+    return new_batch
 
 
 if __name__ == "__main__":
