@@ -1,6 +1,6 @@
 
-User: What is Wikipedia?
-Assistant: Wikipedia is a free online encyclopedia.
+User: ###What is Wikipedia?
+Assistant: ### Wikipedia is a free online encyclopedia.
 
 GPT is generative pretrained transformer.
 Transformer is architecture of LLM.

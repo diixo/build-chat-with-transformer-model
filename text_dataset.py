@@ -9,8 +9,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple, Union
 
-from transformers import GPT2TokenizerFast
+from transformers import GPT2TokenizerFast, AutoModelForCausalLM
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 @dataclass
 class DialogConfig:
@@ -133,7 +134,7 @@ class TextDataset(Dataset):
             parts_labels.append(torch.full_like(knowledge_ids, -100))
 
         # 2. user
-        if user:
+        if user != "" and assistant != "":
             user_ids = self.tokenizer(
                 user,
                 truncation=True,
@@ -144,8 +145,6 @@ class TextDataset(Dataset):
             parts_input_ids.append(user_ids)
             parts_labels.append(torch.full_like(user_ids, -100))
 
-        # 3. assistant
-        if assistant:
             assistant_ids = self.tokenizer(
                 assistant,
                 truncation=True,
@@ -156,17 +155,16 @@ class TextDataset(Dataset):
             parts_input_ids.append(assistant_ids)
             parts_labels.append(assistant_ids.clone())
 
-        # 4. eos
-        if self.cfg.add_eos:
-            eos_id = torch.tensor([self.tokenizer.eos_token_id], dtype=torch.long)
-            parts_input_ids.append(eos_id)
 
-            if assistant:
-                parts_labels.append(eos_id.clone())
-            else:
-                parts_labels.append(torch.tensor([-100], dtype=torch.long))
+        eos_id = torch.tensor([self.tokenizer.eos_token_id], dtype=torch.long)
+        parts_input_ids.append(eos_id)
 
-        # fallback: если вдруг всё пустое
+        if assistant:
+            parts_labels.append(eos_id.clone())
+        else:
+            parts_labels.append(torch.tensor([-100], dtype=torch.long))
+
+        # fallback: if all is ampty
         if not parts_input_ids:
             eos_id = torch.tensor([self.tokenizer.eos_token_id], dtype=torch.long)
             input_ids = eos_id
@@ -175,9 +173,11 @@ class TextDataset(Dataset):
             input_ids = torch.cat(parts_input_ids, dim=0)
             labels = torch.cat(parts_labels, dim=0)
 
-        # обрезка до max_length
+        # truncate to max_length
         max_len = self.cfg.max_length
+
         if input_ids.size(0) > max_len:
+            print(f"WARNING: max_len={max_len} OUTFLOW")
             input_ids = input_ids[:max_len]
             labels = labels[:max_len]
 
@@ -229,3 +229,19 @@ if __name__ == "__main__":
     print(dataset[0])
 
     print(f"Tokens: {tokenizer.tokenize(dataset.get_item_str(0))}")
+
+    # model = AutoModelForCausalLM.from_pretrained("gpt2")
+    # model.to(device)
+
+    # input_ids = tokenizer("Tania", truncation=True, add_special_tokens=False, max_length=10, return_tensors="pt")
+
+    # input_ids = input_ids["input_ids"].to(device)
+    # gen_ids = model.generate(
+    #         input_ids=input_ids,
+    #         max_new_tokens=20,
+    #         do_sample=False,
+    #         eos_token_id=tokenizer.eos_token_id,
+    #         pad_token_id=tokenizer.eos_token_id
+    #     )[0]
+    # output_text = tokenizer.decode(gen_ids, skip_special_tokens=True)
+    # print(output_text)
