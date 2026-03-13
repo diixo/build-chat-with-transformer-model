@@ -55,13 +55,14 @@ def load_text(path: str) -> List[Dict[str, str]]:
                 pending_knowledge = None
 
             else:
-                # любая обычная строка = отдельная knowledge-запись
+                # any single line = separated knowledge-item
                 items.append({
                     "knowledge": line,
                 })
 
-                # и она же становится knowledge для следующей пары User/Assistant
-                pending_knowledge = line
+                # keep current knowledge as separatelly item
+                current_user = None
+                pending_knowledge = None
 
     return items
 
