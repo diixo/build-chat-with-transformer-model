@@ -65,19 +65,22 @@ def load_text(path: str) -> List[Dict[str, str]]:
     return items
 
 
-def format_item(example: dict) -> str:
-    knowledge="", user="", assistant=""
+def format_item(example: dict):
+    knowledge = ""
+    user = ""
+    assistant = ""
 
-    if example["knowledge"]:
-        knowledge = f"<|knowledge|>\n{example['knowledge']}"
-    if example["user"]:
-        user = f"<|user|>\n{example['user']}"
-    if example["assistant"]:
-        assistant = f"<|assistant|>\n{example['assistant']}"
+    if example.get("knowledge"):
+        knowledge = f"<|knowledge|>\n{example['knowledge']}\n"
+    if example.get("user"):
+        user = f"<|user|>\n{example['user']}\n"
+    if example.get("assistant"):
+        assistant = f"<|assistant|>\n{example['assistant']}\n"
     return knowledge, user, assistant
 
 
 class TextDataset(Dataset):
+
     def __init__(
         self,
         files: Union[str, Path, List[Union[str, Path]]],
@@ -99,40 +102,89 @@ class TextDataset(Dataset):
         for fp in self.files:
             self.items.extend(load_text(str(fp)))
 
+
     def __len__(self):
         return len(self.data)
 
 
-    def __getitem__(self, index):
+    def get_item_str(self, index) -> str:
+        knowledge, user, assistant = format_item(self.items[index])
+        return knowledge + user + assistant
 
-        raw_item = self.data[index]
+
+    def __getitem__(self, index) -> Dict[str, torch.Tensor]:
+        raw_item = self.items[index]
+
         knowledge, user, assistant = format_item(raw_item)
 
-        knowledge_ids = self.tokenizer(
-            knowledge, truncation=True, add_special_tokens=False, max_length=(1024-1), return_tensors="pt")["input_ids"]
-        
+        parts_input_ids = []
+        parts_labels = []
 
-        if user != "" and assistant != "":
+        # 1. knowledge
+        if knowledge:
+            knowledge_ids = self.tokenizer(
+                knowledge,
+                truncation=True,
+                add_special_tokens=False,
+                max_length=self.cfg.max_length,
+                return_tensors="pt"
+            )["input_ids"].squeeze(0)   # (seq,)
+            parts_input_ids.append(knowledge_ids)
+            parts_labels.append(torch.full_like(knowledge_ids, -100))
 
-            qa_ids = self.tokenizer(
-                user+assistant, truncation=True, add_special_tokens=False, max_length=(1024-1), return_tensors="pt")["input_ids"]
-            
-            # combine into one sequence, add eos_token_id at the end to prevent GPT2 from cutting the answer
-            input_ids = torch.cat([
-                knowledge_ids,                                                  # (1, N)
-                qa_ids,                                                         # (1, M)
-                torch.tensor([[self.tokenizer.eos_token_id]], dtype=torch.long) # (1, 1)
-            ], dim=1)                                                           # (1, N+M+1)=shape([0],[1])
-            # create new array
-            labels = input_ids.clone()
+        # 2. user
+        if user:
+            user_ids = self.tokenizer(
+                user,
+                truncation=True,
+                add_special_tokens=False,
+                max_length=self.cfg.max_length,
+                return_tensors="pt"
+            )["input_ids"].squeeze(0)
+            parts_input_ids.append(user_ids)
+            parts_labels.append(torch.full_like(user_ids, -100))
+
+        # 3. assistant
+        if assistant:
+            assistant_ids = self.tokenizer(
+                assistant,
+                truncation=True,
+                add_special_tokens=False,
+                max_length=self.cfg.max_length,
+                return_tensors="pt"
+            )["input_ids"].squeeze(0)
+            parts_input_ids.append(assistant_ids)
+            parts_labels.append(assistant_ids.clone())
+
+        # 4. eos
+        if self.cfg.add_eos:
+            eos_id = torch.tensor([self.tokenizer.eos_token_id], dtype=torch.long)
+            parts_input_ids.append(eos_id)
+
+            if assistant:
+                parts_labels.append(eos_id.clone())
+            else:
+                parts_labels.append(torch.tensor([-100], dtype=torch.long))
+
+        # fallback: если вдруг всё пустое
+        if not parts_input_ids:
+            eos_id = torch.tensor([self.tokenizer.eos_token_id], dtype=torch.long)
+            input_ids = eos_id
+            labels = torch.tensor([-100], dtype=torch.long)
         else:
-            # use only knowledge
-            input_ids = torch.cat([
-                knowledge_ids,                                                  # (1, N)
-                torch.tensor([[self.tokenizer.eos_token_id]], dtype=torch.long) # (1, 1)
-            ], dim=1)                                                           # (1, N+M+1)=shape([0],[1])
-            # create new array
-            labels = input_ids.clone()
+            input_ids = torch.cat(parts_input_ids, dim=0)
+            labels = torch.cat(parts_labels, dim=0)
+
+        # обрезка до max_length
+        max_len = self.cfg.max_length
+        if input_ids.size(0) > max_len:
+            input_ids = input_ids[:max_len]
+            labels = labels[:max_len]
+
+        return {
+            "input_ids": input_ids,
+            "labels": labels,
+        }
 
 
 def collate_batch(batch, padding_value, label_padding_value=-100):
@@ -173,3 +225,7 @@ if __name__ == "__main__":
 
     dataset = TextDataset(["test.txt"], tokenizer=tokenizer)
     print(dataset.items)
+
+    print(dataset[0])
+
+    print(f"Tokens: {tokenizer.tokenize(dataset.get_item_str(0))}")

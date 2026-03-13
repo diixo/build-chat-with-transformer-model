@@ -1,9 +1,9 @@
 
-GPT is generative pretrained transformer.
-Transformer is architecture of LLM.
-
 User: What is Wikipedia?
 Assistant: Wikipedia is a free online encyclopedia.
+
+GPT is generative pretrained transformer.
+Transformer is architecture of LLM.
 
 More raw facts here.
 Another fact line.
