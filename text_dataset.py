@@ -14,16 +14,9 @@ from transformers import GPT2TokenizerFast, AutoModelForCausalLM
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 @dataclass
-class DialogConfig:
+class TextConfig:
     max_length: int = 1024
-    add_eos: bool = True          # добавлять eos после каждого Assistant-ответа
-    line_sep: str = "\n"          # разделитель строк в склеенном тексте
 
-
-from typing import List, Dict, Optional
-
-
-from typing import List, Dict, Optional
 
 
 def load_text(path: str) -> List[Dict[str, str]]:
@@ -67,7 +60,12 @@ def load_text(path: str) -> List[Dict[str, str]]:
     return items
 
 
-def format_item(example: dict):
+def format_prompt(prompt: str) -> str:
+
+    return f"<|user|>\n{prompt}\n<|assistant|>\n"
+
+
+def format_item(example: dict) -> Tuple[str, str, str]:
     knowledge = ""
     user = ""
     assistant = ""
@@ -87,7 +85,7 @@ class TextDataset(Dataset):
         self,
         files: Union[str, Path, List[Union[str, Path]]],
         tokenizer,
-        cfg: DialogConfig = DialogConfig(),
+        cfg: TextConfig = TextConfig(),
     ):
         super().__init__()
         self.tokenizer = tokenizer
@@ -97,21 +95,18 @@ class TextDataset(Dataset):
             files = [files]
         self.files = [Path(x) for x in files]
 
-        if self.cfg.add_eos and getattr(self.tokenizer, "eos_token", None) is None:
-            raise ValueError("Tokenizer has no eos_token. Set add_eos=False or use tokenizer with eos_token.")
-
         self.items: List[str] = []
         for fp in self.files:
             self.items.extend(load_text(str(fp)))
 
 
-    def __len__(self):
-        return len(self.data)
-
-
     def get_item_str(self, index) -> str:
         knowledge, user, assistant = format_item(self.items[index])
         return knowledge + user + assistant
+
+
+    def __len__(self):
+        return len(self.items)
 
 
     def __getitem__(self, index) -> Dict[str, torch.Tensor]:
@@ -195,7 +190,8 @@ def collate_batch(batch, padding_value, label_padding_value=-100):
     new_batch = defaultdict(lambda:[])
     for x in batch:
         for x_key in x.keys():
-            new_batch[x_key].append(x[x_key][0])
+            #new_batch[x_key].append(x[x_key][0])
+            new_batch[x_key].append(x[x_key])
 
     new_batch = dict(new_batch)
     for batch_key in new_batch.keys():
