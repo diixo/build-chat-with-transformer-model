@@ -96,8 +96,8 @@ class TextDataset(Dataset):
         self.files = [Path(x) for x in files]
 
         self.items: List[str] = []
-        for fp in self.files:
-            self.items.extend(load_text(str(fp)))
+        for file_path in self.files:
+            self.items.extend(load_text(str(file_path)))
 
 
     def get_item_str(self, index) -> str:
