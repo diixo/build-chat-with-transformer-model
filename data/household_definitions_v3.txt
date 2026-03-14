@@ -8250,3 +8250,6 @@ Assistant: "robe belt" is a household item, fixture, tool, or accessory used in 
 
 User: What is "bath tray"?
 Assistant: "bath tray" is a household item, fixture, tool, or accessory used in everyday life. People can use it at home, move it, clean it, store it, or keep it ready for regular tasks.
+
+User: What is "ability"?
+Assistant: "ability" is a physical or mental power or skill needed to do something.
