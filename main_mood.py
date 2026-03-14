@@ -6,7 +6,7 @@ from dialog_dataset import DialogDataset, collate_lm_batch
 import torch
 import random
 import numpy as np
-from utils import check_local_model_dir
+from utils import check_local_model
 
 from transformers import set_seed
 
@@ -77,7 +77,7 @@ def dialog(model, tokenizer, gen_cfg):
 
 if __name__ == "__main__":
 
-    ok, msg = check_local_model_dir(f"{model_output_dir}")
+    ok, msg = check_local_model(f"{model_output_dir}")
 
     if not ok:
         tokenizer = GPT2TokenizerFast.from_pretrained(

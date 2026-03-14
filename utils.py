@@ -1,6 +1,7 @@
 from pathlib import Path
 
-def check_local_model_dir(model_dir: str):
+
+def check_local_model(model_dir: str):
     p = Path(model_dir)
 
     if not p.exists():

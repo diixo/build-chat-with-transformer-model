@@ -6,7 +6,7 @@ from text_dataset import TextDataset, collate_batch, format_prompt
 import torch
 import random
 import numpy as np
-from utils import check_local_model_dir
+from utils import check_local_model
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -22,7 +22,7 @@ model_output_dir = model_dir
 
 if __name__ == "__main__":
 
-    exist, msg = check_local_model_dir(f"{model_output_dir}")
+    exist, msg = check_local_model(f"{model_output_dir}")
 
     if not exist:
 
