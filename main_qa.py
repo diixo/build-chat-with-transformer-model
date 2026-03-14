@@ -73,7 +73,10 @@ if __name__ == "__main__":
 
         #################################################################################
 
-        train_dataset = TextDataset(["data/household_definitions_v6_tails.txt"], tokenizer)
+        train_dataset = TextDataset([
+            "data/household_definitions_v3.txt",
+            "data/household_definitions_v6_tails.txt"
+            ], tokenizer)
 
         print("dataset size=", len(train_dataset))
 
@@ -98,6 +101,7 @@ if __name__ == "__main__":
         tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir, local_files_only=True)
         model = AutoModelForCausalLM.from_pretrained(model_output_dir, local_files_only=True).to(device)
 
+    input_prompt = "What is a \"table\"?"
     input_prompt = "Define: table"
     prompt = format_prompt(input_prompt)
 
