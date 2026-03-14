@@ -1,8 +1,8 @@
 User: Define: chair
-Assistant: A chair is a seat for one person, usually with a back and sometimes with arms. It belongs to the category of household furniture used for seating or rest.
+Assistant: A chair is a seat for one person, usually four legs, and sometimes two arms. It is mainly use for sitting or rest. It belongs to the category of household furniture used for seating or rest.
 
 User: Define: table
-Assistant: A table is a piece of furniture with a flat top supported by legs or a central support. It is mainly used to support, store, display, or organize other items.
+Assistant: A table is a piece of furniture with a flat top surface, usually supported by four legs or a central support. It is mainly used for people sit to eat or work, or on which objects are placed.
 
 User: Define: desk
 Assistant: A desk is a table designed for writing, studying, or office work, often with drawers or compartments. It is mainly used to support, store, display, or organize other items.

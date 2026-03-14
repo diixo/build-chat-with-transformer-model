@@ -11,8 +11,8 @@ from utils import check_local_model_dir
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODEL_NAME = "gpt2"
-LEARNING_RATE = 1e-4
-EPOCHS = 10
+LEARNING_RATE = 5e-5
+EPOCHS = 20
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
@@ -41,12 +41,13 @@ if __name__ == "__main__":
         num_added = tokenizer.add_special_tokens(special_tokens)
 
         print("added:", num_added)
-        print("vocab size:", len(tokenizer), "pad_token_id=", tokenizer.pad_token_id, "eos_token_id=", tokenizer.eos_token_id)
+        print(f"vocab size={len(tokenizer)}, pad_token_id={tokenizer.pad_token_id}, eos_token_id={tokenizer.eos_token_id}")
 
         ##################################################################
 
         model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, local_files_only=False)
 
+        # resize token embeddings without mean recalculation
         model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
 
         model.config.pad_token_id = tokenizer.pad_token_id
@@ -72,9 +73,9 @@ if __name__ == "__main__":
 
         #################################################################################
 
-        train_dataset = TextDataset(["data/household_definitions_dataset.txt"], tokenizer)
+        train_dataset = TextDataset(["data/household_definitions_v6_tails.txt"], tokenizer)
 
-        print("dialogues: size=", len(train_dataset))
+        print("dataset size=", len(train_dataset))
 
         trainer = Trainer(
             model=model,
@@ -97,19 +98,31 @@ if __name__ == "__main__":
         tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir, local_files_only=True)
         model = AutoModelForCausalLM.from_pretrained(model_output_dir, local_files_only=True).to(device)
 
-    prompt = format_prompt("What is a table?")
+    input_prompt = "Define: table"
+    prompt = format_prompt(input_prompt)
 
-    #print(prompt + 64*"#")
+    print(f"Tokens: {tokenizer.tokenize(prompt)}")
 
-    input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=10, return_tensors="pt")
+    input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
 
     input_ids = input_ids["input_ids"].to(device)
     gen_ids = model.generate(
             input_ids=input_ids,
-            max_new_tokens=20,
+            max_new_tokens=50,
             do_sample=False,
             eos_token_id=tokenizer.eos_token_id,
             pad_token_id=tokenizer.pad_token_id
         )[0]
-    output_text = tokenizer.decode(gen_ids, skip_special_tokens=False)
-    print(output_text)
+    
+    # extract answer with first token prefix: <|assistant|>
+    gen_ids = gen_ids[len(input_ids[0])-1:]
+
+    # check assistant role:
+    if gen_ids[0] == tokenizer.convert_tokens_to_ids("<|assistant|>"):
+
+        # decode with skip special tokens like eos, roles also.
+        output_text = tokenizer.decode(gen_ids, skip_special_tokens=True)
+
+        print(80 * "-")
+        print("### User:", input_prompt)
+        print("### Assistant:", output_text.strip())

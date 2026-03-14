@@ -39,7 +39,7 @@ def load_text(path: str) -> List[Dict[str, str]]:
 
                 if current_user is not None:
                     items.append({
-                        "knowledge": pending_knowledge if pending_knowledge is not None else assistant_text,
+                        #"knowledge": pending_knowledge if pending_knowledge is not None else assistant_text,
                         "user": current_user,
                         "assistant": assistant_text,
                     })
@@ -62,7 +62,7 @@ def load_text(path: str) -> List[Dict[str, str]]:
 
 def format_prompt(prompt: str) -> str:
 
-    return f"<|user|>\n{prompt}\n<|assistant|>\n"
+    return f"<|user|> {prompt}\n<|assistant|>"
 
 
 def format_item(example: dict) -> Tuple[str, str, str]:
@@ -71,11 +71,11 @@ def format_item(example: dict) -> Tuple[str, str, str]:
     assistant = ""
 
     if example.get("knowledge"):
-        knowledge = f"<|knowledge|>\n{example['knowledge']}\n"
+        knowledge = f"<|knowledge|> {example['knowledge']}\n"
     if example.get("user"):
-        user = f"<|user|>\n{example['user']}\n"
+        user = f"<|user|> {example['user']}\n"
     if example.get("assistant"):
-        assistant = f"<|assistant|>\n{example['assistant']}\n"
+        assistant = f"<|assistant|> {example['assistant']}\n"
     return knowledge, user, assistant
 
 
