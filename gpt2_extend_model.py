@@ -10,11 +10,6 @@ tokenizer = GPT2TokenizerFast.from_pretrained(save_dir)
 model = GPT2LMHeadModel.from_pretrained(model_name)
 
 
-'''
-USER=QUESTION
-ASSISTANT=ANSWER
-KNOWLEDGE=CONTEXT
-'''
 special_tokens = {
     "pad_token": "<|pad|>",
     "additional_special_tokens": [
@@ -22,8 +17,6 @@ special_tokens = {
         "<|user|>",
         "<|assistant|>",
         "<|knowledge|>",
-        "<|instruction|>",
-        "<|reference|>",
     ]
 }
 

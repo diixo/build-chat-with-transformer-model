@@ -3,12 +3,12 @@ from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerF
 
 from dialog_dataset import DialogDataset, collate_lm_batch
 
-
 import torch
 import random
 import numpy as np
-from transformers import set_seed
 from utils import check_local_model_dir
+
+from transformers import set_seed
 
 
 seed = 42
