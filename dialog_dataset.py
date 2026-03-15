@@ -12,8 +12,13 @@ from torch.utils.data import Dataset
 @dataclass
 class DialogConfig:
     max_length: int = 1024
-    add_eos: bool = True          # добавлять eos после каждого Assistant-ответа
-    line_sep: str = "\n"          # разделитель строк в склеенном тексте
+    add_eos: bool = True          # add eos after every Assistant-answer
+    line_sep: str = "\n"          # line separator
+
+    token_user: str = "<|user|>"
+    token_assistant: str = "<|assistant|>"
+    token_system: str = "<|system|>"
+    token_knowledge: str = "<|knowledge|>"
 
 
 class DialogDataset(Dataset):
@@ -189,15 +194,17 @@ class DialogDataset(Dataset):
         sep = self.cfg.line_sep
         eos = self.tokenizer.eos_token if (self.cfg.add_eos and self.tokenizer.eos_token) else ""
 
+
         parts: List[Tuple[str, bool]] = []
         full_chunks: List[str] = []
 
         for u, a in pairs:
-            t_user = f"User: {u}{sep}"
+
+            t_user = f"{self.cfg.token_user} {u}{sep}"
             parts.append((t_user, False))
             full_chunks.append(t_user)
 
-            t_aprefix = "Assistant: "
+            t_aprefix = f"{self.cfg.token_assistant} "
             parts.append((t_aprefix, False))
             full_chunks.append(t_aprefix)
 

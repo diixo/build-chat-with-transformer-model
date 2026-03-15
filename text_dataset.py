@@ -61,7 +61,6 @@ def load_text(path: str) -> List[Dict[str, str]]:
 
 
 def format_prompt(prompt: str) -> str:
-
     return f"<|user|> {prompt}\n<|assistant|>"
 
 

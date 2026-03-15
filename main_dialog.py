@@ -1,7 +1,7 @@
 
 from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer, GenerationConfig
 
-from dialog_dataset import DialogDataset, collate_lm_batch
+from dialog_dataset import DialogDataset, DialogConfig, collate_lm_batch
 
 import torch
 import random
@@ -27,12 +27,12 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 MODEL_NAME = "gpt2"
-LEARNING_RATE = 1e-4
-EPOCHS = 10
+LEARNING_RATE = 5e-5
+EPOCHS = 20
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
-model_dir = "trained_model"
+model_dir = "trained_model_dialog"
 model_output_dir = model_dir
 
 
@@ -87,30 +87,28 @@ if __name__ == "__main__":
             model_max_length=MAX_LENGTH
             )
 
-        if tokenizer.pad_token_id is None:
-            if tokenizer.eos_token_id is None:
-                raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
-            tokenizer.pad_token = tokenizer.eos_token
+        config = DialogConfig()
+
+        special_tokens = {
+            "pad_token": "<|pad|>",
+            "additional_special_tokens": [
+                config.token_system,
+                config.token_user,
+                config.token_assistant,
+                config.token_knowledge,
+            ]
+        }
+
+        num_added = tokenizer.add_special_tokens(special_tokens)
+
+        print("added:", num_added)
+        print(f"vocab size={len(tokenizer)}, pad_token_id={tokenizer.pad_token_id}, eos_token_id={tokenizer.eos_token_id}")
+
+        ###################################################################################################################
 
         train_dataset = DialogDataset([
-            #"data/test_50.txt",
-
-            "data/dialogue_dataset_300.txt",
-            "data/dialogue_dataset_700.txt",
-            "data/dialogue_dataset_2000.txt",
-            "data/dialogue_dataset_2000_v2.txt",
-            "data/dialogue_dataset_5000_v3.txt",
-
-            "data/dialogue_mood_3000.txt",
-            "data/dialogue_mood_12000.txt",
-            "data/dialogue_mood_20000_v3.txt",
-
-            "data/dialogues_clarification_12000.txt",
-
-            "data/assistant_reasoning/assistant_reasoning_dialogues_part1.txt",
-            "data/assistant_reasoning/assistant_reasoning_dialogues_part2.txt",
-            "data/assistant_reasoning/assistant_reasoning_dialogues_part3.txt",
-        ], tokenizer)
+            "data/test.txt",
+        ], tokenizer, config)
 
 
         print("dialogues: size=", len(train_dataset))
@@ -119,6 +117,10 @@ if __name__ == "__main__":
         ##################################################################
 
         model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, local_files_only=False)
+
+        # resize token embeddings without mean recalculation
+        model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
+
         model.config.pad_token_id = tokenizer.pad_token_id
 
         model.to(device)
