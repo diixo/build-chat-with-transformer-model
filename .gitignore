@@ -17,4 +17,7 @@ trained_models/
 train_model/
 trained_model/
 
+trained_model_qa/
+trained_model_dialog/
+
 datasets/

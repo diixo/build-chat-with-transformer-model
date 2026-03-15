@@ -16,7 +16,7 @@ EPOCHS = 20
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
-model_dir = "trained_model"
+model_dir = "trained_model_qa"
 model_output_dir = model_dir
 
 
