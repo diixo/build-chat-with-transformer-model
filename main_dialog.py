@@ -32,6 +32,8 @@ EPOCHS = 20
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
+config = DialogConfig()
+
 model_dir = "trained_model_dialog"
 model_output_dir = model_dir
 
@@ -54,8 +56,7 @@ def dialog(model, tokenizer, gen_cfg):
 
         inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
-        with torch.no_grad():
-            out = model.generate(**inputs, generation_config=gen_cfg)
+        out = model.generate(**inputs, generation_config=gen_cfg)
 
         prompt_len = inputs["input_ids"].shape[1]
 
@@ -87,8 +88,6 @@ if __name__ == "__main__":
             model_max_length=MAX_LENGTH
             )
 
-        config = DialogConfig()
-
         special_tokens = {
             "pad_token": "<|pad|>",
             "additional_special_tokens": [
@@ -107,12 +106,12 @@ if __name__ == "__main__":
         ###################################################################################################################
 
         train_dataset = DialogDataset([
-            "data/test.txt",
+            "data/dialogues_clarification_64.txt",
+            "data/dialogues_clarification_12000.txt",
         ], tokenizer, config)
 
 
         print("dialogues: size=", len(train_dataset))
-
 
         ##################################################################
 
