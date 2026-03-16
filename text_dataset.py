@@ -229,7 +229,7 @@ if __name__ == "__main__":
     # model = AutoModelForCausalLM.from_pretrained("gpt2")
     # model.to(device)
 
-    # input_ids = tokenizer("Tania", truncation=True, add_special_tokens=False, max_length=10, return_tensors="pt")
+    # input_ids = tokenizer("Tania", truncation=True, add_special_tokens=False, max_length=1024, return_tensors="pt")
 
     # input_ids = input_ids["input_ids"].to(device)
     # gen_ids = model.generate(

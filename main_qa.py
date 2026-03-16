@@ -109,6 +109,8 @@ if __name__ == "__main__":
 
     input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
 
+    prompt_len = input_ids["input_ids"].shape[1]
+
     input_ids = input_ids["input_ids"].to(device)
     gen_ids = model.generate(
             input_ids=input_ids,
@@ -119,7 +121,7 @@ if __name__ == "__main__":
         )[0]
     
     # extract answer with first token prefix: <|assistant|>
-    gen_ids = gen_ids[len(input_ids[0])-1:]
+    gen_ids = gen_ids[prompt_len-1 :]
 
     # check assistant role:
     if gen_ids[0] == tokenizer.convert_tokens_to_ids("<|assistant|>"):
