@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import pickle
 
 
 base_dir = Path("data/daily_dialog")
@@ -111,6 +112,15 @@ def daily_dialog_expanded_gen_filter():
             fout.write(line)
 
 
+def save_pickle_file(split_name: str, items):
+    list_tuples = [tuple(x) for x in items]
+
+    if split_name == "validation": split_name = "val"
+
+    with open(base_dir / f"dailydialog.{split_name}", "wb") as f:
+        pickle.dump(list_tuples, f)
+
+
 def main():
 
     all_items = []
@@ -119,6 +129,9 @@ def main():
         split_items = build_split_dataset(split_dir, split_name)
         all_items.extend(split_items)
         print(f"{split_name}: {len(split_items)} dialogs")
+
+        #save_pickle_file(split_name, split_items)
+
 
     output_path = base_dir / "daily-dialog_all.jsonl"
 
