@@ -82,6 +82,9 @@ class DialogDataset(Dataset):
 
         for piece_text, is_answer in parts:
             running_text += piece_text
+
+            #print(f"Tokens: {self.tokenizer.tokenize(running_text)}")
+
             enc = self.tokenizer(
                 running_text,
                 add_special_tokens=False,
@@ -93,6 +96,7 @@ class DialogDataset(Dataset):
             delta = new_ids[len(running_ids):]
             running_ids = new_ids
             loss_mask.extend([1 if is_answer else 0] * len(delta))
+
 
         L = len(enc_full["input_ids"])
         lm = loss_mask[:L]
@@ -204,12 +208,12 @@ class DialogDataset(Dataset):
             parts.append((t_user, False))
             full_chunks.append(t_user)
 
-            t_aprefix = f"{self.cfg.token_assistant} "
+            t_aprefix = f"{self.cfg.token_assistant}"
             parts.append((t_aprefix, False))
             full_chunks.append(t_aprefix)
 
             # учим только контент ответа (+ eos), потом перевод строки
-            t_ans = f"{a}{eos}{sep}"
+            t_ans = f" {a}{eos}{sep}"
             parts.append((t_ans, True))
             full_chunks.append(t_ans)
 
