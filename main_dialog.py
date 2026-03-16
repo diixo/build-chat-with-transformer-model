@@ -38,7 +38,7 @@ model_dir = "trained_model_dialog"
 model_output_dir = model_dir
 
 
-def dialog(model, tokenizer, gen_cfg):
+def dialog(model, tokenizer):
 
     print("Type 'exit' to stop.\n")
 
@@ -46,33 +46,41 @@ def dialog(model, tokenizer, gen_cfg):
 
     while True:
 
-        user_msg = input("User: ").strip()
+        user_msg = input("### User: ").strip()
         if user_msg.lower() in {"exit", "quit"}:
             break
 
         #prompt = history + f"User: {user_msg}\n{assistant}:"
 
-        prompt = f"User: {user_msg}\nAssistant:"
+        prompt = f"<|user|> {user_msg}\n<|assistant|>"
 
-        inputs = tokenizer(prompt, return_tensors="pt").to(device)
+        input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
 
-        out = model.generate(**inputs, generation_config=gen_cfg)
+        prompt_len = input_ids["input_ids"].shape[1]
 
-        prompt_len = inputs["input_ids"].shape[1]
+        input_ids = input_ids["input_ids"].to(device)
+        gen_ids = model.generate(
+                input_ids=input_ids,
+                max_new_tokens=50,
+                do_sample=False,
+                eos_token_id=tokenizer.eos_token_id,
+                pad_token_id=tokenizer.pad_token_id
+            )
 
-        out = out[0][prompt_len:]   # cut out the prompt tokens, keep only the generated part
 
-        full = tokenizer.decode(out, skip_special_tokens=True)
+        gen_ids = gen_ids[0][prompt_len-1:]   # cut out the prompt tokens, keep only the generated part
 
-        # cut out the answer from the full generated text — отрезаем всё до последнего "Lexor:", а дальше — до следующего "User:" (если есть)
-        tail = full.split("Assistant:")[-1]
+        if gen_ids[0] == tokenizer.convert_tokens_to_ids("<|assistant|>"):
 
-        # часто модель тянет дальше "User:" — обрежем
-        answer = tail.split("User:")[0].strip()
+            answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
 
-        print(f"Assistant: {answer}\n")
+            print(f"### Assistant: {answer}\n")
 
-        history += f"User: {user_msg}\nAssistant: {answer}\n"
+            history += f"### User: {user_msg}\nAssistant: {answer}\n"
+
+        else:
+
+            print(f"### Assistant: ###\n")
 
 
 
@@ -162,24 +170,16 @@ if __name__ == "__main__":
         tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir, local_files_only=True)
         model = AutoModelForCausalLM.from_pretrained(model_output_dir, local_files_only=True).to(device)
 
-    #############################################################################
+        train_dataset = DialogDataset([
+            "data/dialogues_clarification_64.txt",
+            "data/dialogues_clarification_12000.txt",
+        ], tokenizer, config)
 
-    if tokenizer.pad_token_id is None:
-        if tokenizer.eos_token_id is None:
-            raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
-        tokenizer.pad_token = tokenizer.eos_token
+    result = train_dataset[0]
+
+    #############################################################################
 
     print("EOS_id:", tokenizer.eos_token_id, ", BOS_id:", tokenizer.bos_token_id, ", PAD_id:", tokenizer.pad_token_id)
 
-    gen_cfg = GenerationConfig(
-        max_new_tokens=100,
-        do_sample=True,
-        temperature=0.8,
-        top_p=0.95,
-        repetition_penalty=1.1,
-        pad_token_id=tokenizer.pad_token_id,
-        eos_token_id=tokenizer.eos_token_id,
-        bos_token_id=tokenizer.bos_token_id
-    )
 
-    dialog(model, tokenizer, gen_cfg)
+    dialog(model, tokenizer)
