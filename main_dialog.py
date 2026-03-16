@@ -65,11 +65,12 @@ def dialog(model, tokenizer):
                 do_sample=False,
                 eos_token_id=tokenizer.eos_token_id,
                 pad_token_id=tokenizer.pad_token_id
-            )
+            )[0]
 
+        # extract answer with first token prefix: <|assistant|>
+        gen_ids = gen_ids[prompt_len-1 :]
 
-        gen_ids = gen_ids[0][prompt_len-1:]   # cut out the prompt tokens, keep only the generated part
-
+        # check assistant role:
         if gen_ids[0] == tokenizer.convert_tokens_to_ids("<|assistant|>"):
 
             answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
@@ -116,6 +117,7 @@ if __name__ == "__main__":
         train_dataset = DialogDataset([
             "data/dialogues_clarification_64.txt",
             "data/dialogues_clarification_12000.txt",
+            "data/dialogues_weather.txt",
         ], tokenizer, config)
 
 
@@ -170,10 +172,6 @@ if __name__ == "__main__":
         tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir, local_files_only=True)
         model = AutoModelForCausalLM.from_pretrained(model_output_dir, local_files_only=True).to(device)
 
-        train_dataset = DialogDataset([
-            "data/dialogues_clarification_64.txt",
-            "data/dialogues_clarification_12000.txt",
-        ], tokenizer, config)
 
     result = train_dataset[0]
 

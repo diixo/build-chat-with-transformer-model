@@ -1,0 +1,172 @@
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: spring
+4 Assistant: Is it sunny today?
+5 User: yes
+6 Assistant: It's a nice day for walk in the spring freshness. What are you plans for today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: spring
+4 Assistant: Is it sunny today?
+5 User: no
+6 Assistant: Is it rainy today?
+7 User: yes
+8 Assistant: It looks like a bad day for a walk in the rain. What are you plans for today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: spring
+4 Assistant: Is it sunny today?
+5 User: no
+6 Assistant: Is it rainy today?
+7 User: no
+8 Assistant: Is it foggy today?
+9 User: no
+10 Assistant: Is it hazy today?
+11 User: yes
+12 Assistant: You can walk with umbrella. What are you plans for today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: spring
+4 Assistant: Is it sunny today?
+5 User: no
+6 Assistant: Is it rainy today?
+7 User: no
+8 Assistant: Is it foggy today?
+9 User: yes
+10 Assistant: You can walk without umbrella. What are you plans for today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: spring
+4 Assistant: Is it sunny today?
+5 User: no
+6 Assistant: Is it rainy today?
+7 User: no
+8 Assistant: Is it foggy today?
+9 User: no
+10 Assistant: Is it hazy today?
+11 User: no
+12 Assistant: Is it cloudy today?
+13 User: yes
+14 Assistant: Are you planning to go for a walk?
+15 User: yes
+16 Assistant: If the weather gets worse, you'll need an umbrella.
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: spring
+4 Assistant: Is it sunny today?
+5 User: no
+6 Assistant: Is it rainy today?
+7 User: no
+8 Assistant: Is it foggy today?
+9 User: no
+10 Assistant: Is it hazy today?
+11 User: no
+12 Assistant: Is it cloudy today?
+13 User: yes
+14 Assistant: Are you planning to go for a walk?
+15 User: no
+16 Assistant: Do you have any plans for today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: winter
+4 Assistant: Is it frosty day today?
+5 User: no
+6 Assistant: Is it snowy day today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: summer
+4 Assistant: Is it sunny today?
+5 User: yes
+6 Assistant: Is it freshness outside today?
+7 User: yes
+8 Assistant: You can take a walk wearing sunglasses. What are you plans for today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: summer
+4 Assistant: Is it sunny today?
+5 User: yes
+6 Assistant: Is it freshness outside today?
+7 User: no
+8 Assistant: Is the weather hot today?
+9 User: yes
+10 Assistant: You can take a walk wearing headdress and sunglasses. What are you plans for today?
+
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: autumn
+4 Assistant: Is the weather cold outside?
+5 User: no
+6 Assistant: Is the weather sunny outside?
+7 User: yes
+8 Assistant: Are you planning to go outside?
+9 User: yes
+10 Assistant: Agree. It looks like a nice day for a walk today.
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: autumn
+4 Assistant: Is the weather cold outside?
+5 User: no
+6 Assistant: Is the weather sunny outside?
+7 User: yes
+8 Assistant: Are you planning to go outside?
+9 User: no
+10 Assistant: What are your plans for today?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: autumn
+4 Assistant: Is the weather cold outside?
+5 User: yes
+6 Assistant: Are you planning to go outside?
+7 User: yes
+8 Assistant: Is it rainy outside?
+9 User: yes
+10 Assistant: You should dress warmly and get umbrella before going out.
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: autumn
+4 Assistant: Is the weather cold outside?
+5 User: yes
+6 Assistant: Are you planning to go outside?
+7 User: yes
+8 Assistant: Is it rainy outside?
+9 User: no
+10 Assistant: You should dress warmly before going out.
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: autumn
+4 Assistant: Is the weather cold outside?
+5 User: yes
+6 Assistant: Are you planning to go outside?
+7 User: no
+8 Assistant: What are you planning to do instead of a walk?
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: winter
+4 Assistant: Is it frosty today?
+5 User: yes
+6 Assistant: Are you planning to go for a walk today?
+7 User: yes
+8 Assistant: I recommend that you dress warmly before going out.
+
+1 User: weather
+2 Assistant: What the season of year now? (spring, summer, autumn, winter)
+3 User: winter
+4 Assistant: Is it frosty today?
+5 User: yes
+6 Assistant: Are you planning to go for a walk today?
+7 User: no
+8 Assistant: Any plans for today?
