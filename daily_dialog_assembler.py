@@ -113,7 +113,8 @@ def daily_dialog_expanded_gen_filter():
 
 
 def save_pickle_file(split_name: str, items):
-    list_tuples = [tuple(x) for x in items]
+
+    list_tuples = [tuple(x["dialog"]) for x in items]
 
     if split_name == "validation": split_name = "val"
 
