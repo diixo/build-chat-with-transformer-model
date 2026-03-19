@@ -222,8 +222,8 @@ class DialogDataset(Dataset):
 
 def collate_lm_batch(
     batch: List[Dict[str, torch.Tensor]],
-    padding_value: int,
-    label_padding_value: int = -100
+    padding_id: int,
+    label_padding_id: int = -100
 ) -> Dict[str, torch.Tensor]:
     """
     batch: items list from DialogDataset, each item is:
@@ -238,9 +238,9 @@ def collate_lm_batch(
     max_len = max(x["input_ids"].numel() for x in batch)
 
     bsize = len(batch)
-    input_ids = torch.full((bsize, max_len), padding_value, dtype=torch.long)
+    input_ids = torch.full((bsize, max_len), padding_id, dtype=torch.long)
     attention_mask = torch.zeros((bsize, max_len), dtype=torch.long)
-    labels = torch.full((bsize, max_len), label_padding_value, dtype=torch.long)
+    labels = torch.full((bsize, max_len), label_padding_id, dtype=torch.long)
 
     for i, x in enumerate(batch):
         ids = x["input_ids"]

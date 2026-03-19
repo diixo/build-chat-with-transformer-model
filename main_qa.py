@@ -86,8 +86,8 @@ if __name__ == "__main__":
             train_dataset=train_dataset,
             data_collator=lambda x: collate_batch(
                 x,
-                padding_value=tokenizer.pad_token_id,
-                label_padding_value=-100
+                padding_id=tokenizer.pad_token_id,
+                label_padding_id=-100
             ),
         )
 

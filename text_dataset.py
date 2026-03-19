@@ -78,6 +78,7 @@ def format_item(example: dict) -> Tuple[str, str, str]:
     return knowledge, user, assistant
 
 
+#QADataset
 class TextDataset(Dataset):
 
     def __init__(
@@ -182,7 +183,7 @@ class TextDataset(Dataset):
         }
 
 
-def collate_batch(batch, padding_value, label_padding_value=-100):
+def collate_batch(batch, padding_id, label_padding_id=-100):
     from torch.nn.utils.rnn import pad_sequence
     from collections import defaultdict
 
@@ -195,12 +196,12 @@ def collate_batch(batch, padding_value, label_padding_value=-100):
     new_batch = dict(new_batch)
     for batch_key in new_batch.keys():
         if batch_key == "labels":
-            new_batch[batch_key] = pad_sequence(new_batch[batch_key], batch_first=True, padding_value=label_padding_value)
+            new_batch[batch_key] = pad_sequence(new_batch[batch_key], batch_first=True, padding_value=label_padding_id)
         else:
-            new_batch[batch_key] = pad_sequence(new_batch[batch_key], batch_first=True, padding_value=padding_value)
+            new_batch[batch_key] = pad_sequence(new_batch[batch_key], batch_first=True, padding_value=padding_id)
 
     if "input_ids" in new_batch:
-        new_batch["attention_mask"] = (new_batch["input_ids"] != padding_value).long()
+        new_batch["attention_mask"] = (new_batch["input_ids"] != padding_id).long()
 
     return new_batch
 
