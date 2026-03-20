@@ -122,6 +122,31 @@ def save_pickle_file(split_name: str, items):
         pickle.dump(list_tuples, f)
 
 
+def save_jsonl_file(split_name: str, items):
+
+    if split_name == "validation": split_name = "val"
+
+    file_name = base_dir / f"dailydialog-{split_name}.jsonl"
+
+    with open(file_name, "w", encoding="utf-8") as f:
+        for item in items:
+            dialog = item["dialog"]
+            f.write(json.dumps(dialog, ensure_ascii=False) + "\n")
+
+    # read jsonl to list of tuples
+    dialogs = []
+
+    with open(file_name, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+
+            dialog = json.loads(line)
+            dialogs.append(tuple(dialog))
+    print(len(dialogs))
+
+
 def main():
 
     all_items = []
