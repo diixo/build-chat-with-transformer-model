@@ -40,8 +40,8 @@ class TextConfig:
 def load_text(path: str) -> List[Dict[str, str]]:
     items: List[Dict[str, str]] = []
 
-    user_text: Optional[str] = None
-    pending_knowledge: Optional[str] = None
+    user_text = None
+    pending_knowledge = None
 
     with open(path, "r", encoding="utf-8") as f:
         for raw_line in f:
@@ -95,7 +95,7 @@ class TextDataset(Dataset):
             files = [files]
         self.files = [Path(x) for x in files]
 
-        self.items: List[str] = []
+        self.items = []
         for file_path in self.files:
             self.items.extend(load_text(str(file_path)))
 
