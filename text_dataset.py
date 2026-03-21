@@ -13,10 +13,28 @@ from transformers import GPT2TokenizerFast, AutoModelForCausalLM
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
+def format_prompt(prompt: str) -> str:
+    return f"<|user|> {prompt}\n<|assistant|>"
+
+
+def format_item(example: dict) -> Tuple[str, str, str]:
+    knowledge = ""
+    user = ""
+    assistant = ""
+
+    if example.get("knowledge"):
+        knowledge = f"<|knowledge|> {example['knowledge']}\n"
+    if example.get("user"):
+        user = f"<|user|> {example['user']}\n"
+    if example.get("assistant"):
+        assistant = f"<|assistant|> {example['assistant']}\n"
+    return knowledge, user, assistant
+
+
 @dataclass
 class TextConfig:
     max_length: int = 1024
-
 
 
 def load_text(path: str) -> List[Dict[str, str]]:
@@ -56,26 +74,7 @@ def load_text(path: str) -> List[Dict[str, str]]:
                 # keep current knowledge as separatelly item
                 current_user = None
                 pending_knowledge = None
-
     return items
-
-
-def format_prompt(prompt: str) -> str:
-    return f"<|user|> {prompt}\n<|assistant|>"
-
-
-def format_item(example: dict) -> Tuple[str, str, str]:
-    knowledge = ""
-    user = ""
-    assistant = ""
-
-    if example.get("knowledge"):
-        knowledge = f"<|knowledge|> {example['knowledge']}\n"
-    if example.get("user"):
-        user = f"<|user|> {example['user']}\n"
-    if example.get("assistant"):
-        assistant = f"<|assistant|> {example['assistant']}\n"
-    return knowledge, user, assistant
 
 
 #QADataset
