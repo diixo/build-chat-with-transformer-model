@@ -40,29 +40,30 @@ class TextConfig:
 def load_text(path: str) -> List[Dict[str, str]]:
     items: List[Dict[str, str]] = []
 
-    current_user: Optional[str] = None
+    user_text: Optional[str] = None
     pending_knowledge: Optional[str] = None
 
     with open(path, "r", encoding="utf-8") as f:
         for raw_line in f:
             line = raw_line.strip()
+
             if not line:
                 continue
 
             if line.startswith("User:"):
-                current_user = line[len("User:"):].strip()
+                user_text = line[len("User:"):].strip()
 
             elif line.startswith("Assistant:"):
                 assistant_text = line[len("Assistant:"):].strip()
 
-                if current_user is not None:
+                if user_text is not None:
                     items.append({
                         #"knowledge": pending_knowledge if pending_knowledge is not None else assistant_text,
-                        "user": current_user,
+                        "user": user_text,
                         "assistant": assistant_text,
                     })
 
-                current_user = None
+                user_text = None
                 pending_knowledge = None
 
             else:
@@ -72,7 +73,7 @@ def load_text(path: str) -> List[Dict[str, str]]:
                 })
 
                 # keep current knowledge as separatelly item
-                current_user = None
+                user_text = None
                 pending_knowledge = None
     return items
 
