@@ -27,7 +27,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 MODEL_NAME = "gpt2"
-LEARNING_RATE = 5e-5
+LEARNING_RATE = 1e-4
 EPOCHS = 20
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
@@ -121,7 +121,7 @@ if __name__ == "__main__":
         ], tokenizer, config)
 
 
-        print("dialogues: size=", len(train_dataset))
+        print(f"dialogues: size={len(train_dataset)}")
 
         ##################################################################
 
@@ -172,8 +172,6 @@ if __name__ == "__main__":
         tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir, local_files_only=True)
         model = AutoModelForCausalLM.from_pretrained(model_output_dir, local_files_only=True).to(device)
 
-
-    result = train_dataset[0]
 
     #############################################################################
 

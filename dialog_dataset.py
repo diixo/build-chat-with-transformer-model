@@ -21,6 +21,81 @@ class DialogConfig:
     token_knowledge: str = "<|knowledge|>"
 
 
+def parse_line(line: str) -> Tuple[int, str, str]:
+    """
+    "1 User: Hello"
+    "2 Assistant: Hello!"
+    """
+    s = line.strip()
+    sp = s.split(" ", 1)
+    if len(sp) != 2 or not sp[0].isdigit():
+        raise ValueError(f"Bad line (no leading number): {line!r}")
+    n = int(sp[0])
+    rest = sp[1]
+
+    if rest.startswith("User:"):
+        payload = rest[len("User:"):].lstrip()
+        return n, "User", payload
+
+    if rest.startswith("Assistant:"):
+        payload = rest[len("Assistant:"):].lstrip()
+        return n, "Assistant", payload
+
+    raise ValueError(f"Bad line (expected 'User:' or 'Assistant:'): {line!r}")
+
+
+# ------------------------- parsing -------------------------
+
+def load_dialogs(files: list[str]) -> List[List[Tuple[str, str]]]:
+
+    dialogs: List[List[Tuple[str, str]]] = []
+    cur_pairs: List[Tuple[str, str]] = []
+
+    last_n: Optional[int] = None
+    pending_user: Optional[str] = None
+
+    def flush_dialog():
+        nonlocal cur_pairs, pending_user
+        pending_user = None
+        if cur_pairs:
+            dialogs.append(cur_pairs)
+        cur_pairs = []
+
+    for file_name in files:
+        with Path(file_name).open("r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.rstrip("\n")
+                if not line.strip():
+                    # empty line = border of dialog
+                    flush_dialog()
+                    last_n = None
+                    continue
+
+                n, kind, payload = parse_line(line)
+
+                # bound of dialog by reset/decrement of index
+                if last_n is not None and (n == 1 or n < last_n):
+                    flush_dialog()
+
+                last_n = n
+
+                if kind == "User":
+                    pending_user = payload
+                else:
+                    # assistant
+                    if pending_user is None:
+                        # if assistant without user - skip
+                        continue
+                    cur_pairs.append((pending_user, payload))
+                    pending_user = None
+
+        # file ended - close dialog
+        flush_dialog()
+        last_n = None
+
+    return dialogs
+
+
 class DialogDataset(Dataset):
     """
     Обычные диалоги без табуляций:
@@ -38,7 +113,7 @@ class DialogDataset(Dataset):
 
     def __init__(
         self,
-        files: Union[str, Path, List[Union[str, Path]]],
+        files: Union[str, List[str]],
         tokenizer,
         cfg: DialogConfig = DialogConfig(),
     ):
@@ -46,14 +121,14 @@ class DialogDataset(Dataset):
         self.tokenizer = tokenizer
         self.cfg = cfg
 
-        if isinstance(files, (str, Path)):
+        if isinstance(files, str):
             files = [files]
-        self.files = [Path(x) for x in files]
+        self.files = [x for x in files]
 
         if self.cfg.add_eos and getattr(self.tokenizer, "eos_token", None) is None:
             raise ValueError("Tokenizer has no eos_token. Set add_eos=False or use tokenizer with eos_token.")
 
-        dialogs = self._load_dialogs()
+        dialogs = load_dialogs(self.files)
         self.samples = [self._make_text_and_parts(pairs) for pairs in dialogs]
 
 
@@ -112,79 +187,6 @@ class DialogDataset(Dataset):
             "labels": labels,
             "text": full_text
             }
-
-    # ------------------------- parsing -------------------------
-
-    def _load_dialogs(self) -> List[List[Tuple[str, str]]]:
-        dialogs: List[List[Tuple[str, str]]] = []
-        cur_pairs: List[Tuple[str, str]] = []
-
-        last_n: Optional[int] = None
-        pending_user: Optional[str] = None
-
-        def flush_dialog():
-            nonlocal cur_pairs, pending_user
-            pending_user = None
-            if cur_pairs:
-                dialogs.append(cur_pairs)
-            cur_pairs = []
-
-        for fp in self.files:
-            with fp.open("r", encoding="utf-8") as f:
-                for raw in f:
-                    line = raw.rstrip("\n")
-                    if not line.strip():
-                        # пустая строка = граница диалога
-                        flush_dialog()
-                        last_n = None
-                        continue
-
-                    n, kind, payload = self._parse_line(line)
-
-                    # граница диалога по сбросу/уменьшению индекса
-                    if last_n is not None and (n == 1 or n < last_n):
-                        flush_dialog()
-
-                    last_n = n
-
-                    if kind == "User":
-                        pending_user = payload
-                    else:
-                        # assistant
-                        if pending_user is None:
-                            # если ассистент без юзера — пропустим (или можно считать user пустым)
-                            continue
-                        cur_pairs.append((pending_user, payload))
-                        pending_user = None
-
-            # файл закончился — закроем диалог
-            flush_dialog()
-            last_n = None
-
-        return dialogs
-
-
-    def _parse_line(self, line: str) -> Tuple[int, str, str]:
-        """
-        "1 User: Hello"
-        "2 Assistant: Hello!"
-        """
-        s = line.strip()
-        sp = s.split(" ", 1)
-        if len(sp) != 2 or not sp[0].isdigit():
-            raise ValueError(f"Bad line (no leading number): {line!r}")
-        n = int(sp[0])
-        rest = sp[1]
-
-        if rest.startswith("User:"):
-            payload = rest[len("User:"):].lstrip()
-            return n, "User", payload
-
-        if rest.startswith("Assistant:"):
-            payload = rest[len("Assistant:"):].lstrip()
-            return n, "Assistant", payload
-
-        raise ValueError(f"Bad line (expected 'User:' or 'Assistant:'): {line!r}")
 
 
     # ------------------------- building -------------------------
