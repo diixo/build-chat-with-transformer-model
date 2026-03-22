@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 
         print(f"dialogues: size={len(train_dataset)}")
-        #train_dataset.save_to_jsonl("test.jsonl")
+        #train_dataset.save_to_jsonl("dialogs_clarification-12k.jsonl")
 
         ##################################################################
 
