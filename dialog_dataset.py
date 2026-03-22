@@ -7,6 +7,7 @@ from typing import List, Dict, Any, Optional, Tuple, Union
 
 import torch
 from torch.utils.data import Dataset
+import json
 
 
 @dataclass
@@ -72,6 +73,8 @@ def load_dialogs(files: list[str]) -> List[List[Tuple[str, str]]]:
                     continue
 
                 n, kind, payload = parse_line(line)
+                # small filtering
+                payload = payload.replace("’", "'")
 
                 # bound of dialog by reset/decrement of index
                 if last_n is not None and (n == 1 or n < last_n):
@@ -128,8 +131,17 @@ class DialogDataset(Dataset):
         if self.cfg.add_eos and getattr(self.tokenizer, "eos_token", None) is None:
             raise ValueError("Tokenizer has no eos_token. Set add_eos=False or use tokenizer with eos_token.")
 
-        dialogs = load_dialogs(self.files)
-        self.samples = [self._make_text_and_parts(pairs) for pairs in dialogs]
+        self.dialogs = load_dialogs(self.files)
+        self.samples = [self._make_text_and_parts(pairs) for pairs in self.dialogs]
+
+
+    def save_to_jsonl(self, file_name: str):
+        with open(file_name, "w", encoding="utf-8") as f:
+            for dialog in self.dialogs:
+                items = []
+                for pair in dialog:
+                    items.extend(pair)
+                f.write(json.dumps(items, ensure_ascii=False) + "\n")
 
 
     def __len__(self) -> int:
