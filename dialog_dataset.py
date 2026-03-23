@@ -8,6 +8,8 @@ from typing import List, Dict, Any, Optional, Tuple, Union
 import torch
 from torch.utils.data import Dataset
 import json
+from transformers import GPT2TokenizerFast, AutoModelForCausalLM
+
 
 
 @dataclass
@@ -218,16 +220,12 @@ class DialogDataset(Dataset):
 
         for u, a in pairs:
 
-            t_user = f"{self.cfg.token_user} {u}{sep}"
+            t_user = f"{self.cfg.token_user} {u}{self.cfg.token_assistant}"
             parts.append((t_user, False))
             full_chunks.append(t_user)
 
-            t_aprefix = f"{self.cfg.token_assistant}"
-            parts.append((t_aprefix, False))
-            full_chunks.append(t_aprefix)
-
             # учим только контент ответа (+ eos), потом перевод строки
-            t_ans = f" {a}{eos}{sep}"
+            t_ans = f"{a}{eos}"
             parts.append((t_ans, True))
             full_chunks.append(t_ans)
 
@@ -267,3 +265,24 @@ def collate_lm_batch(
         labels[i, :L] = lab
 
     return {"input_ids": input_ids, "attention_mask": attention_mask, "labels": labels}
+
+
+if __name__ == "__main__":
+
+    tokenizer = GPT2TokenizerFast.from_pretrained(
+        "gpt2",
+        local_files_only=False,
+        padding_side="right",
+        model_max_length=1024
+        )
+
+    if tokenizer.pad_token_id is None:
+        if tokenizer.eos_token_id is None:
+            raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
+        tokenizer.pad_token = tokenizer.eos_token
+
+    dataset = DialogDataset(["data/dialogues_clarification_64.txt"], tokenizer=tokenizer)
+    #print(dataset.dialogs[0])
+    full_text, parts = dataset.samples[0]
+
+    print(parts)

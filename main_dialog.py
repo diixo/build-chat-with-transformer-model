@@ -28,13 +28,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
-EPOCHS = 25
+EPOCHS = 30
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
 config = DialogConfig()
 
-model_dir = "trained_model_dialog"
+model_dir = "outputs/trained_model_dialog"
 model_output_dir = model_dir
 
 
@@ -52,7 +52,7 @@ def dialog(model, tokenizer):
 
         #prompt = history + f"User: {user_msg}\n{assistant}:"
 
-        prompt = f"<|user|> {user_msg}\n<|assistant|>"
+        prompt = f"<|user|> {user_msg}<|assistant|>"
 
         input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
 
@@ -75,9 +75,9 @@ def dialog(model, tokenizer):
 
             answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
 
-            print(f"### Assistant: {answer}\n")
+            print(f"### Assistant: {answer}")
 
-            history += f"### User: {user_msg}\nAssistant: {answer}\n"
+            history += f"### User: {user_msg}\nAssistant: {answer}"
 
         else:
 
@@ -116,8 +116,8 @@ if __name__ == "__main__":
 
         train_dataset = DialogDataset([
             "data/dialogues_clarification_64.txt",
-            "data/dialogues_clarification_12000.txt",
-            "data/dialogues_weather.txt",
+            # "data/dialogues_clarification_12000.txt",
+            # "data/dialogues_weather.txt",
         ], tokenizer, config)
 
 
