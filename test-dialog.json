@@ -1,0 +1,30 @@
+[
+  {
+    "knowledge_in": {},
+    "dialog": [
+      {
+        "role": "user",
+        "content": "country"
+      }
+    ],
+    "assistant": "What country do you live in?",
+    "knowledge_out": {
+      "country": "unknown"
+    }
+  },
+  {
+    "knowledge_in": {
+      "country": "unknown"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "I am from Poland."
+      }
+    ],
+    "assistant": "Got it, you are from Poland.",
+    "knowledge_out": {
+      "country": "Poland"
+    }
+  }
+]
