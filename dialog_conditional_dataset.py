@@ -2,142 +2,154 @@
 from typing import Dict, List, Any, Optional
 import torch
 
-
-SPECIAL_TOKENS = {
-    "knowledge": "<knowledge>",
-    "user": "<user>",
-    "assistant": "<assistant>",
-    "turn": "<turn>",
-}
+import json
+from torch.utils.data import Dataset
+from dialog_dataset import DialogConfig
+from transformers import GPT2TokenizerFast
 
 
-def knowledge_to_text(knowledge: Dict[str, Any]) -> str:
-    """
-    Преобразует knowledge-словарь в текст.
-    Пример:
-        {"country": "Poland"} -> "country=Poland"
-    Если knowledge пустой -> ""
-    """
-    if not knowledge:
-        return ""
+class DialogConditionalDataset(Dataset):
 
-    lines = []
-    for key, value in knowledge.items():
-        if value is None:
-            value = ""
-        lines.append(f"{key}={value}")
-    return "\n".join(lines)
+    def __init__(
+        self,
+        file_path: str,
+        tokenizer,
+        max_length: Optional[int] = None,
+        add_eos: bool = False,
+        cfg: DialogConfig = DialogConfig(),
+    ):
+        self.file_path = file_path
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+        self.add_eos = add_eos
+
+        self.tok_knowledge = cfg.token_knowledge
+        self.tok_user = cfg.token_user
+        self.tok_assistant = cfg.token_assistant
+        self.tok_turn = cfg.token_turn
+
+        self.samples = self._load_file(file_path)
 
 
-def dialog_to_text(dialog: List[Dict[str, str]]) -> str:
-    """
-    Поддерживает пока обычный список сообщений.
-    В твоем текущем сценарии обычно будет один user-message,
-    но функция умеет и несколько сообщений подряд.
-    """
-    parts = []
+    def _load_file(self, file_path: str) -> List[Dict[str, Any]]:
+        if file_path.endswith(".jsonl"):
+            samples = []
+            with open(file_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    samples.append(json.loads(line))
+            return samples
 
-    for msg in dialog:
-        role = msg["role"].strip().lower()
-        content = msg["content"]
+        elif file_path.endswith(".json"):
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
 
-        if role == "user":
-            role_token = SPECIAL_TOKENS["user"]
-        elif role == "assistant":
-            role_token = SPECIAL_TOKENS["assistant"]
+            if isinstance(data, list):
+                return data
+            elif isinstance(data, dict):
+                return [data]
+            else:
+                raise ValueError("JSON root must be list or dict")
+
         else:
-            raise ValueError(f"Unsupported role: {role}")
-
-        parts.append(role_token)
-        parts.append("\n")
-        parts.append(content)
-        parts.append("\n")
-        parts.append(SPECIAL_TOKENS["turn"])
-        parts.append("\n")
-
-    return "".join(parts)
+            raise ValueError("Only .jsonl or .json are supported")
 
 
-def build_prefix_and_target(sample: Dict[str, Any]) -> (str, str):
-    """
-    Возвращает:
-      prefix_text  - то, что идет во вход и маскируется -100
-      target_text  - то, что модель должна предсказать
+    def _knowledge_to_text(self, knowledge: Dict[str, Any]) -> str:
+        if not knowledge:
+            return ""
 
-    Схема:
-      <knowledge> in <turn>
-      <dialog...>           # обычно user
-      <knowledge> out <turn>
-      <assistant> ... <turn>
-    """
-    knowledge_in_text = knowledge_to_text(sample.get("knowledge_in", {}))
-    knowledge_out_text = knowledge_to_text(sample.get("knowledge_out", {}))
-    dialog_text = dialog_to_text(sample["dialog"])
-    assistant_text = sample["assistant"]
-
-    prefix_parts = [
-        SPECIAL_TOKENS["knowledge"], "\n",
-        knowledge_in_text, "\n",
-        SPECIAL_TOKENS["turn"], "\n",
-        dialog_text,
-    ]
-
-    target_parts = [
-        SPECIAL_TOKENS["knowledge"], "\n",
-        knowledge_out_text, "\n",
-        SPECIAL_TOKENS["turn"], "\n",
-        SPECIAL_TOKENS["assistant"], "\n",
-        assistant_text, "\n",
-        SPECIAL_TOKENS["turn"],
-    ]
-
-    prefix_text = "".join(prefix_parts)
-    target_text = "".join(target_parts)
-
-    return prefix_text, target_text
+        lines = []
+        for key, value in knowledge.items():
+            if value is None:
+                value = ""
+            lines.append(f"{key}={value}")
+        return "\n".join(lines)
 
 
-def encode_sample(
-    sample: Dict[str, Any],
-    tokenizer,
-    add_eos: bool = False,
-    max_length: Optional[int] = None,
-) -> Dict[str, List[int]]:
-    """
-    Кодирует один sample в input_ids / attention_mask / labels.
+    def _dialog_to_text(self, dialog: List[Dict[str, str]]) -> str:
+        parts = []
 
-    labels:
-      - prefix -> -100
-      - target -> реальные token ids
-    """
-    prefix_text, target_text = build_prefix_and_target(sample)
+        for msg in dialog:
+            role = msg["role"].strip().lower()
+            content = msg["content"]
 
-    prefix_ids = tokenizer(prefix_text, add_special_tokens=False)["input_ids"]
-    target_ids = tokenizer(target_text, add_special_tokens=False)["input_ids"]
+            if role == "user":
+                role_token = self.tok_user
+            elif role == "assistant":
+                role_token = self.tok_assistant
+            else:
+                raise ValueError(f"Unsupported role: {role}")
 
-    input_ids = prefix_ids + target_ids
+            parts.append(role_token)
+            parts.append("\n")
+            parts.append(content)
+            parts.append("\n")
+            parts.append(self.tok_turn)
+            parts.append("\n")
 
-    if add_eos and tokenizer.eos_token_id is not None:
-        input_ids = input_ids + [tokenizer.eos_token_id]
-        target_ids = target_ids + [tokenizer.eos_token_id]
+        return "".join(parts)
 
-    labels = [-100] * len(prefix_ids) + target_ids
 
-    attention_mask = [1] * len(input_ids)
+    def _build_texts(self, sample: Dict[str, Any]):
+        knowledge_in = self._knowledge_to_text(sample.get("knowledge_in", {}))
+        dialog_text = self._dialog_to_text(sample["dialog"])
+        knowledge_out = self._knowledge_to_text(sample.get("knowledge_out", {}))
+        assistant_text = sample["assistant"]
 
-    if max_length is not None:
-        input_ids = input_ids[:max_length]
-        attention_mask = attention_mask[:max_length]
-        labels = labels[:max_length]
+        prefix_text = (
+            f"{self.tok_knowledge}\n"
+            f"{knowledge_in}\n"
+            f"{self.tok_turn}\n"
+            f"{dialog_text}"
+        )
 
-    return {
-        "input_ids": input_ids,
-        "attention_mask": attention_mask,
-        "labels": labels,
-        "prefix_text": prefix_text,
-        "target_text": target_text,
-        "full_text": prefix_text + target_text,
-    }
+        target_text = (
+            f"{self.tok_knowledge}\n"
+            f"{knowledge_out}\n"
+            f"{self.tok_turn}\n"
+            f"{self.tok_assistant}\n"
+            f"{assistant_text}\n"
+            f"{self.tok_turn}"
+        )
+
+        return prefix_text, target_text
+
+
+    def _encode_sample(self, sample: Dict[str, Any]) -> Dict[str, List[int]]:
+        prefix_text, target_text = self._build_texts(sample)
+
+        prefix_ids = self.tokenizer(prefix_text, add_special_tokens=False)["input_ids"]
+        target_ids = self.tokenizer(target_text, add_special_tokens=False)["input_ids"]
+
+        input_ids = prefix_ids + target_ids
+        labels = [-100] * len(prefix_ids) + target_ids
+        attention_mask = [1] * len(input_ids)
+
+        if self.add_eos and self.tokenizer.eos_token_id is not None:
+            input_ids.append(self.tokenizer.eos_token_id)
+            labels.append(self.tokenizer.eos_token_id)
+            attention_mask.append(1)
+
+        if self.max_length is not None:
+            input_ids = input_ids[:self.max_length]
+            labels = labels[:self.max_length]
+            attention_mask = attention_mask[:self.max_length]
+
+        return {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+            "labels": labels,
+        }
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, idx):
+        sample = self.samples[idx]
+        return self._encode_sample(sample)
 
 
 def collate_lm_batch(
@@ -168,3 +180,31 @@ def collate_lm_batch(
         "attention_mask": torch.tensor(attention_mask, dtype=torch.long),
         "labels": torch.tensor(labels, dtype=torch.long),
     }
+
+
+if __name__ == "__main__":
+
+    tokenizer = GPT2TokenizerFast.from_pretrained(
+        "gpt2",
+        local_files_only=False,
+        padding_side="right",
+        model_max_length=1024
+        )
+
+    if tokenizer.pad_token_id is None:
+        if tokenizer.eos_token_id is None:
+            raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
+        tokenizer.pad_token = tokenizer.eos_token
+
+
+    dataset = DialogConditionalDataset(
+        file_path="test-dialog.json",
+        tokenizer=tokenizer,
+        max_length=256,
+        add_eos=False,
+    )
+
+    item = dataset[0]
+    print(item.keys())
+    print(len(item["input_ids"]))
+    print(len(item["labels"]))
