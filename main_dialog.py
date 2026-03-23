@@ -28,7 +28,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
-EPOCHS = 20
+EPOCHS = 25
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
@@ -87,9 +87,9 @@ def dialog(model, tokenizer):
 
 if __name__ == "__main__":
 
-    ok, msg = check_local_model(f"{model_output_dir}")
+    exist, msg = check_local_model(f"{model_output_dir}")
 
-    if not ok:
+    if not exist:
         tokenizer = GPT2TokenizerFast.from_pretrained(
             MODEL_NAME,
             local_files_only=False,
