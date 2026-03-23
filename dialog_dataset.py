@@ -20,8 +20,8 @@ class DialogConfig:
 
     token_user: str = "<|user|>"
     token_assistant: str = "<|assistant|>"
-    token_system: str = "<|system|>"
     token_knowledge: str = "<|knowledge|>"
+    token_turn: str = "<|turn|>"
 
 
 def parse_line(line: str) -> Tuple[int, str, str]:
