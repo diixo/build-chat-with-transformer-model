@@ -38,7 +38,12 @@ model_dir = "outputs/trained_model_dialog"
 model_output_dir = model_dir
 
 
-def dialog(model, tokenizer):
+def dialog(model, tokenizer, turn_token=None):
+
+    if turn_token is None:
+        turn_token_id = tokenizer.eos_token_id
+    else:
+        turn_token_id = tokenizer.convert_tokens_to_ids(turn_token)
 
     print("Type 'exit' to stop.\n")
 
@@ -63,7 +68,7 @@ def dialog(model, tokenizer):
                 input_ids=input_ids,
                 max_new_tokens=50,
                 do_sample=False,
-                eos_token_id=tokenizer.eos_token_id,
+                eos_token_id=[tokenizer.eos_token_id, turn_token_id],
                 pad_token_id=tokenizer.pad_token_id
             )[0]
 
@@ -78,9 +83,7 @@ def dialog(model, tokenizer):
             print(f"### Assistant: {answer}")
 
             history += f"### User: {user_msg}\nAssistant: {answer}"
-
         else:
-
             print(f"### Assistant: ###\n")
 
 
