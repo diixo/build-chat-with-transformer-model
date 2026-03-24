@@ -1,30 +1,610 @@
 [
+{
+  "knowledge_in": {},
+  "dialog": [
+    {"role": "user", "content": "country"},
+    {"role": "assistant", "content": "What country do you live in?"}
+  ],
+  "knowledge_out": {
+    "country": "unknown"
+  }
+},
+{
+  "knowledge_in": {
+    "country": "unknown"
+  },
+  "dialog": [
+    {"role": "user", "content": "I am from Poland."},
+    {"role": "assistant", "content": "Got it, you are from Poland."}
+  ],
+  "knowledge_out": {
+    "country": "Poland"
+  }
+},
+{
+  "knowledge_in": {"country": "unknown"},
+  "dialog": [
+    {"role": "user", "content": "somewhere in Europe"},
+    {"role": "assistant", "content": "Please tell me the exact country you live in."}
+  ],
+  "knowledge_out": {"country": "unknown"}
+},
+{
+  "knowledge_in": {"country": "unknown"},
+  "dialog": [
+    {"role": "user", "content": "somewhere here"},
+    {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+  ],
+  "knowledge_out": {"country": "unknown"}
+},
+{
+  "knowledge_in": {"country": "unknown"},
+  "dialog": [
+    {"role": "user", "content": "somewhere near here"},
+    {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+  ],
+  "knowledge_out": {"country": "unknown"}
+},
+{
+  "knowledge_in": {"country": "unknown"},
+  "dialog": [
+    {"role": "user", "content": "in EU"},
+    {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+  ],
+  "knowledge_out": {"country": "unknown"}
+},
+{
+  "knowledge_in": {"country": "unknown"},
+  "dialog": [
+    {"role": "user", "content": "here"},
+    {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+  ],
+  "knowledge_out": {"country": "unknown"}
+},
+{
+  "knowledge_in": {"country": "unknown"},
+  "dialog": [
+    {"role": "user", "content": "in Europe"},
+    {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+  ],
+  "knowledge_out": {"country": "unknown"}
+},
+
   {
     "knowledge_in": {},
     "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      }
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"}
     ],
-    "assistant": "What country do you live in?",
     "knowledge_out": {
       "country": "unknown"
     }
   },
   {
-    "knowledge_in": {
-      "country": "unknown"
-    },
+    "knowledge_in": {},
     "dialog": [
-      {
-        "role": "user",
-        "content": "I am from Poland."
-      }
+      {"role": "user", "content": "my country"},
+      {"role": "assistant", "content": "What country do you live in?"}
     ],
-    "assistant": "Got it, you are from Poland.",
     "knowledge_out": {
-      "country": "Poland"
+      "country": "unknown"
     }
+  },
+  {
+    "knowledge_in": {},
+    "dialog": [
+      {"role": "user", "content": "where I live"},
+      {"role": "assistant", "content": "What country do you live in?"}
+    ],
+    "knowledge_out": {
+      "country": "unknown"
+    }
+  },
+  {
+    "knowledge_in": {},
+    "dialog": [
+      {"role": "user", "content": "location country"},
+      {"role": "assistant", "content": "What country do you live in?"}
+    ],
+    "knowledge_out": {
+      "country": "unknown"
+    }
+  },
+  {
+    "knowledge_in": {},
+    "dialog": [
+      {"role": "user", "content": "home country"},
+      {"role": "assistant", "content": "What country do you live in?"}
+    ],
+    "knowledge_out": {
+      "country": "unknown"
+    }
+  },
+
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from Poland."},
+      {"role": "assistant", "content": "Got it, you are from Poland."}
+    ],
+    "knowledge_out": {"country": "Poland"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "Poland."},
+      {"role": "assistant", "content": "Got it, you are from Poland."}
+    ],
+    "knowledge_out": {"country": "Poland"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I live in Poland."},
+      {"role": "assistant", "content": "Got it, you live in Poland."}
+    ],
+    "knowledge_out": {"country": "Poland"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "My country is Poland."},
+      {"role": "assistant", "content": "Got it, your country is Poland."}
+    ],
+    "knowledge_out": {"country": "Poland"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from Germany."},
+      {"role": "assistant", "content": "Got it, you are from Germany."}
+    ],
+    "knowledge_out": {"country": "Germany"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "Germany."},
+      {"role": "assistant", "content": "Got it, you are from Germany."}
+    ],
+    "knowledge_out": {"country": "Germany"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I live in Germany."},
+      {"role": "assistant", "content": "Got it, you live in Germany."}
+    ],
+    "knowledge_out": {"country": "Germany"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from France."},
+      {"role": "assistant", "content": "Got it, you are from France."}
+    ],
+    "knowledge_out": {"country": "France"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "France."},
+      {"role": "assistant", "content": "Got it, you are from France."}
+    ],
+    "knowledge_out": {"country": "France"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I live in France."},
+      {"role": "assistant", "content": "Got it, you live in France."}
+    ],
+    "knowledge_out": {"country": "France"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from Spain."},
+      {"role": "assistant", "content": "Got it, you are from Spain."}
+    ],
+    "knowledge_out": {"country": "Spain"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "Spain."},
+      {"role": "assistant", "content": "Got it, you are from Spain."}
+    ],
+    "knowledge_out": {"country": "Spain"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from Italy."},
+      {"role": "assistant", "content": "Got it, you are from Italy."}
+    ],
+    "knowledge_out": {"country": "Italy"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "Italy."},
+      {"role": "assistant", "content": "Got it, you are from Italy."}
+    ],
+    "knowledge_out": {"country": "Italy"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from Canada."},
+      {"role": "assistant", "content": "Got it, you are from Canada."}
+    ],
+    "knowledge_out": {"country": "Canada"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "Canada."},
+      {"role": "assistant", "content": "Got it, you are from Canada."}
+    ],
+    "knowledge_out": {"country": "Canada"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I live in Canada."},
+      {"role": "assistant", "content": "Got it, you live in Canada."}
+    ],
+    "knowledge_out": {"country": "Canada"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from Japan."},
+      {"role": "assistant", "content": "Got it, you are from Japan."}
+    ],
+    "knowledge_out": {"country": "Japan"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "Japan."},
+      {"role": "assistant", "content": "Got it, you are from Japan."}
+    ],
+    "knowledge_out": {"country": "Japan"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from Brazil."},
+      {"role": "assistant", "content": "Got it, you are from Brazil."}
+    ],
+    "knowledge_out": {"country": "Brazil"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "Brazil."},
+      {"role": "assistant", "content": "Got it, you are from Brazil."}
+    ],
+    "knowledge_out": {"country": "Brazil"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I am from India."},
+      {"role": "assistant", "content": "Got it, you are from India."}
+    ],
+    "knowledge_out": {"country": "India"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "India."},
+      {"role": "assistant", "content": "Got it, you are from India."}
+    ],
+    "knowledge_out": {"country": "India"}
+  },
+
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "somewhere in Europe"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "somewhere here"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "somewhere near here"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "in EU"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "in Europe"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "near Germany"},
+      {"role": "assistant", "content": "Please name the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "in the west of Europe"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "inside Europe"},
+      {"role": "assistant", "content": "I need the exact country name."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "not sure"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I do not know"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "I travel a lot"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "a small country in Europe"},
+      {"role": "assistant", "content": "Please name the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "close to Poland"},
+      {"role": "assistant", "content": "I need the exact country name."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "somewhere abroad"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "overseas"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "around here"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "around"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "around here"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "somewhere around"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "near Germany"},
+      {"role": "assistant", "content": "Please name the exact country you live in."}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "in EU"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "Poland"},
+      {"role": "assistant", "content": "Got it, you are from Poland."}
+    ],
+    "knowledge_out": {"country": "Poland"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "I am from Germany."},
+      {"role": "assistant", "content": "Got it, you are from Germany."}
+    ],
+    "knowledge_out": {"country": "Germany"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "I live in France."},
+      {"role": "assistant", "content": "Got it, you live in France."}
+    ],
+    "knowledge_out": {"country": "France"}
+  },
+
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "somewhere in Europe"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."},
+      {"role": "user", "content": "near Germany"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"}
+    ],
+    "knowledge_out": {"country": "unknown"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "somewhere here"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"},
+      {"role": "user", "content": "I am from Poland."},
+      {"role": "assistant", "content": "Got it, you are from Poland."}
+    ],
+    "knowledge_out": {"country": "Poland"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "in Europe"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"},
+      {"role": "user", "content": "Germany"},
+      {"role": "assistant", "content": "Got it, you are from Germany."}
+    ],
+    "knowledge_out": {"country": "Germany"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "somewhere abroad"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."},
+      {"role": "user", "content": "France"},
+      {"role": "assistant", "content": "Got it, you are from France."}
+    ],
+    "knowledge_out": {"country": "France"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "somewhere abroad"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."},
+      {"role": "user", "content": "Ukraine"},
+      {"role": "assistant", "content": "Got it, you are from Ukraine."}
+    ],
+    "knowledge_out": {"country": "Ukraine"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "somewhere abroad"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."},
+      {"role": "user", "content": "Romania"},
+      {"role": "assistant", "content": "Got it, you are from Ukraine."}
+    ],
+    "knowledge_out": {"country": "Romania"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "near here"},
+      {"role": "assistant", "content": "Please tell me the exact country you live in."},
+      {"role": "user", "content": "Spain"},
+      {"role": "assistant", "content": "Got it, you are from Spain."}
+    ],
+    "knowledge_out": {"country": "Spain"}
+  },
+  {
+    "knowledge_in": {"country": "unknown"},
+    "dialog": [
+      {"role": "user", "content": "country"},
+      {"role": "assistant", "content": "What country do you live in?"},
+      {"role": "user", "content": "in EU"},
+      {"role": "assistant", "content": "I still need the exact country. What country do you live in?"},
+      {"role": "user", "content": "Italy"},
+      {"role": "assistant", "content": "Got it, you are from Italy."}
+    ],
+    "knowledge_out": {"country": "Italy"}
   }
 ]

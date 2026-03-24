@@ -1,12 +1,17 @@
 
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Tuple
 import torch
 
 import json
 from torch.utils.data import Dataset
 from dialog_dataset import DialogConfig
-from transformers import GPT2TokenizerFast
+from transformers import GPT2TokenizerFast, Trainer, AutoModelForCausalLM, TrainingArguments
 
+from main_dialog import dialog
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+config = DialogConfig()
 
 class DialogConditionalDataset(Dataset):
 
@@ -60,17 +65,60 @@ class DialogConditionalDataset(Dataset):
     def _knowledge_to_text(self, knowledge: Dict[str, Any]) -> str:
         if not knowledge:
             return ""
-
         lines = []
-        for key, value in knowledge.items():
-            if value is None:
-                value = ""
-            lines.append(f"{key}={value}")
+        for k, v in knowledge.items():
+            if v is None:
+                v = ""
+            lines.append(f"{k}={v}")
         return "\n".join(lines)
 
 
-    def _dialog_to_text(self, dialog: List[Dict[str, str]]) -> str:
-        parts = []
+    def _build_knowledge_block(self, knowledge: Dict[str, Any]) -> str:
+        body = self._knowledge_to_text(knowledge)
+        return f"{self.tok_knowledge}\n{body}\n{self.tok_turn}\n"
+
+
+    def _validate_dialog(self, dialog: List[Dict[str, str]]) -> None:
+        if not dialog:
+            raise ValueError("dialog must not be empty")
+
+        prev_role = None
+        for i, msg in enumerate(dialog):
+            role = msg["role"].strip().lower()
+            if role not in ("user", "assistant"):
+                raise ValueError(f"Unsupported role: {role}")
+
+            if prev_role == role:
+                raise ValueError(
+                    f"Roles must alternate, but got two '{role}' in a row at index {i}"
+                )
+            prev_role = role
+
+        last_role = dialog[-1]["role"].strip().lower()
+        if last_role != "assistant":
+            raise ValueError("The last dialog message must be assistant")
+
+
+
+    def _tokenize(self, text: str) -> List[int]:
+        return self.tokenizer(text, add_special_tokens=False)["input_ids"]
+
+
+    def _encode_sample(self, sample: Dict[str, Any]) -> Dict[str, List[int]]:
+        knowledge_in_text = self._build_knowledge_block(sample.get("knowledge_in", {}))
+        knowledge_out_text = self._build_knowledge_block(sample.get("knowledge_out", {}))
+
+        input_ids: List[int] = []
+        labels: List[int] = []
+
+        # knowledge_in: always context only
+        k_in_ids = self._tokenize(knowledge_in_text)
+        input_ids.extend(k_in_ids)
+        labels.extend([-100] * len(k_in_ids))
+
+        # dialog
+        dialog = sample["dialog"]
+        self._validate_dialog(dialog)
 
         for msg in dialog:
             role = msg["role"].strip().lower()
@@ -78,54 +126,26 @@ class DialogConditionalDataset(Dataset):
 
             if role == "user":
                 role_token = self.tok_user
-            elif role == "assistant":
-                role_token = self.tok_assistant
+                train_this_block = False
             else:
-                raise ValueError(f"Unsupported role: {role}")
+                role_token = self.tok_assistant
+                train_this_block = True
 
-            parts.append(role_token)
-            parts.append("\n")
-            parts.append(content)
-            parts.append("\n")
-            parts.append(self.tok_turn)
-            parts.append("\n")
+            block = f"{role_token} {content} {self.tok_turn}"
+            block_ids = self._tokenize(block)
 
-        return "".join(parts)
+            input_ids.extend(block_ids)
 
+            if train_this_block:
+                labels.extend(block_ids)
+            else:
+                labels.extend([-100] * len(block_ids))
 
-    def _build_texts(self, sample: Dict[str, Any]):
-        knowledge_in = self._knowledge_to_text(sample.get("knowledge_in", {}))
-        dialog_text = self._dialog_to_text(sample["dialog"])
-        knowledge_out = self._knowledge_to_text(sample.get("knowledge_out", {}))
-        assistant_text = sample["assistant"]
+        # knowledge_out: train
+        k_out_ids = self._tokenize(knowledge_out_text)
+        input_ids.extend(k_out_ids)
+        labels.extend(k_out_ids)
 
-        prefix_text = (
-            f"{self.tok_knowledge}\n"
-            f"{knowledge_in}\n"
-            f"{self.tok_turn}\n"
-            f"{dialog_text}"
-        )
-
-        target_text = (
-            f"{self.tok_knowledge}\n"
-            f"{knowledge_out}\n"
-            f"{self.tok_turn}\n"
-            f"{self.tok_assistant}\n"
-            f"{assistant_text}\n"
-            f"{self.tok_turn}"
-        )
-
-        return prefix_text, target_text
-
-
-    def _encode_sample(self, sample: Dict[str, Any]) -> Dict[str, List[int]]:
-        prefix_text, target_text = self._build_texts(sample)
-
-        prefix_ids = self.tokenizer(prefix_text, add_special_tokens=False)["input_ids"]
-        target_ids = self.tokenizer(target_text, add_special_tokens=False)["input_ids"]
-
-        input_ids = prefix_ids + target_ids
-        labels = [-100] * len(prefix_ids) + target_ids
         attention_mask = [1] * len(input_ids)
 
         if self.add_eos and self.tokenizer.eos_token_id is not None:
@@ -143,6 +163,7 @@ class DialogConditionalDataset(Dataset):
             "attention_mask": attention_mask,
             "labels": labels,
         }
+
 
     def __len__(self):
         return len(self.samples)
@@ -184,6 +205,15 @@ def collate_lm_batch(
 
 if __name__ == "__main__":
 
+    MODEL_NAME = "gpt2"
+
+    model_dir = "outputs/trained_conditional_dialog"
+    model_output_dir = model_dir
+
+    BATCH_SIZE = 4
+    LEARNING_RATE = 1e-4
+    EPOCHS = 25
+
     tokenizer = GPT2TokenizerFast.from_pretrained(
         "gpt2",
         local_files_only=False,
@@ -191,20 +221,75 @@ if __name__ == "__main__":
         model_max_length=1024
         )
 
-    if tokenizer.pad_token_id is None:
-        if tokenizer.eos_token_id is None:
-            raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
-        tokenizer.pad_token = tokenizer.eos_token
+    special_tokens = {
+        "pad_token": "<|pad|>",
+        "additional_special_tokens": [
+            config.token_user,
+            config.token_assistant,
+            config.token_knowledge,
+            config.token_turn,
+        ]
+    }
+
+    num_added = tokenizer.add_special_tokens(special_tokens)
+
+    print("added:", num_added, f"vocab size={len(tokenizer)}, pad_id={tokenizer.pad_token_id}")
 
 
-    dataset = DialogConditionalDataset(
+    train_dataset = DialogConditionalDataset(
         file_path="test-dialog.json",
         tokenizer=tokenizer,
         max_length=256,
         add_eos=False,
     )
 
-    item = dataset[0]
-    print(item.keys())
-    print(len(item["input_ids"]))
-    print(len(item["labels"]))
+    print(len(train_dataset))
+
+    item = train_dataset[0]
+    # print(item.keys())
+    # print(len(item["input_ids"]))
+    # print(len(item["labels"]))
+
+    ##################################################################
+
+    model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, local_files_only=False)
+
+    # resize token embeddings without mean recalculation
+    model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
+
+    model.config.pad_token_id = tokenizer.pad_token_id
+
+    model.to(device)
+
+    training_args = TrainingArguments(
+        output_dir=model_output_dir,
+        save_strategy="no",
+        eval_strategy="no",
+        learning_rate=LEARNING_RATE,
+        num_train_epochs=EPOCHS,
+        weight_decay=0.0,
+        push_to_hub=False,
+        load_best_model_at_end=False,
+        per_device_train_batch_size=BATCH_SIZE,
+        gradient_accumulation_steps=1,
+        lr_scheduler_type="constant",
+
+        bf16=True,
+        fp16=False,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        data_collator=lambda x: collate_lm_batch(
+            x,
+            padding_value=tokenizer.pad_token_id,
+            label_padding_value=-100
+        ),
+    )
+
+    trainer.train()
+
+    dialog(model, tokenizer, turn_token = config.token_turn)
+    #dialog(model, tokenizer)
