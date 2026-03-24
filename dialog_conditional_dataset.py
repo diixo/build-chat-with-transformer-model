@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 config = DialogConfig()
 
-class DialogConditionalDataset(Dataset):
+class DialogConditionDataset(Dataset):
 
     def __init__(
         self,
@@ -234,8 +234,8 @@ if __name__ == "__main__":
     print(f"added new: {num_added}, vocab sz={len(tokenizer)}, pad_id={tokenizer.pad_token_id}")
 
 
-    train_dataset = DialogConditionalDataset(
-        file_path="test-dialog.json",
+    train_dataset = DialogConditionDataset(
+        file_path="data/condition-dialog.json",
         tokenizer=tokenizer,
         max_length=256,
         add_eos=False,
