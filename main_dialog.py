@@ -57,10 +57,7 @@ def chatting(model, tokenizer, turn_token=None):
 
         #prompt = history + f"User: {user_msg}\n{assistant}:"
 
-        if user_msg.strip().startswith("<|knowledge|>"):
-            prompt = user_msg.strip()
-        else:
-            prompt = f"<|user|> {user_msg} <|turn|>\n<|assistant|>"
+        prompt = f"<|user|> {user_msg} <|turn|>\n<|assistant|>"
 
         input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
 
@@ -75,25 +72,13 @@ def chatting(model, tokenizer, turn_token=None):
                 pad_token_id=tokenizer.pad_token_id
             )[0]
 
-        # extract answer with first token prefix: <|assistant|>
-        gen_ids = gen_ids[prompt_len-1 :]
+        gen_ids = gen_ids[prompt_len : ]
 
-        # check assistant role:
-        if gen_ids[0] == tokenizer.convert_tokens_to_ids("<|assistant|>"):
+        answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
 
-            answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
+        print(f"### Assistant: {answer}")
 
-            print(f"### Assistant: {answer}")
-
-            history += f"### User: {user_msg}\nAssistant: {answer}"
-        elif gen_ids[0] == tokenizer.convert_tokens_to_ids("<|knowledge|>"):
-
-            answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
-
-            print(f"### Knowledge: {answer}")
-        else:
-            answer = tokenizer.decode(gen_ids, skip_special_tokens=False).strip()
-            print(f"### Unknown: {answer}\n")
+        history += f"### User: {user_msg}\nAssistant: {answer}"
 
 
 
