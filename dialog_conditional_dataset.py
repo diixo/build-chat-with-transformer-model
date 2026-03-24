@@ -7,7 +7,7 @@ from torch.utils.data import Dataset
 from dialog_dataset import DialogConfig
 from transformers import GPT2TokenizerFast, Trainer, AutoModelForCausalLM, TrainingArguments
 
-from main_dialog import dialog
+from main_dialog import chatting
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -122,16 +122,15 @@ class DialogConditionDataset(Dataset):
             role = msg["role"].strip().lower()
             content = msg["content"]
 
+
             if role == "user":
-                role_token = self.tok_user
                 train_this_block = False
+                block = f"{self.tok_user} {content} {self.tok_turn}\n{self.tok_assistant}"
             else:
-                role_token = self.tok_assistant
                 train_this_block = True
+                block = f"{content} {self.tok_turn}\n"
 
-            block = f"{role_token} {content} {self.tok_turn}\n"
             block_ids = self._tokenize(block)
-
             input_ids.extend(block_ids)
 
             if train_this_block:
@@ -243,6 +242,7 @@ if __name__ == "__main__":
 
     print(f"input dataset.sz={len(train_dataset)}")
 
+
     item = train_dataset[0]
     # print(item.keys())
     # print(len(item["input_ids"]))
@@ -289,5 +289,5 @@ if __name__ == "__main__":
 
     trainer.train()
 
-    dialog(model, tokenizer, turn_token=config.token_turn)
-    #dialog(model, tokenizer)
+    chatting(model, tokenizer, turn_token=config.token_turn)
+    #chatting(model, tokenizer)

@@ -38,7 +38,7 @@ model_dir = "outputs/trained_model_dialog"
 model_output_dir = model_dir
 
 
-def dialog(model, tokenizer, turn_token=None):
+def chatting(model, tokenizer, turn_token=None):
 
     if turn_token is None:
         turn_token_id = tokenizer.eos_token_id
@@ -57,7 +57,10 @@ def dialog(model, tokenizer, turn_token=None):
 
         #prompt = history + f"User: {user_msg}\n{assistant}:"
 
-        prompt = f"<|user|> {user_msg}<|assistant|>"
+        if user_msg.strip().startswith("<|knowledge|>"):
+            prompt = user_msg.strip()
+        else:
+            prompt = f"<|user|> {user_msg} <|turn|>\n<|assistant|>"
 
         input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
 
@@ -83,8 +86,14 @@ def dialog(model, tokenizer, turn_token=None):
             print(f"### Assistant: {answer}")
 
             history += f"### User: {user_msg}\nAssistant: {answer}"
+        elif gen_ids[0] == tokenizer.convert_tokens_to_ids("<|knowledge|>"):
+
+            answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
+
+            print(f"### Knowledge: {answer}")
         else:
-            print(f"### Assistant: ###\n")
+            answer = tokenizer.decode(gen_ids, skip_special_tokens=False).strip()
+            print(f"### Unknown: {answer}\n")
 
 
 
@@ -182,4 +191,4 @@ if __name__ == "__main__":
     print("EOS_id:", tokenizer.eos_token_id, ", BOS_id:", tokenizer.bos_token_id, ", PAD_id:", tokenizer.pad_token_id)
 
 
-    dialog(model, tokenizer)
+    chatting(model, tokenizer)

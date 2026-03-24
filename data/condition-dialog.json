@@ -1714,6 +1714,1967 @@
     "knowledge_out": {
       "action": "watch movie"
     }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am talking on the phone."},
+      {"role": "assistant", "content": "Got it, you are talking on the phone."}
+    ],
+    "knowledge_out": {
+      "action": "talk on the phone"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "talking on the phone"},
+      {"role": "assistant", "content": "Got it, you are talking on the phone."}
+    ],
+    "knowledge_out": {
+      "action": "talk on the phone"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am brushing my teeth."},
+      {"role": "assistant", "content": "Got it, you are brushing your teeth."}
+    ],
+    "knowledge_out": {
+      "action": "brush teeth"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "brushing teeth"},
+      {"role": "assistant", "content": "Got it, you are brushing your teeth."}
+    ],
+    "knowledge_out": {
+      "action": "brush teeth"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am repairing a desk lamp."},
+      {"role": "assistant", "content": "Got it, you are repairing a desk lamp."}
+    ],
+    "knowledge_out": {
+      "action": "repair desk lamp"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "repairing a desk lamp"},
+      {"role": "assistant", "content": "Got it, you are repairing a desk lamp."}
+    ],
+    "knowledge_out": {
+      "action": "repair desk lamp"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am setting up a laptop."},
+      {"role": "assistant", "content": "Got it, you are setting up a laptop."}
+    ],
+    "knowledge_out": {
+      "action": "set up laptop"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "setting up a laptop"},
+      {"role": "assistant", "content": "Got it, you are setting up a laptop."}
+    ],
+    "knowledge_out": {
+      "action": "set up laptop"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am watering the flowers."},
+      {"role": "assistant", "content": "Got it, you are watering the flowers."}
+    ],
+    "knowledge_out": {
+      "action": "water flowers"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "watering flowers"},
+      {"role": "assistant", "content": "Got it, you are watering the flowers."}
+    ],
+    "knowledge_out": {
+      "action": "water flowers"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am opening the window."},
+      {"role": "assistant", "content": "Got it, you are opening the window."}
+    ],
+    "knowledge_out": {
+      "action": "open the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "opening the window"},
+      {"role": "assistant", "content": "Got it, you are opening the window."}
+    ],
+    "knowledge_out": {
+      "action": "open the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am closing the window."},
+      {"role": "assistant", "content": "Got it, you are closing the window."}
+    ],
+    "knowledge_out": {
+      "action": "close the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "closing the window"},
+      {"role": "assistant", "content": "Got it, you are closing the window."}
+    ],
+    "knowledge_out": {
+      "action": "close the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am making the bed."},
+      {"role": "assistant", "content": "Got it, you are making the bed."}
+    ],
+    "knowledge_out": {
+      "action": "make the bed"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "making the bed"},
+      {"role": "assistant", "content": "Got it, you are making the bed."}
+    ],
+    "knowledge_out": {
+      "action": "make the bed"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am folding clothes."},
+      {"role": "assistant", "content": "Got it, you are folding clothes."}
+    ],
+    "knowledge_out": {
+      "action": "fold clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "folding clothes"},
+      {"role": "assistant", "content": "Got it, you are folding clothes."}
+    ],
+    "knowledge_out": {
+      "action": "fold clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am ironing clothes."},
+      {"role": "assistant", "content": "Got it, you are ironing clothes."}
+    ],
+    "knowledge_out": {
+      "action": "iron clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "ironing clothes"},
+      {"role": "assistant", "content": "Got it, you are ironing clothes."}
+    ],
+    "knowledge_out": {
+      "action": "iron clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am charging my phone."},
+      {"role": "assistant", "content": "Got it, you are charging your phone."}
+    ],
+    "knowledge_out": {
+      "action": "charge phone"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "charging the phone"},
+      {"role": "assistant", "content": "Got it, you are charging your phone."}
+    ],
+    "knowledge_out": {
+      "action": "charge phone"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am changing the bed sheets."},
+      {"role": "assistant", "content": "Got it, you are changing the bed sheets."}
+    ],
+    "knowledge_out": {
+      "action": "change bed sheets"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "changing bed sheets"},
+      {"role": "assistant", "content": "Got it, you are changing the bed sheets."}
+    ],
+    "knowledge_out": {
+      "action": "change bed sheets"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am wiping the table."},
+      {"role": "assistant", "content": "Got it, you are wiping the table."}
+    ],
+    "knowledge_out": {
+      "action": "wipe the table"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "wiping the table"},
+      {"role": "assistant", "content": "Got it, you are wiping the table."}
+    ],
+    "knowledge_out": {
+      "action": "wipe the table"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am taking out the trash."},
+      {"role": "assistant", "content": "Got it, you are taking out the trash."}
+    ],
+    "knowledge_out": {
+      "action": "take out the trash"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "taking out the trash"},
+      {"role": "assistant", "content": "Got it, you are taking out the trash."}
+    ],
+    "knowledge_out": {
+      "action": "take out the trash"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am feeding the cat."},
+      {"role": "assistant", "content": "Got it, you are feeding the cat."}
+    ],
+    "knowledge_out": {
+      "action": "feed the cat"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "feeding the cat"},
+      {"role": "assistant", "content": "Got it, you are feeding the cat."}
+    ],
+    "knowledge_out": {
+      "action": "feed the cat"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am feeding the dog."},
+      {"role": "assistant", "content": "Got it, you are feeding the dog."}
+    ],
+    "knowledge_out": {
+      "action": "feed the dog"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "feeding the dog"},
+      {"role": "assistant", "content": "Got it, you are feeding the dog."}
+    ],
+    "knowledge_out": {
+      "action": "feed the dog"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "talk on the phone"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am brushing my teeth."},
+      {"role": "assistant", "content": "Got it, now you are brushing your teeth."}
+    ],
+    "knowledge_out": {
+      "action": "brush teeth"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "brush teeth"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am setting up a laptop."},
+      {"role": "assistant", "content": "Got it, now you are setting up a laptop."}
+    ],
+    "knowledge_out": {
+      "action": "set up laptop"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "set up laptop"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am repairing a desk lamp."},
+      {"role": "assistant", "content": "Got it, now you are repairing a desk lamp."}
+    ],
+    "knowledge_out": {
+      "action": "repair desk lamp"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "repair desk lamp"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am watering the flowers."},
+      {"role": "assistant", "content": "Got it, now you are watering the flowers."}
+    ],
+    "knowledge_out": {
+      "action": "water flowers"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "water flowers"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am opening the window."},
+      {"role": "assistant", "content": "Got it, now you are opening the window."}
+    ],
+    "knowledge_out": {
+      "action": "open the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "open the window"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am closing the window."},
+      {"role": "assistant", "content": "Got it, now you are closing the window."}
+    ],
+    "knowledge_out": {
+      "action": "close the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "close the window"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am making the bed."},
+      {"role": "assistant", "content": "Got it, now you are making the bed."}
+    ],
+    "knowledge_out": {
+      "action": "make the bed"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "make the bed"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am folding clothes."},
+      {"role": "assistant", "content": "Got it, now you are folding clothes."}
+    ],
+    "knowledge_out": {
+      "action": "fold clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "fold clothes"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am ironing clothes."},
+      {"role": "assistant", "content": "Got it, now you are ironing clothes."}
+    ],
+    "knowledge_out": {
+      "action": "iron clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "iron clothes"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am charging my phone."},
+      {"role": "assistant", "content": "Got it, now you are charging your phone."}
+    ],
+    "knowledge_out": {
+      "action": "charge phone"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "charge phone"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am changing the bed sheets."},
+      {"role": "assistant", "content": "Got it, now you are changing the bed sheets."}
+    ],
+    "knowledge_out": {
+      "action": "change bed sheets"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "change bed sheets"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am wiping the table."},
+      {"role": "assistant", "content": "Got it, now you are wiping the table."}
+    ],
+    "knowledge_out": {
+      "action": "wipe the table"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "wipe the table"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am taking out the trash."},
+      {"role": "assistant", "content": "Got it, now you are taking out the trash."}
+    ],
+    "knowledge_out": {
+      "action": "take out the trash"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "take out the trash"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am feeding the cat."},
+      {"role": "assistant", "content": "Got it, now you are feeding the cat."}
+    ],
+    "knowledge_out": {
+      "action": "feed the cat"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "feed the cat"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am feeding the dog."},
+      {"role": "assistant", "content": "Got it, now you are feeding the dog."}
+    ],
+    "knowledge_out": {
+      "action": "feed the dog"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "feed the dog"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am talking on the phone."},
+      {"role": "assistant", "content": "Got it, now you are talking on the phone."}
+    ],
+    "knowledge_out": {
+      "action": "talk on the phone"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am washing the floor."},
+      {"role": "assistant", "content": "Got it, you are washing the floor."}
+    ],
+    "knowledge_out": {
+      "action": "wash the floor"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "washing the floor"},
+      {"role": "assistant", "content": "Got it, you are washing the floor."}
+    ],
+    "knowledge_out": {
+      "action": "wash the floor"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am washing the window."},
+      {"role": "assistant", "content": "Got it, you are washing the window."}
+    ],
+    "knowledge_out": {
+      "action": "wash the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "washing the window"},
+      {"role": "assistant", "content": "Got it, you are washing the window."}
+    ],
+    "knowledge_out": {
+      "action": "wash the window"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am walking the dog."},
+      {"role": "assistant", "content": "Got it, you are walking the dog."}
+    ],
+    "knowledge_out": {
+      "action": "walk the dog"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "walking the dog"},
+      {"role": "assistant", "content": "Got it, you are walking the dog."}
+    ],
+    "knowledge_out": {
+      "action": "walk the dog"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am wiping my glasses."},
+      {"role": "assistant", "content": "Got it, you are wiping your glasses."}
+    ],
+    "knowledge_out": {
+      "action": "wipe glasses"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "wiping glasses"},
+      {"role": "assistant", "content": "Got it, you are wiping your glasses."}
+    ],
+    "knowledge_out": {
+      "action": "wipe glasses"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am frying a beefsteak."},
+      {"role": "assistant", "content": "Got it, you are frying a beefsteak."}
+    ],
+    "knowledge_out": {
+      "action": "fry beefsteak"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "frying a beefsteak"},
+      {"role": "assistant", "content": "Got it, you are frying a beefsteak."}
+    ],
+    "knowledge_out": {
+      "action": "fry beefsteak"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am putting on lipstick."},
+      {"role": "assistant", "content": "Got it, you are putting on lipstick."}
+    ],
+    "knowledge_out": {
+      "action": "put on lipstick"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "putting on lipstick"},
+      {"role": "assistant", "content": "Got it, you are putting on lipstick."}
+    ],
+    "knowledge_out": {
+      "action": "put on lipstick"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am washing my hair."},
+      {"role": "assistant", "content": "Got it, you are washing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "wash hair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "washing my hair"},
+      {"role": "assistant", "content": "Got it, you are washing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "wash hair"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am taking a bath."},
+      {"role": "assistant", "content": "Got it, you are taking a bath."}
+    ],
+    "knowledge_out": {
+      "action": "take a bath"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "taking a bath"},
+      {"role": "assistant", "content": "Got it, you are taking a bath."}
+    ],
+    "knowledge_out": {
+      "action": "take a bath"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am making coffee."},
+      {"role": "assistant", "content": "Got it, you are making coffee."}
+    ],
+    "knowledge_out": {
+      "action": "make coffee"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "making coffee"},
+      {"role": "assistant", "content": "Got it, you are making coffee."}
+    ],
+    "knowledge_out": {
+      "action": "make coffee"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am reading the news."},
+      {"role": "assistant", "content": "Got it, you are reading the news."}
+    ],
+    "knowledge_out": {
+      "action": "read news"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "reading the news"},
+      {"role": "assistant", "content": "Got it, you are reading the news."}
+    ],
+    "knowledge_out": {
+      "action": "read news"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am making the bed."},
+      {"role": "assistant", "content": "Got it, you are making the bed."}
+    ],
+    "knowledge_out": {
+      "action": "make the bed"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "making the bed"},
+      {"role": "assistant", "content": "Got it, you are making the bed."}
+    ],
+    "knowledge_out": {
+      "action": "make the bed"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am hanging clothes to dry."},
+      {"role": "assistant", "content": "Got it, you are hanging clothes to dry."}
+    ],
+    "knowledge_out": {
+      "action": "hang clothes to dry"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "hanging clothes to dry"},
+      {"role": "assistant", "content": "Got it, you are hanging clothes to dry."}
+    ],
+    "knowledge_out": {
+      "action": "hang clothes to dry"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am fixing the chair."},
+      {"role": "assistant", "content": "Got it, you are fixing the chair."}
+    ],
+    "knowledge_out": {
+      "action": "fix the chair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "fixing the chair"},
+      {"role": "assistant", "content": "Got it, you are fixing the chair."}
+    ],
+    "knowledge_out": {
+      "action": "fix the chair"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am replacing the light bulb."},
+      {"role": "assistant", "content": "Got it, you are replacing the light bulb."}
+    ],
+    "knowledge_out": {
+      "action": "replace the light bulb"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "replacing the light bulb"},
+      {"role": "assistant", "content": "Got it, you are replacing the light bulb."}
+    ],
+    "knowledge_out": {
+      "action": "replace the light bulb"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am cleaning the keyboard."},
+      {"role": "assistant", "content": "Got it, you are cleaning the keyboard."}
+    ],
+    "knowledge_out": {
+      "action": "clean the keyboard"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "cleaning the keyboard"},
+      {"role": "assistant", "content": "Got it, you are cleaning the keyboard."}
+    ],
+    "knowledge_out": {
+      "action": "clean the keyboard"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am organizing the desk."},
+      {"role": "assistant", "content": "Got it, you are organizing the desk."}
+    ],
+    "knowledge_out": {
+      "action": "organize the desk"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "organizing the desk"},
+      {"role": "assistant", "content": "Got it, you are organizing the desk."}
+    ],
+    "knowledge_out": {
+      "action": "organize the desk"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am packing a bag."},
+      {"role": "assistant", "content": "Got it, you are packing a bag."}
+    ],
+    "knowledge_out": {
+      "action": "pack a bag"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "packing a bag"},
+      {"role": "assistant", "content": "Got it, you are packing a bag."}
+    ],
+    "knowledge_out": {
+      "action": "pack a bag"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am unpacking groceries."},
+      {"role": "assistant", "content": "Got it, you are unpacking groceries."}
+    ],
+    "knowledge_out": {
+      "action": "unpack groceries"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "unpacking groceries"},
+      {"role": "assistant", "content": "Got it, you are unpacking groceries."}
+    ],
+    "knowledge_out": {
+      "action": "unpack groceries"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "wash the floor"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am washing the window."},
+      {"role": "assistant", "content": "Got it, now you are washing the window."}
+    ],
+    "knowledge_out": {
+      "action": "wash the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "wash the window"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am walking the dog."},
+      {"role": "assistant", "content": "Got it, now you are walking the dog."}
+    ],
+    "knowledge_out": {
+      "action": "walk the dog"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "walk the dog"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am wiping my glasses."},
+      {"role": "assistant", "content": "Got it, now you are wiping your glasses."}
+    ],
+    "knowledge_out": {
+      "action": "wipe glasses"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "wipe glasses"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am frying a beefsteak."},
+      {"role": "assistant", "content": "Got it, now you are frying a beefsteak."}
+    ],
+    "knowledge_out": {
+      "action": "fry beefsteak"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "fry beefsteak"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am putting on lipstick."},
+      {"role": "assistant", "content": "Got it, now you are putting on lipstick."}
+    ],
+    "knowledge_out": {
+      "action": "put on lipstick"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "put on lipstick"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am washing my hair."},
+      {"role": "assistant", "content": "Got it, now you are washing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "wash hair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "wash hair"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am taking a bath."},
+      {"role": "assistant", "content": "Got it, now you are taking a bath."}
+    ],
+    "knowledge_out": {
+      "action": "take a bath"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "take a bath"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am making coffee."},
+      {"role": "assistant", "content": "Got it, now you are making coffee."}
+    ],
+    "knowledge_out": {
+      "action": "make coffee"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "make coffee"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am reading the news."},
+      {"role": "assistant", "content": "Got it, now you are reading the news."}
+    ],
+    "knowledge_out": {
+      "action": "read news"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "read news"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am making the bed."},
+      {"role": "assistant", "content": "Got it, now you are making the bed."}
+    ],
+    "knowledge_out": {
+      "action": "make the bed"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "make the bed"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am hanging clothes to dry."},
+      {"role": "assistant", "content": "Got it, now you are hanging clothes to dry."}
+    ],
+    "knowledge_out": {
+      "action": "hang clothes to dry"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "hang clothes to dry"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am fixing the chair."},
+      {"role": "assistant", "content": "Got it, now you are fixing the chair."}
+    ],
+    "knowledge_out": {
+      "action": "fix the chair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "fix the chair"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am replacing the light bulb."},
+      {"role": "assistant", "content": "Got it, now you are replacing the light bulb."}
+    ],
+    "knowledge_out": {
+      "action": "replace the light bulb"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "replace the light bulb"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am cleaning the keyboard."},
+      {"role": "assistant", "content": "Got it, now you are cleaning the keyboard."}
+    ],
+    "knowledge_out": {
+      "action": "clean the keyboard"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "clean the keyboard"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am organizing the desk."},
+      {"role": "assistant", "content": "Got it, now you are organizing the desk."}
+    ],
+    "knowledge_out": {
+      "action": "organize the desk"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "organize the desk"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am packing a bag."},
+      {"role": "assistant", "content": "Got it, now you are packing a bag."}
+    ],
+    "knowledge_out": {
+      "action": "pack a bag"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "pack a bag"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am unpacking groceries."},
+      {"role": "assistant", "content": "Got it, now you are unpacking groceries."}
+    ],
+    "knowledge_out": {
+      "action": "unpack groceries"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "pack a bag"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am playing with my cat now"},
+      {"role": "assistant", "content": "Got it, now you are playing with your cat."}
+    ],
+    "knowledge_out": {
+      "action": "play with my cat"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "play with my cat"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am playing with my dog now"},
+      {"role": "assistant", "content": "Got it, now you are playing with your dog."}
+    ],
+    "knowledge_out": {
+      "action": "play with my dog"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "play with my cat"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am on a work call with my colleagues now"},
+      {"role": "assistant", "content": "Got it, now you are on a work call with my colleagues now."}
+    ],
+    "knowledge_out": {
+      "action": "work call with colleagues"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "fix the chair"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am in an online meeting with my colleagues."},
+      {"role": "assistant", "content": "Got it, now you are in an online meeting with your colleagues."}
+    ],
+    "knowledge_out": {
+      "action": "online meeting with colleagues"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "play with my dog"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am sitting on the chair now"},
+      {"role": "assistant", "content": "Got it, now you are sitting on the chair."}
+    ],
+    "knowledge_out": {
+      "action": "sit on the chair"
+    }
+  },
+
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am combing my hair."},
+      {"role": "assistant", "content": "Got it, you are combing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "comb hair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "combing my hair"},
+      {"role": "assistant", "content": "Got it, you are combing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "comb hair"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am applying makeup."},
+      {"role": "assistant", "content": "Got it, you are applying makeup."}
+    ],
+    "knowledge_out": {
+      "action": "apply makeup"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "doing makeup"},
+      {"role": "assistant", "content": "Got it, you are applying makeup."}
+    ],
+    "knowledge_out": {
+      "action": "apply makeup"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am washing my hair."},
+      {"role": "assistant", "content": "Got it, you are washing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "wash hair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "washing my hair"},
+      {"role": "assistant", "content": "Got it, you are washing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "wash hair"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am doing a manicure."},
+      {"role": "assistant", "content": "Got it, you are doing a manicure."}
+    ],
+    "knowledge_out": {
+      "action": "do manicure"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "doing a manicure"},
+      {"role": "assistant", "content": "Got it, you are doing a manicure."}
+    ],
+    "knowledge_out": {
+      "action": "do manicure"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "comb hair"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am applying makeup."},
+      {"role": "assistant", "content": "Got it, now you are applying makeup."}
+    ],
+    "knowledge_out": {
+      "action": "apply makeup"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "apply makeup"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am washing my hair."},
+      {"role": "assistant", "content": "Got it, now you are washing your hair."}
+    ],
+    "knowledge_out": {
+      "action": "wash hair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "wash hair"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am doing a manicure."},
+      {"role": "assistant", "content": "Got it, now you are doing a manicure."}
+    ],
+    "knowledge_out": {
+      "action": "do manicure"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am playing with my cat now"},
+      {"role": "assistant", "content": "Got it, now you are playing with your cat."}
+    ],
+    "knowledge_out": {
+      "action": "play with my cat"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "think about the past"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am playing with my dog now"},
+      {"role": "assistant", "content": "Got it, now you are playing with your dog."}
+    ],
+    "knowledge_out": {
+      "action": "play with my dog"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am writing a post."},
+      {"role": "assistant", "content": "Got it, you are writing a post."}
+    ],
+    "knowledge_out": {
+      "action": "write a post"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "writing a post"},
+      {"role": "assistant", "content": "Got it, you are writing a post."}
+    ],
+    "knowledge_out": {
+      "action": "write a post"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am talking with a friend."},
+      {"role": "assistant", "content": "Got it, you are talking with a friend."}
+    ],
+    "knowledge_out": {
+      "action": "talk with a friend"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "talking with a friend"},
+      {"role": "assistant", "content": "Got it, you are talking with a friend."}
+    ],
+    "knowledge_out": {
+      "action": "talk with a friend"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am talking with my mother."},
+      {"role": "assistant", "content": "Got it, you are talking with your mother."}
+    ],
+    "knowledge_out": {
+      "action": "talk with mother"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "talking with my mother"},
+      {"role": "assistant", "content": "Got it, you are talking with your mother."}
+    ],
+    "knowledge_out": {
+      "action": "talk with mother"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am talking with my father."},
+      {"role": "assistant", "content": "Got it, you are talking with your father."}
+    ],
+    "knowledge_out": {
+      "action": "talk with father"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "talking with my father"},
+      {"role": "assistant", "content": "Got it, you are talking with your father."}
+    ],
+    "knowledge_out": {
+      "action": "talk with father"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "write a post"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am talking with a friend."},
+      {"role": "assistant", "content": "Got it, now you are talking with a friend."}
+    ],
+    "knowledge_out": {
+      "action": "talk with a friend"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "talk with a friend"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am talking with my mother."},
+      {"role": "assistant", "content": "Got it, now you are talking with your mother."}
+    ],
+    "knowledge_out": {
+      "action": "talk with mother"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "talk with mother"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am talking with my father."},
+      {"role": "assistant", "content": "Got it, now you are talking with your father."}
+    ],
+    "knowledge_out": {
+      "action": "talk with father"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "talk with father"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am writing a post."},
+      {"role": "assistant", "content": "Got it, now you are writing a post."}
+    ],
+    "knowledge_out": {
+      "action": "write a post"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am thinking about the past."},
+      {"role": "assistant", "content": "Got it, you are thinking about the past."}
+    ],
+    "knowledge_out": {
+      "action": "think about the past"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "thinking about the past"},
+      {"role": "assistant", "content": "Got it, you are thinking about the past."}
+    ],
+    "knowledge_out": {
+      "action": "think about the past"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "read book"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am thinking about the past."},
+      {"role": "assistant", "content": "Got it, now you are thinking about the past."}
+    ],
+    "knowledge_out": {
+      "action": "think about the past"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "think about the past"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am reading the news."},
+      {"role": "assistant", "content": "Got it, now you are reading the news."}
+    ],
+    "knowledge_out": {
+      "action": "read news"
+    }
+  },
+
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "I am airing the room."},
+      {"role": "assistant", "content": "Got it, you are airing the room."}
+    ],
+    "knowledge_out": {
+      "action": "air the room"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "unknown"
+    },
+    "dialog": [
+      {"role": "user", "content": "airing the room"},
+      {"role": "assistant", "content": "Got it, you are airing the room."}
+    ],
+    "knowledge_out": {
+      "action": "air the room"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "think about the past"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am airing the room."},
+      {"role": "assistant", "content": "Got it, now you are airing the room."}
+    ],
+    "knowledge_out": {
+      "action": "air the room"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "air the room"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am thinking about the past."},
+      {"role": "assistant", "content": "Got it, now you are thinking about the past."}
+    ],
+    "knowledge_out": {
+      "action": "think about the past"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "write a post"
+    },
+    "dialog": [
+      {"role": "user", "content": "Now I am thinking about the past."},
+      {"role": "assistant", "content": "Got it, now you are thinking about the past."}
+    ],
+    "knowledge_out": {
+      "action": "think about the past"
+    }
+  },
+
+{
+  "knowledge_in": {
+    "action": "unknown"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: unknown"}
+  ],
+  "knowledge_out": {
+    "action": "unknown"
   }
+},
+{
+  "knowledge_in": {
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: unknown"}
+  ],
+  "knowledge_out": {
+    "action": "unknown"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "think about the past"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: think about the past"}
+  ],
+  "knowledge_out": {
+    "action": "think about the past"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "write a post"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: write a post"}
+  ],
+  "knowledge_out": {
+    "action": "write a post"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "air the room"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: air the room"}
+  ],
+  "knowledge_out": {
+    "action": "air the room"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "read news"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: read news"}
+  ],
+  "knowledge_out": {
+    "action": "read news"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "read book"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: read book"}
+  ],
+  "knowledge_out": {
+    "action": "read book"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "put on lipstick"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: put on lipstick"}
+  ],
+  "knowledge_out": {
+    "action": "put on lipstick"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "fry beefsteak"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: fry beefsteak"}
+  ],
+  "knowledge_out": {
+    "action": "fry beefsteak"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "wipe glasses"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: wipe glasses"}
+  ],
+  "knowledge_out": {
+    "action": "wipe glasses"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "walk the dog"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: walk the dog"}
+  ],
+  "knowledge_out": {
+    "action": "walk the dog"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "wash the window"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: wash the window"}
+  ],
+  "knowledge_out": {
+    "action": "wash the window"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "talk on the phone"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: talk on the phone"}
+  ],
+  "knowledge_out": {
+    "action": "talk on the phone"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "feed the cat"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: feed the cat"}
+  ],
+  "knowledge_out": {
+    "action": "feed the cat"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "take out the trash"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: take out the trash"}
+  ],
+  "knowledge_out": {
+    "action": "take out the trash"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "wipe the table"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: wipe the table"}
+  ],
+  "knowledge_out": {
+    "action": "wipe the table"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "change bed sheets"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: change bed sheets"}
+  ],
+  "knowledge_out": {
+    "action": "change bed sheets"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "charge phone"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: charge phone"}
+  ],
+  "knowledge_out": {
+    "action": "charge phone"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "make the bed"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: make the bed"}
+  ],
+  "knowledge_out": {
+    "action": "make the bed"
+  }
+},
+{
+  "knowledge_in": {
+    "action": "water flowers"
+  },
+  "dialog": [
+    {"role": "user", "content": "knowledge: action"},
+    {"role": "assistant", "content": "action: water flowers"}
+  ],
+  "knowledge_out": {
+    "action": "water flowers"
+  }
+}
 
 ]
