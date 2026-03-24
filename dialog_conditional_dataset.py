@@ -129,7 +129,7 @@ class DialogConditionDataset(Dataset):
                 role_token = self.tok_assistant
                 train_this_block = True
 
-            block = f"{role_token} {content} {self.tok_turn}"
+            block = f"{role_token} {content} {self.tok_turn}\n"
             block_ids = self._tokenize(block)
 
             input_ids.extend(block_ids)
