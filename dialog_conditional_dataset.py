@@ -20,7 +20,7 @@ class DialogConditionalDataset(Dataset):
         file_path: str,
         tokenizer,
         max_length: Optional[int] = None,
-        add_eos: bool = False,
+        add_eos: bool = True,
         cfg: DialogConfig = DialogConfig(),
     ):
         self.file_path = file_path
@@ -62,22 +62,6 @@ class DialogConditionalDataset(Dataset):
             raise ValueError("Only .jsonl or .json are supported")
 
 
-    def _knowledge_to_text(self, knowledge: Dict[str, Any]) -> str:
-        if not knowledge:
-            return ""
-        lines = []
-        for k, v in knowledge.items():
-            if v is None:
-                v = ""
-            lines.append(f"{k}={v}")
-        return "\n".join(lines)
-
-
-    def _build_knowledge_block(self, knowledge: Dict[str, Any]) -> str:
-        body = self._knowledge_to_text(knowledge)
-        return f"{self.tok_knowledge}\n{body}\n{self.tok_turn}\n"
-
-
     def _validate_dialog(self, dialog: List[Dict[str, str]]) -> None:
         if not dialog:
             raise ValueError("dialog must not be empty")
@@ -99,9 +83,23 @@ class DialogConditionalDataset(Dataset):
             raise ValueError("The last dialog message must be assistant")
 
 
-
     def _tokenize(self, text: str) -> List[int]:
         return self.tokenizer(text, add_special_tokens=False)["input_ids"]
+
+    def _knowledge_to_text(self, knowledge: Dict[str, Any]) -> str:
+        if not knowledge:
+            return ""
+        lines = []
+        for k, v in knowledge.items():
+            if v is None:
+                v = ""
+            lines.append(f"{k}={v}")
+        return "\n".join(lines)
+
+
+    def _build_knowledge_block(self, knowledge: Dict[str, Any]) -> str:
+        body = self._knowledge_to_text(knowledge)
+        return f"{self.tok_knowledge}\n{body}\n{self.tok_turn}\n"
 
 
     def _encode_sample(self, sample: Dict[str, Any]) -> Dict[str, List[int]]:
@@ -233,7 +231,7 @@ if __name__ == "__main__":
 
     num_added = tokenizer.add_special_tokens(special_tokens)
 
-    print("added:", num_added, f"vocab size={len(tokenizer)}, pad_id={tokenizer.pad_token_id}")
+    print(f"added new: {num_added}, vocab sz={len(tokenizer)}, pad_id={tokenizer.pad_token_id}")
 
 
     train_dataset = DialogConditionalDataset(
@@ -243,7 +241,7 @@ if __name__ == "__main__":
         add_eos=False,
     )
 
-    print(len(train_dataset))
+    print(f"input dataset.sz={len(train_dataset)}")
 
     item = train_dataset[0]
     # print(item.keys())
@@ -291,5 +289,5 @@ if __name__ == "__main__":
 
     trainer.train()
 
-    dialog(model, tokenizer, turn_token = config.token_turn)
+    dialog(model, tokenizer, turn_token=config.token_turn)
     #dialog(model, tokenizer)
