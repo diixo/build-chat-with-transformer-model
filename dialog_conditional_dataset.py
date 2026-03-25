@@ -7,11 +7,66 @@ from torch.utils.data import Dataset
 from dialog_dataset import DialogConfig
 from transformers import GPT2TokenizerFast, Trainer, AutoModelForCausalLM, TrainingArguments
 from utils import check_local_model
-from main_dialog import chatting
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 config = DialogConfig()
+
+
+def chatting(model, tokenizer, turn_token=None):
+
+    if turn_token is None:
+        turn_token_id = tokenizer.eos_token_id
+    else:
+        turn_token_id = tokenizer.convert_tokens_to_ids(turn_token)
+
+    knowledge_token_id = tokenizer.convert_tokens_to_ids(config.token_knowledge)
+
+    print("Type 'exit' to stop.\n")
+
+    while True:
+
+        user_msg = input("### User: ").strip()
+        if user_msg.lower() in {"exit", "quit"}:
+            break
+
+
+        prompt = f"<|user|> {user_msg} <|turn|>\n<|assistant|>"
+
+        input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=config.max_length, return_tensors="pt")
+
+        prompt_len = input_ids["input_ids"].shape[1]
+
+        input_ids = input_ids["input_ids"].to(device)
+        gen_ids = model.generate(
+                input_ids=input_ids,
+                max_new_tokens=50,
+                do_sample=False,
+                eos_token_id=[tokenizer.eos_token_id],
+                pad_token_id=tokenizer.pad_token_id
+            )[0]
+
+        gen_ids = gen_ids[prompt_len : ]
+
+        knowledge_pos = (gen_ids == knowledge_token_id).nonzero()
+
+        if knowledge_pos.numel() > 0:
+            split_idx = knowledge_pos[0].item()
+            answer_ids = gen_ids[:split_idx]
+            knowledge_ids = gen_ids[split_idx + 1:]
+        else:
+            answer_ids = gen_ids
+            knowledge_ids = None
+
+        answer_full = tokenizer.decode(gen_ids, skip_special_tokens=False)
+
+        answer = tokenizer.decode(answer_ids, skip_special_tokens=True)
+
+        knowledge = "" if knowledge_ids is None else tokenizer.decode(knowledge_ids, skip_special_tokens=False)
+
+        print(f"### Assistant: {answer.strip()}")
+
+
 
 class DialogConditionDataset(Dataset):
 
@@ -259,7 +314,7 @@ if __name__ == "__main__":
 
 
         train_dataset = DialogConditionDataset(
-            file_path="data/condition-dialog-expanded.json",
+            file_path="data/condition-dataset-7-slots.json",
             tokenizer=tokenizer,
             max_length=256,
             add_eos=False,
