@@ -105,28 +105,7 @@ class DialogConditionDataset(Dataset):
         elif file_path.endswith(".json"):
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-
-            actions = 0
-            unknowns = 0
-            knowledge_in = {}
-            knowledge_out = {}
             if isinstance(data, list):
-                for obj in data:
-
-                    knowledge = obj["knowledge_in"]
-                    action = knowledge.get("action")
-                    if action is not None:
-                        knowledge_in[action] = knowledge_in.get(action, 0) + 1
-
-                        actions += 1
-                        if action == "unknown":
-                            unknowns += 1
-
-                # print(knowledge_in)
-                #for k, v in knowledge_in.items():
-                    #if v < 4:
-                #        print(f"\"content\": \"action: {k}\"")
-                #print(unknowns)
                 return data
             elif isinstance(data, dict):
                 return [data]
@@ -175,7 +154,10 @@ class DialogConditionDataset(Dataset):
 
     def _build_knowledge_block(self, knowledge: Dict[str, Any]) -> str:
         body = self._knowledge_to_text(knowledge)
-        return f"{self.tok_knowledge}\n{body}\n{self.tok_turn}\n"
+        if body:
+            return f"{self.tok_knowledge}\n{body}\n{self.tok_turn}"
+        else:
+            return f"{self.tok_knowledge}{self.tok_turn}"
 
 
     def _encode_sample(self, sample: Dict[str, Any]) -> Dict[str, List[int]]:
