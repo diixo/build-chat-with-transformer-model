@@ -816,7 +816,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "play online game"
     },
     "dialog": [
       {"role": "user", "content": "I am drinking tea."},
@@ -853,7 +853,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "play online game"
     },
     "dialog": [
       {"role": "user", "content": "I am drinking coffee."},
@@ -914,7 +914,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "play online game"
     },
     "dialog": [
       {"role": "user", "content": "I watch YouTube now."},
@@ -930,8 +930,8 @@
       "action": "unknown"
     },
     "dialog": [
-      {"role": "user", "content": "I am listening to music."},
-      {"role": "assistant", "content": "Got it, you are listening to music."}
+      {"role": "user", "content": "I am listening the music."},
+      {"role": "assistant", "content": "Got it, you are listening the music."}
     ],
     "knowledge_out": {
       "action": "listen music"
@@ -942,8 +942,8 @@
       "action": "unknown"
     },
     "dialog": [
-      {"role": "user", "content": "listen music"},
-      {"role": "assistant", "content": "Got it, you are listening to music."}
+      {"role": "user", "content": "listen the music"},
+      {"role": "assistant", "content": "Got it, you are listening the music."}
     ],
     "knowledge_out": {
       "action": "listen music"
@@ -954,8 +954,8 @@
       "action": "unknown"
     },
     "dialog": [
-      {"role": "user", "content": "I listen to music now."},
-      {"role": "assistant", "content": "Got it, you are listening to music now."}
+      {"role": "user", "content": "I listen the music now."},
+      {"role": "assistant", "content": "Got it, you are listening the music now."}
     ],
     "knowledge_out": {
       "action": "listen music"
@@ -1162,7 +1162,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "air the room"
     },
     "dialog": [
       {"role": "user", "content": "playing an online game"},
@@ -1187,7 +1187,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "talk with father"
     },
     "dialog": [
       {"role": "user", "content": "I am ordering underwear in a clothing store."},
@@ -1212,7 +1212,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "talk with mother"
     },
     "dialog": [
       {"role": "user", "content": "I am vacuuming."},
@@ -1237,7 +1237,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "apply makeup"
     },
     "dialog": [
       {"role": "user", "content": "I am eating an apple."},
@@ -1262,7 +1262,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "comb hair"
     },
     "dialog": [
       {"role": "user", "content": "I am eating pizza."},
@@ -1287,7 +1287,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wash dishes"
     },
     "dialog": [
       {"role": "user", "content": "I am peeling potatoes."},
@@ -1312,7 +1312,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wash dishes"
     },
     "dialog": [
       {"role": "user", "content": "I am cooking pasta."},
@@ -1337,7 +1337,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "clean the keyboard"
     },
     "dialog": [
       {"role": "user", "content": "I am washing dishes."},
@@ -1362,7 +1362,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "organize the desk"
     },
     "dialog": [
       {"role": "user", "content": "I am cleaning the house."},
@@ -1387,7 +1387,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "replace the light bulb"
     },
     "dialog": [
       {"role": "user", "content": "I am cooking breakfast."},
@@ -1412,7 +1412,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "fix the chair"
     },
     "dialog": [
       {"role": "user", "content": "I am cooking lunch."},
@@ -1437,7 +1437,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "hang clothes to dry"
     },
     "dialog": [
       {"role": "user", "content": "I am cooking dinner."},
@@ -1462,7 +1462,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "read news"
     },
     "dialog": [
       {"role": "user", "content": "I am checking email."},
@@ -1486,7 +1486,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "make coffee"
     },
     "dialog": [
       {"role": "user", "content": "I am checking my email."},
@@ -1499,7 +1499,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "take a bath"
     },
     "dialog": [
       {"role": "user", "content": "I am reading a book."},
@@ -1524,7 +1524,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wash hair"
     },
     "dialog": [
       {"role": "user", "content": "I am watching a movie."},
@@ -1718,7 +1718,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "put on lipstick"
     },
     "dialog": [
       {"role": "user", "content": "I am talking on the phone."},
@@ -1742,7 +1742,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "fry beefsteak"
     },
     "dialog": [
       {"role": "user", "content": "I am brushing my teeth."},
@@ -1766,7 +1766,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wipe glasses"
     },
     "dialog": [
       {"role": "user", "content": "I am repairing a desk lamp."},
@@ -1790,7 +1790,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "walk the dog"
     },
     "dialog": [
       {"role": "user", "content": "I am setting up a laptop."},
@@ -1814,7 +1814,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wash the window"
     },
     "dialog": [
       {"role": "user", "content": "I am watering the flowers."},
@@ -1838,7 +1838,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wash the floor"
     },
     "dialog": [
       {"role": "user", "content": "I am opening the window."},
@@ -1862,7 +1862,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "feed the dog"
     },
     "dialog": [
       {"role": "user", "content": "I am closing the window."},
@@ -1886,7 +1886,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "feed the cat"
     },
     "dialog": [
       {"role": "user", "content": "I am making the bed."},
@@ -1910,7 +1910,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "take out the trash"
     },
     "dialog": [
       {"role": "user", "content": "I am folding clothes."},
@@ -1934,7 +1934,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wipe the table"
     },
     "dialog": [
       {"role": "user", "content": "I am ironing clothes."},
@@ -1958,7 +1958,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "change bed sheets"
     },
     "dialog": [
       {"role": "user", "content": "I am charging my phone."},
@@ -1982,7 +1982,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "charge phone"
     },
     "dialog": [
       {"role": "user", "content": "I am changing the bed sheets."},
@@ -2006,7 +2006,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "iron clothes"
     },
     "dialog": [
       {"role": "user", "content": "I am wiping the table."},
@@ -2030,7 +2030,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "fold clothes"
     },
     "dialog": [
       {"role": "user", "content": "I am taking out the trash."},
@@ -2054,7 +2054,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "make the bed"
     },
     "dialog": [
       {"role": "user", "content": "I am feeding the cat."},
@@ -2078,7 +2078,7 @@
   },
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "close the window"
     },
     "dialog": [
       {"role": "user", "content": "I am feeding the dog."},
@@ -2296,7 +2296,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "open the window"
     },
     "dialog": [
       {"role": "user", "content": "I am washing the floor."},
@@ -2321,7 +2321,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "water flowers"
     },
     "dialog": [
       {"role": "user", "content": "I am washing the window."},
@@ -2346,7 +2346,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "repair desk lamp"
     },
     "dialog": [
       {"role": "user", "content": "I am walking the dog."},
@@ -2371,7 +2371,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "set up laptop"
     },
     "dialog": [
       {"role": "user", "content": "I am wiping my glasses."},
@@ -2396,7 +2396,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "brush teeth"
     },
     "dialog": [
       {"role": "user", "content": "I am frying a beefsteak."},
@@ -2421,7 +2421,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "talk on the phone"
     },
     "dialog": [
       {"role": "user", "content": "I am putting on lipstick."},
@@ -2446,7 +2446,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "do cleaning"
     },
     "dialog": [
       {"role": "user", "content": "I am washing my hair."},
@@ -2471,7 +2471,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "cook lunch"
     },
     "dialog": [
       {"role": "user", "content": "I am taking a bath."},
@@ -2496,7 +2496,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "cook breakfast"
     },
     "dialog": [
       {"role": "user", "content": "I am making coffee."},
@@ -2521,7 +2521,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "cook pasta"
     },
     "dialog": [
       {"role": "user", "content": "I am reading the news."},
@@ -2546,7 +2546,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "peel potatoes"
     },
     "dialog": [
       {"role": "user", "content": "I am making the bed."},
@@ -2571,7 +2571,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "eat apple"
     },
     "dialog": [
       {"role": "user", "content": "I am hanging clothes to dry."},
@@ -2596,7 +2596,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "eat pizza"
     },
     "dialog": [
       {"role": "user", "content": "I am fixing the chair."},
@@ -2621,7 +2621,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "vacuum cleaning"
     },
     "dialog": [
       {"role": "user", "content": "I am replacing the light bulb."},
@@ -2646,7 +2646,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "cook dinner"
     },
     "dialog": [
       {"role": "user", "content": "I am cleaning the keyboard."},
@@ -2671,7 +2671,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "check email"
     },
     "dialog": [
       {"role": "user", "content": "I am organizing the desk."},
@@ -2696,7 +2696,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "watch movie"
     },
     "dialog": [
       {"role": "user", "content": "I am packing a bag."},
@@ -2721,7 +2721,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "read book"
     },
     "dialog": [
       {"role": "user", "content": "I am unpacking groceries."},
@@ -3013,11 +3013,9 @@
       "action": "sit on the chair"
     }
   },
-
-
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "wash dishes"
     },
     "dialog": [
       {"role": "user", "content": "I am combing my hair."},
@@ -3042,7 +3040,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "look out at the window"
     },
     "dialog": [
       {"role": "user", "content": "I am applying makeup."},
@@ -3067,7 +3065,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "listen music"
     },
     "dialog": [
       {"role": "user", "content": "I am washing my hair."},
@@ -3092,7 +3090,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "watch YouTube"
     },
     "dialog": [
       {"role": "user", "content": "I am doing a manicure."},
@@ -3180,7 +3178,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "watch YouTube"
     },
     "dialog": [
       {"role": "user", "content": "I am writing a post."},
@@ -3205,7 +3203,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "drive by car"
     },
     "dialog": [
       {"role": "user", "content": "I am talking with a friend."},
@@ -3230,7 +3228,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "drink coffee"
     },
     "dialog": [
       {"role": "user", "content": "I am talking with my mother."},
@@ -3255,7 +3253,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "drink tea"
     },
     "dialog": [
       {"role": "user", "content": "I am talking with my father."},
@@ -3329,7 +3327,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "working"
     },
     "dialog": [
       {"role": "user", "content": "I am thinking about the past."},
@@ -3378,7 +3376,7 @@
 
   {
     "knowledge_in": {
-      "action": "unknown"
+      "action": "watch TV"
     },
     "dialog": [
       {"role": "user", "content": "I am airing the room."},
