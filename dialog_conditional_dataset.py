@@ -6,7 +6,7 @@ import json
 from torch.utils.data import Dataset
 from dialog_dataset import DialogConfig
 from transformers import GPT2TokenizerFast, Trainer, AutoModelForCausalLM, TrainingArguments
-
+from utils import check_local_model
 from main_dialog import chatting
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -51,7 +51,27 @@ class DialogConditionDataset(Dataset):
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
+            actions = 0
+            unknowns = 0
+            knowledge_in = {}
+            knowledge_out = {}
             if isinstance(data, list):
+                for obj in data:
+
+                    knowledge = obj["knowledge_in"]
+                    action = knowledge.get("action")
+                    if action is not None:
+                        knowledge_in[action] = knowledge_in.get(action, 0) + 1
+
+                        actions += 1
+                        if action == "unknown":
+                            unknowns += 1
+
+                # print(knowledge_in)
+                #for k, v in knowledge_in.items():
+                    #if v < 4:
+                #        print(f"\"content\": \"action: {k}\"")
+                #print(unknowns)
                 return data
             elif isinstance(data, dict):
                 return [data]
@@ -68,6 +88,7 @@ class DialogConditionDataset(Dataset):
 
         prev_role = None
         for i, msg in enumerate(dialog):
+
             role = msg["role"].strip().lower()
             if role not in ("user", "assistant"):
                 raise ValueError(f"Unsupported role: {role}")
@@ -209,85 +230,97 @@ if __name__ == "__main__":
 
     BATCH_SIZE = 4
     LEARNING_RATE = 1e-4
-    EPOCHS = 25
+    EPOCHS = 30
 
-    tokenizer = GPT2TokenizerFast.from_pretrained(
-        "gpt2",
-        local_files_only=False,
-        padding_side="right",
-        model_max_length=1024
+    exist, msg = check_local_model(f"{model_output_dir}")
+
+    if not exist:
+
+        tokenizer = GPT2TokenizerFast.from_pretrained(
+            "gpt2",
+            local_files_only=False,
+            padding_side="right",
+            model_max_length=1024
+            )
+
+        special_tokens = {
+            "pad_token": "<|pad|>",
+            "additional_special_tokens": [
+                config.token_user,
+                config.token_assistant,
+                config.token_knowledge,
+                config.token_turn,
+            ]
+        }
+
+        num_added = tokenizer.add_special_tokens(special_tokens)
+
+        print(f"added new: {num_added}, vocab sz={len(tokenizer)}, pad_id={tokenizer.pad_token_id}")
+
+
+        train_dataset = DialogConditionDataset(
+            file_path="data/condition-dialog-expanded.json",
+            tokenizer=tokenizer,
+            max_length=256,
+            add_eos=False,
         )
 
-    special_tokens = {
-        "pad_token": "<|pad|>",
-        "additional_special_tokens": [
-            config.token_user,
-            config.token_assistant,
-            config.token_knowledge,
-            config.token_turn,
-        ]
-    }
-
-    num_added = tokenizer.add_special_tokens(special_tokens)
-
-    print(f"added new: {num_added}, vocab sz={len(tokenizer)}, pad_id={tokenizer.pad_token_id}")
+        print(f"input dataset.sz={len(train_dataset)}")
 
 
-    train_dataset = DialogConditionDataset(
-        file_path="data/condition-dialog.json",
-        tokenizer=tokenizer,
-        max_length=256,
-        add_eos=False,
-    )
+        item = train_dataset[0]
+        # print(item.keys())
+        # print(len(item["input_ids"]))
+        # print(len(item["labels"]))
 
-    print(f"input dataset.sz={len(train_dataset)}")
+        ##################################################################
 
+        model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, local_files_only=False)
 
-    item = train_dataset[0]
-    # print(item.keys())
-    # print(len(item["input_ids"]))
-    # print(len(item["labels"]))
+        # resize token embeddings without mean recalculation
+        model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
 
-    ##################################################################
+        model.config.pad_token_id = tokenizer.pad_token_id
 
-    model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, local_files_only=False)
+        model.to(device)
 
-    # resize token embeddings without mean recalculation
-    model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
+        training_args = TrainingArguments(
+            output_dir=model_output_dir,
+            save_strategy="no",
+            eval_strategy="no",
+            learning_rate=LEARNING_RATE,
+            num_train_epochs=EPOCHS,
+            weight_decay=0.0,
+            push_to_hub=False,
+            load_best_model_at_end=False,
+            per_device_train_batch_size=BATCH_SIZE,
+            gradient_accumulation_steps=1,
+            lr_scheduler_type="constant",
 
-    model.config.pad_token_id = tokenizer.pad_token_id
+            bf16=True,
+            fp16=False,
+        )
 
-    model.to(device)
+        trainer = Trainer(
+            model=model,
+            args=training_args,
+            train_dataset=train_dataset,
+            data_collator=lambda x: collate_lm_batch(
+                x,
+                padding_value=tokenizer.pad_token_id,
+                label_padding_value=-100
+            ),
+        )
 
-    training_args = TrainingArguments(
-        output_dir=model_output_dir,
-        save_strategy="no",
-        eval_strategy="no",
-        learning_rate=LEARNING_RATE,
-        num_train_epochs=EPOCHS,
-        weight_decay=0.0,
-        push_to_hub=False,
-        load_best_model_at_end=False,
-        per_device_train_batch_size=BATCH_SIZE,
-        gradient_accumulation_steps=1,
-        lr_scheduler_type="constant",
+        trainer.train()
+        trainer.save_model(model_output_dir)
 
-        bf16=True,
-        fp16=False,
-    )
+        #model.save_pretrained(model_output_dir)
+        tokenizer.save_pretrained(model_output_dir)
+    else:
 
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_dataset,
-        data_collator=lambda x: collate_lm_batch(
-            x,
-            padding_value=tokenizer.pad_token_id,
-            label_padding_value=-100
-        ),
-    )
-
-    trainer.train()
+        tokenizer = GPT2TokenizerFast.from_pretrained(model_output_dir, local_files_only=True)
+        model = AutoModelForCausalLM.from_pretrained(model_output_dir, local_files_only=True).to(device)
 
     chatting(model, tokenizer, turn_token=config.token_turn)
     #chatting(model, tokenizer)
