@@ -11722,5 +11722,77 @@
     "knowledge_out": {
       "action": "watch TV"
     }
+  },
+  {
+    "knowledge_in": {
+      "action": "play online game"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: play online game"
+      }
+    ],
+    "knowledge_out": {
+      "action": "play online game"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "watch TV"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: watch TV"
+      }
+    ],
+    "knowledge_out": {
+      "action": "watch TV"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "working"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: working"
+      }
+    ],
+    "knowledge_out": {
+      "action": "working"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "drink tea"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: drink tea"
+      }
+    ],
+    "knowledge_out": {
+      "action": "drink tea"
+    }
   }
 ]
