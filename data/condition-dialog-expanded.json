@@ -34,183 +34,11 @@
     }
   },
   {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "somewhere in Europe"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "somewhere here"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "somewhere near here"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "in EU"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "here"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "in Europe"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
     "knowledge_in": {},
     "dialog": [
       {
         "role": "user",
         "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {},
-    "dialog": [
-      {
-        "role": "user",
-        "content": "my country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {},
-    "dialog": [
-      {
-        "role": "user",
-        "content": "where I live"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {},
-    "dialog": [
-      {
-        "role": "user",
-        "content": "location country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {},
-    "dialog": [
-      {
-        "role": "user",
-        "content": "home country"
       },
       {
         "role": "assistant",
@@ -786,264 +614,6 @@
     "dialog": [
       {
         "role": "user",
-        "content": "not sure"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "I do not know"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "I travel a lot"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "a small country in Europe"
-      },
-      {
-        "role": "assistant",
-        "content": "Please name the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "close to Poland"
-      },
-      {
-        "role": "assistant",
-        "content": "I need the exact country name."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "somewhere abroad"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "overseas"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "around here"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "around"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "around here"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "somewhere around"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "near Germany"
-      },
-      {
-        "role": "assistant",
-        "content": "Please name the exact country you live in."
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "in EU"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
         "content": "country"
       },
       {
@@ -1130,312 +700,6 @@
       },
       {
         "role": "user",
-        "content": "somewhere in Europe"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      },
-      {
-        "role": "user",
-        "content": "near Germany"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      }
-    ],
-    "knowledge_out": {
-      "country": "unknown"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "somewhere here"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "I am from Poland."
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from Poland."
-      }
-    ],
-    "knowledge_out": {
-      "country": "Poland"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "in Europe"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "Germany"
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from Germany."
-      }
-    ],
-    "knowledge_out": {
-      "country": "Germany"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "somewhere abroad"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      },
-      {
-        "role": "user",
-        "content": "France"
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from France."
-      }
-    ],
-    "knowledge_out": {
-      "country": "France"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "somewhere abroad"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      },
-      {
-        "role": "user",
-        "content": "Ukraine"
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from Ukraine."
-      }
-    ],
-    "knowledge_out": {
-      "country": "Ukraine"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "somewhere abroad"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      },
-      {
-        "role": "user",
-        "content": "Romania"
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from Ukraine."
-      }
-    ],
-    "knowledge_out": {
-      "country": "Romania"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "near here"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
-      },
-      {
-        "role": "user",
-        "content": "Spain"
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from Spain."
-      }
-    ],
-    "knowledge_out": {
-      "country": "Spain"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "in EU"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "Italy"
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from Italy."
-      }
-    ],
-    "knowledge_out": {
-      "country": "Italy"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "hmm"
-      },
-      {
-        "role": "assistant",
-        "content": "I still need the exact country. What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "Portugal"
-      },
-      {
-        "role": "assistant",
-        "content": "Got it, you are from Portugal."
-      }
-    ],
-    "knowledge_out": {
-      "country": "Portugal"
-    }
-  },
-  {
-    "knowledge_in": {
-      "country": "unknown"
-    },
-    "dialog": [
-      {
-        "role": "user",
-        "content": "country"
-      },
-      {
-        "role": "assistant",
-        "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
         "content": "Costa Rica"
       },
       {
@@ -1485,14 +749,6 @@
       {
         "role": "assistant",
         "content": "What country do you live in?"
-      },
-      {
-        "role": "user",
-        "content": "somewhere abroad"
-      },
-      {
-        "role": "assistant",
-        "content": "Please tell me the exact country you live in."
       },
       {
         "role": "user",
@@ -11793,6 +11049,582 @@
     ],
     "knowledge_out": {
       "action": "drink tea"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "drive by car"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: drive by car"
+      }
+    ],
+    "knowledge_out": {
+      "action": "drive by car"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "listen music"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: listen music"
+      }
+    ],
+    "knowledge_out": {
+      "action": "listen music"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "look out at the window"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: look out at the window"
+      }
+    ],
+    "knowledge_out": {
+      "action": "look out at the window"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "talk with father"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: talk with father"
+      }
+    ],
+    "knowledge_out": {
+      "action": "talk with father"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "comb hair"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: comb hair"
+      }
+    ],
+    "knowledge_out": {
+      "action": "comb hair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "apply makeup"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: apply makeup"
+      }
+    ],
+    "knowledge_out": {
+      "action": "apply makeup"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "clean the keyboard"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: clean the keyboard"
+      }
+    ],
+    "knowledge_out": {
+      "action": "clean the keyboard"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "organize the desk"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: organize the desk"
+      }
+    ],
+    "knowledge_out": {
+      "action": "organize the desk"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "replace the light bulb"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: replace the light bulb"
+      }
+    ],
+    "knowledge_out": {
+      "action": "replace the light bulb"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "fix the chair"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: fix the chair"
+      }
+    ],
+    "knowledge_out": {
+      "action": "fix the chair"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "hang clothes to dry"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: hang clothes to dry"
+      }
+    ],
+    "knowledge_out": {
+      "action": "hang clothes to dry"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "drink coffee"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: drink coffee"
+      }
+    ],
+    "knowledge_out": {
+      "action": "drink coffee"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "talk with mother"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: talk with mother"
+      }
+    ],
+    "knowledge_out": {
+      "action": "talk with mother"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "check email"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: check email"
+      }
+    ],
+    "knowledge_out": {
+      "action": "check email"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "vacuum cleaning"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: vacuum cleaning"
+      }
+    ],
+    "knowledge_out": {
+      "action": "vacuum cleaning"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "peel potatoes"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: peel potatoes"
+      }
+    ],
+    "knowledge_out": {
+      "action": "peel potatoes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "cook breakfast"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: cook breakfast"
+      }
+    ],
+    "knowledge_out": {
+      "action": "cook breakfast"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "cook lunch"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: cook lunch"
+      }
+    ],
+    "knowledge_out": {
+      "action": "cook lunch"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "do cleaning"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: do cleaning"
+      }
+    ],
+    "knowledge_out": {
+      "action": "do cleaning"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "cook pasta"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: cook pasta"
+      }
+    ],
+    "knowledge_out": {
+      "action": "cook pasta"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "wash the floor"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: wash the floor"
+      }
+    ],
+    "knowledge_out": {
+      "action": "wash the floor"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "iron clothes"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: iron clothes"
+      }
+    ],
+    "knowledge_out": {
+      "action": "iron clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "fold clothes"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: fold clothes"
+      }
+    ],
+    "knowledge_out": {
+      "action": "fold clothes"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "feed the dog"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: feed the dog"
+      }
+    ],
+    "knowledge_out": {
+      "action": "feed the dog"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "eat apple"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: eat apple"
+      }
+    ],
+    "knowledge_out": {
+      "action": "eat apple"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "set up laptop"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: set up laptop"
+      }
+    ],
+    "knowledge_out": {
+      "action": "set up laptop"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "repair desk lamp"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: repair desk lamp"
+      }
+    ],
+    "knowledge_out": {
+      "action": "repair desk lamp"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "brush teeth"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: brush teeth"
+      }
+    ],
+    "knowledge_out": {
+      "action": "brush teeth"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "do manicure"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: do manicure"
+      }
+    ],
+    "knowledge_out": {
+      "action": "do manicure"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "online meeting with colleagues"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: online meeting with colleagues"
+      }
+    ],
+    "knowledge_out": {
+      "action": "online meeting with colleagues"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "order underwear in clothing store"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: order underwear in clothing store"
+      }
+    ],
+    "knowledge_out": {
+      "action": "order underwear in clothing store"
+    }
+  },
+  {
+    "knowledge_in": {
+      "action": "work call with colleagues"
+    },
+    "dialog": [
+      {
+        "role": "user",
+        "content": "knowledge: action"
+      },
+      {
+        "role": "assistant",
+        "content": "action: work call with colleagues"
+      }
+    ],
+    "knowledge_out": {
+      "action": "work call with colleagues"
     }
   }
 ]
