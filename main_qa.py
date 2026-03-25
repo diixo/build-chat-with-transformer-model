@@ -31,10 +31,10 @@ if __name__ == "__main__":
         special_tokens = {
             "pad_token": "<|pad|>",
             "additional_special_tokens": [
-                "<|system|>",
-                "<|user|>",
                 "<|assistant|>",
+                "<|user|>",
                 "<|knowledge|>",
+                "<|turn|>",
             ]
         }
 

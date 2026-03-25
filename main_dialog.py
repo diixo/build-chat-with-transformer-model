@@ -97,8 +97,8 @@ if __name__ == "__main__":
         special_tokens = {
             "pad_token": "<|pad|>",
             "additional_special_tokens": [
-                config.token_user,
                 config.token_assistant,
+                config.token_user,
                 config.token_knowledge,
                 config.token_turn,
             ]
