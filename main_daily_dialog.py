@@ -30,11 +30,12 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
-EPOCHS = 30
-BATCH_SIZE = 8
+EPOCHS = 25
+BATCH_SIZE = 6
 MAX_LENGTH = 1024
 
 config = AssistantConfig()
+config.max_length=256
 
 model_dir = "outputs/trained_daily_dialog"
 model_output_dir = model_dir
@@ -42,10 +43,7 @@ model_output_dir = model_dir
 
 def chatting(model, tokenizer, turn_token=None):
 
-    if turn_token is None:
-        turn_token_id = tokenizer.eos_token_id
-    else:
-        turn_token_id = tokenizer.convert_tokens_to_ids(turn_token)
+    turn_token = "<|sep|>"
 
     print("Type 'exit' to stop.\n")
 
@@ -59,7 +57,7 @@ def chatting(model, tokenizer, turn_token=None):
 
         #prompt = history + f"User: {user_msg}\n{assistant}:"
 
-        prompt = f"<|user|> {user_msg} <|turn|>\n<|assistant|>"
+        prompt = f"{user_msg} {turn_token}"
 
         input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
 
@@ -70,7 +68,7 @@ def chatting(model, tokenizer, turn_token=None):
                 input_ids=input_ids,
                 max_new_tokens=50,
                 do_sample=False,
-                eos_token_id=[tokenizer.eos_token_id, turn_token_id],
+                eos_token_id=tokenizer.eos_token_id,
                 pad_token_id=tokenizer.pad_token_id
             )[0]
 
@@ -80,7 +78,7 @@ def chatting(model, tokenizer, turn_token=None):
 
         print(f"### Assistant: {answer}")
 
-        history += f"### User: {user_msg}\nAssistant: {answer}"
+        history += f"### User: {user_msg}\n: {answer}"
 
 
 
@@ -98,12 +96,8 @@ if __name__ == "__main__":
 
         special_tokens = {
             "pad_token": "<|pad|>",
-            "additional_special_tokens": [
-                config.token_assistant,
-                config.token_user,
-                config.token_knowledge,
-                config.token_turn,
-            ]
+            'sep_token': "<|sep|>",
+            "additional_special_tokens": []
         }
 
         num_added = tokenizer.add_special_tokens(special_tokens)
@@ -114,7 +108,7 @@ if __name__ == "__main__":
         ###################################################################################################################
 
         train_dataset = DialogLoader(
-            read_jsonl_dataset("data/daily_dialog/daily-dialog_all.json"),
+            read_jsonl_dataset("data/daily_dialog/daily-dialog_all.jsonl"),
             tokenizer,
             config)
 
