@@ -7,7 +7,7 @@ from utils import colorstr
 
 
 
-def read_jsonl_dataset(file_path: str, split: str=""):
+def read_jsonl_dataset(file_path: str):
     # read jsonl to list of tuples
     dialogs = []
 

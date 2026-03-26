@@ -163,7 +163,8 @@ def main():
 
     with open(output_path, "w", encoding="utf-8") as f:
         for item in all_items:
-            f.write(json.dumps(item, ensure_ascii=False) + "\n")
+            dialog = item["dialog"]
+            f.write(json.dumps(dialog, ensure_ascii=False) + "\n")
 
     print(64*"-" + f"\nDone: {len(all_items)} dialogs \nSaved to: {output_path}")
 
@@ -175,7 +176,7 @@ def main():
         for line in fin:
             obj = json.loads(line)
             #fout.write(f"### SPLIT: {obj['split']} | DIALOGUE: {obj['dialog_id']}\n")
-            for idx, utterance in enumerate(obj["dialog"], start=1):
+            for idx, utterance in enumerate(obj, start=1):
                 speaker = "Speaker1" if idx % 2 == 1 else "Speaker2"
                 fout.write(f"{idx} {speaker}: {utterance}\n")
             fout.write("\n")
