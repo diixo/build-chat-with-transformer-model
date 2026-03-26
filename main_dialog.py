@@ -1,7 +1,7 @@
 
 from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer, GenerationConfig
 
-from dialog_dataset import DialogDataset, DialogConfig, collate_lm_batch
+from assistant_dataset import DialogDataset, DialogConfig, collate_lm_batch
 
 import torch
 import random
