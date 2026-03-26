@@ -13,10 +13,9 @@ from transformers import GPT2TokenizerFast, AutoModelForCausalLM
 
 
 @dataclass
-class DialogConfig:
+class AssistantConfig:
     max_length: int = 1024
     add_eos: bool = True          # add eos after every Assistant-answer
-    line_sep: str = "\n"          # line separator
 
     token_user: str = "<|user|>"
     token_assistant: str = "<|assistant|>"
@@ -101,7 +100,7 @@ def load_dialogs(files: list[str]) -> List[List[Tuple[str, str]]]:
     return dialogs
 
 
-class DialogDataset(Dataset):
+class AssistantDataset(Dataset):
     """
     Обычные диалоги без табуляций:
       "<n> User: <text>"
@@ -120,7 +119,7 @@ class DialogDataset(Dataset):
         self,
         files: Union[str, List[str]],
         tokenizer,
-        cfg: DialogConfig = DialogConfig(),
+        cfg: AssistantConfig = AssistantConfig(),
     ):
         super().__init__()
         self.tokenizer = tokenizer
@@ -211,7 +210,6 @@ class DialogDataset(Dataset):
           - is_answer=True only for content of Assistant (plus eos, if included)
           - "User:" и "Assistant:" префиксы - is_answer=False (do not lern them)
         """
-        sep = self.cfg.line_sep
         eos = self.tokenizer.eos_token if (self.cfg.add_eos and self.tokenizer.eos_token) else ""
 
 
@@ -281,7 +279,7 @@ if __name__ == "__main__":
             raise ValueError("Tokenizer has no pad_token_id and no eos_token_id to use as pad.")
         tokenizer.pad_token = tokenizer.eos_token
 
-    dataset = DialogDataset(["data/dialogues_clarification_64.txt"], tokenizer=tokenizer)
+    dataset = AssistantDataset(["data/dialogues_clarification_64.txt"], tokenizer=tokenizer)
     #print(dataset.dialogs[0])
     full_text, parts = dataset.samples[0]
 

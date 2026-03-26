@@ -1,7 +1,7 @@
 
 from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer, GenerationConfig
 
-from assistant_dataset import DialogDataset, DialogConfig, collate_lm_batch
+from assistant_dataset import AssistantDataset, AssistantConfig, collate_lm_batch
 
 import torch
 import random
@@ -32,7 +32,7 @@ EPOCHS = 30
 BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
-config = DialogConfig()
+config = AssistantConfig()
 
 model_dir = "outputs/trained_model_dialog"
 model_output_dir = model_dir
@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
         ###################################################################################################################
 
-        train_dataset = DialogDataset([
+        train_dataset = AssistantDataset([
             "data/dialogues_clarification_64.txt",
             # "data/dialogues_clarification_12000.txt",
             # "data/dialogues_weather.txt",
