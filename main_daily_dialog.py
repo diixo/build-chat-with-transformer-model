@@ -36,14 +36,16 @@ MAX_LENGTH = 1024
 
 config = AssistantConfig()
 config.max_length=256
+config.token_turn = "<|sep|>"
+
 
 model_dir = "outputs/trained_daily_dialog"
 model_output_dir = model_dir
 
 
-def chatting(model, tokenizer, turn_token=None):
+def chatting(model, tokenizer):
 
-    turn_token = "<|sep|>"
+    turn_token = config.token_turn
 
     print("Type 'exit' to stop.\n")
 
@@ -95,8 +97,8 @@ if __name__ == "__main__":
             )
 
         special_tokens = {
-            "pad_token": "<|pad|>",
-            'sep_token': "<|sep|>",
+            "pad_token": config.token_pad,
+            "sep_token": config.token_turn,
             "additional_special_tokens": []
         }
 

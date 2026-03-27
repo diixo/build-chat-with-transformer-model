@@ -21,6 +21,7 @@ class AssistantConfig:
     token_assistant: str = "<|assistant|>"
     token_knowledge: str = "<|knowledge|>"
     token_turn: str = "<|turn|>"
+    token_pad: str = "<|pad|>"
 
 
 def parse_line(line: str) -> Tuple[int, str, str]:
