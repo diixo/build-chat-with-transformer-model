@@ -3,6 +3,17 @@ from typing import List, Dict, Any, Optional, Tuple
 import json
 import torch
 from torch.utils.data import Dataset
+from dataclasses import dataclass
+
+
+@dataclass
+class DialogConfig:
+
+    max_len: int = 256
+
+    token_pad: str = "<|pad|>"
+    token_cls: str = "<|ctx|>"
+    token_sep: str = "<|sep|>"
 
 
 def read_jsonl_dataset(file_path: str):
@@ -34,16 +45,19 @@ CrossEntropyLoss(ignore_index=pad_token_id), instead of IGNORE_INDEX = -100:
 '''
 class DialogLoader(Dataset):
 
-    def __init__(self, data: List[Tuple[str, ...]], tokenizer, config):
+    def __init__(self, data: List[Tuple[str, ...]], tokenizer, config: DialogConfig):
         self.tokenizer = tokenizer
-        self.max_len = config.max_length
+        self.max_len = config.max_len
 
         if self.tokenizer.eos_token_id is None:
             raise ValueError("tokenizer.eos_token_id must not be None")
+        if self.tokenizer.cls_token_id is None:
+            raise ValueError("tokenizer.cls_token_id must not be None")
         if self.tokenizer.pad_token_id is None:
             raise ValueError("tokenizer.pad_token_id must not be None")
 
         self.turn_sep_id = tokenizer.sep_token_id
+        self.ctx_token_id = tokenizer.cls_token_id
         self.pad_token_id = tokenizer.pad_token_id
 
         self.data = []
@@ -62,8 +76,8 @@ class DialogLoader(Dataset):
         #   print(f"Tokens[{i}]: {self.tokenizer.tokenize(sent)}")
 
         # ctx_token only once: at the very beginning of the whole dialogue
-        input_ids = []
-        labels = []
+        input_ids = [self.ctx_token_id]
+        labels = [self.pad_token_id]
 
         for i, sentence in enumerate(multi_turn_sentences):
             sentence_ids = self.tokenizer(

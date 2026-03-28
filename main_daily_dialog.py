@@ -1,9 +1,7 @@
 
 from transformers import AutoModelForCausalLM, TrainingArguments, GPT2TokenizerFast, Trainer, GenerationConfig
 
-from dialog_loader import DialogLoader, collate_fn_batch, read_jsonl_dataset
-
-from assistant_dataset import AssistantConfig
+from dialog_loader import DialogLoader, DialogConfig, collate_fn_batch, read_jsonl_dataset
 
 import torch
 import random
@@ -34,9 +32,7 @@ EPOCHS = 25
 BATCH_SIZE = 6
 MAX_LENGTH = 1024
 
-config = AssistantConfig()
-config.max_length=256
-config.token_turn = "<|sep|>"
+config = DialogConfig()
 
 
 model_dir = "outputs/trained_daily_dialog"
@@ -45,7 +41,7 @@ model_output_dir = model_dir
 
 def chatting(model, tokenizer):
 
-    turn_token = config.token_turn
+    turn_token = config.token_sep
 
     print("Type 'exit' to stop.\n")
 
@@ -97,8 +93,9 @@ if __name__ == "__main__":
             )
 
         special_tokens = {
+            "cls_token": config.token_cls,
+            "sep_token": config.token_sep,
             "pad_token": config.token_pad,
-            "sep_token": config.token_turn,
             "additional_special_tokens": []
         }
 
@@ -153,7 +150,7 @@ if __name__ == "__main__":
             data_collator=lambda x: collate_fn_batch(
                 x,
                 padding_id=tokenizer.pad_token_id,
-                label_padding_id=-100
+                label_padding_id=tokenizer.pad_token_id # -100
             ),
         )
 
