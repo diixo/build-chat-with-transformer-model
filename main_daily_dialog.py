@@ -40,7 +40,7 @@ model_output_dir = model_dir
 
 
 
-def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, config, device):
+def chatting(query: str, model, tokenizer, query_cache, config, device):
 
     def _preprocess(query, query_cache):
 
@@ -53,19 +53,18 @@ def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, co
             query_cache = torch.cat([query_cache, new_tokens], dim=1)
         return query_cache
 
-    query_cache = None if is_first_query else query_cache
     query_cache = _preprocess(query, query_cache)
 
     input_len = query_cache.size(1)
     max_new_tokens = config.max_len - input_len
 
     if max_new_tokens <= 0:
-        return None, "", True, True
+        return None, "", True
 
     with torch.no_grad():
         generated = model.generate(
             input_ids=query_cache,
-            attention_mask = torch.ones_like(query_cache, device=query_cache.device)
+            attention_mask = torch.ones_like(query_cache, device=query_cache.device),
             max_new_tokens=max_new_tokens,
             do_sample=False,
             eos_token_id=[tokenizer.sep_token_id, tokenizer.eos_token_id],
@@ -85,14 +84,12 @@ def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, co
     # query_done can use to skip current topic
     if query_done:
         query_cache = None
-        is_first_query = True
         print("query_cache.sz: empty")
     else:
         query_cache = full_sequence.unsqueeze(0)
-        is_first_query = False
         print("query_cache.sz:", query_cache.shape)
 
-    return query_cache, answer, query_done, is_first_query
+    return query_cache, answer, query_done
 
 
 
@@ -183,19 +180,17 @@ if __name__ == "__main__":
 
     #############################################################################
 
-    print("EOS_id:", tokenizer.eos_token_id, ", BOS_id:", tokenizer.bos_token_id, ", PAD_id:", tokenizer.pad_token_id)
+    print(f"EOS_id: {tokenizer.eos_token_id}, PAD_id: {tokenizer.pad_token_id} SEP_id: {tokenizer.sep_token_id}, ")
 
     query_cache = None
-    is_first_query = True
 
     while 1:
         query = input("Q: ")
         if query == 'exit':
             break
 
-        query_cache, answer, query_done, is_first_query = chatting(
+        query_cache, answer, query_done = chatting(
             query,
-            is_first_query,
             model,
             tokenizer,
             query_cache,
