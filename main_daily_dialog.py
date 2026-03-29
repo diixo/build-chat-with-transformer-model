@@ -38,24 +38,42 @@ config = DialogConfig()
 model_dir = "outputs/trained_daily_dialog"
 model_output_dir = model_dir
 
+HISTORY_NUM_PAIRS = 2
 
 
 def chatting(query: str, model, tokenizer, query_cache, config, device):
+    """
+    query_cache: None или list[list[int]]
 
-    def _preprocess(query, query_cache):
+    Хранит историю как список реплик:
+        [user1, assistant1, user2, assistant2]
 
-        if query_cache is None:
-            input_ids = [tokenizer.cls_token_id] + tokenizer.encode(query) + [tokenizer.sep_token_id]
-            query_cache = torch.tensor(input_ids, dtype=torch.long, device=device).unsqueeze(0)
-        else:
-            input_ids = tokenizer.encode(query) + [tokenizer.sep_token_id]
-            new_tokens = torch.tensor(input_ids, dtype=torch.long, device=device).unsqueeze(0)
-            query_cache = torch.cat([query_cache, new_tokens], dim=1)
-        return query_cache
+    Максимум 4 реплики.
+    При добавлении новой пары, если длина > 4,
+    удаляется самая старая пара (FIFO).
+    
+    Семантика:
+    - SEP -> обычное завершение ответа, историю сохраняем
+    - EOS -> query_done=True, историю очищаем как гипотетический конец топика
+    """
 
-    query_cache = _preprocess(query, query_cache)
+    def build_prompt_from_history(history):
+        flat_tokens = [tokenizer.cls_token_id]
+        for turn_tokens in history:
+            flat_tokens.extend(turn_tokens)
+        return torch.tensor(flat_tokens, dtype=torch.long, device=device).unsqueeze(0)
 
-    input_len = query_cache.size(1)
+    if query_cache is None:
+        query_cache = []
+
+    # 1. attach user-utterance
+    user_tokens = tokenizer.encode(query) + [tokenizer.sep_token_id]
+    query_cache.append(user_tokens)
+
+    # 2. build prompt from history
+    input_ids = build_prompt_from_history(query_cache)
+
+    input_len = input_ids.size(1)
     max_new_tokens = config.max_len - input_len
 
     if max_new_tokens <= 0:
@@ -63,8 +81,8 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
 
     with torch.no_grad():
         generated = model.generate(
-            input_ids=query_cache,
-            attention_mask = torch.ones_like(query_cache, device=query_cache.device),
+            input_ids=input_ids,
+            attention_mask=torch.ones_like(input_ids, device=input_ids.device),
             max_new_tokens=max_new_tokens,
             do_sample=False,
             eos_token_id=[tokenizer.sep_token_id, tokenizer.eos_token_id],
@@ -74,20 +92,29 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
     full_sequence = generated[0]
     answer_tokens = full_sequence[input_len:].tolist()
 
+    # query_done=True if model completed answe by eos
     query_done = False
     if answer_tokens:
         if answer_tokens[-1] == tokenizer.eos_token_id:
             query_done = True
 
+    # remove final SEP/EOS from the answer
+    if answer_tokens and answer_tokens[-1] in [tokenizer.sep_token_id, tokenizer.eos_token_id]:
+        answer_tokens = answer_tokens[:-1]
+
     answer = tokenizer.decode(answer_tokens, skip_special_tokens=True).strip()
 
-    # query_done can use to skip current topic
-    if query_done:
-        query_cache = None
-        print("query_cache.sz: empty")
+    # 3. If the topic is not completed, save the answer to history
+    if not query_done:
+        assistant_tokens = answer_tokens + [tokenizer.sep_token_id]
+        query_cache.append(assistant_tokens)
+
+        # FIFO by pairs: maximum is HISTORY_NUM_PAIRS utterance pairs 
+        if len(query_cache) > (2*HISTORY_NUM_PAIRS):
+            query_cache = query_cache[2:]
     else:
-        query_cache = full_sequence.unsqueeze(0)
-        print("query_cache.sz:", query_cache.shape)
+        query_cache = None
+        print("INFO: query_cache=0")
 
     return query_cache, answer, query_done
 
