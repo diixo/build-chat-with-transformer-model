@@ -91,46 +91,6 @@ def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, co
     return query_cache, answer, query_done, is_first_query
 
 
-# def chatting(model, tokenizer):
-
-#     turn_token = config.token_sep
-
-#     print("Type 'exit' to stop.\n")
-
-#     history = ""
-
-#     while True:
-
-#         user_msg = input("### User: ").strip()
-#         if user_msg.lower() in {"exit", "quit"}:
-#             break
-
-#         #prompt = history + f"User: {user_msg}\n{assistant}:"
-
-#         prompt = f"{user_msg} {turn_token}"
-
-#         input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
-
-#         prompt_len = input_ids["input_ids"].shape[1]
-
-#         input_ids = input_ids["input_ids"].to(device)
-#         gen_ids = model.generate(
-#                 input_ids=input_ids,
-#                 max_new_tokens=50,
-#                 do_sample=False,
-#                 eos_token_id=tokenizer.eos_token_id,
-#                 pad_token_id=tokenizer.pad_token_id
-#             )[0]
-
-#         gen_ids = gen_ids[prompt_len : ]
-
-#         answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
-
-#         print(f"### Assistant: {answer}")
-
-#         history += f"### User: {user_msg}\n: {answer}"
-
-
 
 if __name__ == "__main__":
 
