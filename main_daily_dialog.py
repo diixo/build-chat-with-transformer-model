@@ -42,8 +42,9 @@ model_output_dir = model_dir
 
 def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, config, device):
 
-    def _preprocess(query, is_first_query, query_cache=None):
-        if is_first_query:
+    def _preprocess(query, query_cache):
+
+        if query_cache is None:
             input_ids = [tokenizer.cls_token_id] + tokenizer.encode(query) + [tokenizer.sep_token_id]
             query_cache = torch.tensor(input_ids, dtype=torch.long, device=device).unsqueeze(0)
         else:
@@ -53,7 +54,7 @@ def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, co
         return query_cache
 
     query_cache = None if is_first_query else query_cache
-    query_cache = _preprocess(query, is_first_query, query_cache)
+    query_cache = _preprocess(query, query_cache)
 
     input_len = query_cache.size(1)
     max_new_tokens = config.max_len - input_len
@@ -64,6 +65,7 @@ def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, co
     with torch.no_grad():
         generated = model.generate(
             input_ids=query_cache,
+            attention_mask = torch.ones_like(query_cache, device=query_cache.device)
             max_new_tokens=max_new_tokens,
             do_sample=False,
             eos_token_id=[tokenizer.sep_token_id, tokenizer.eos_token_id],
@@ -84,9 +86,11 @@ def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, co
     if query_done:
         query_cache = None
         is_first_query = True
+        print("query_cache.sz: empty")
     else:
         query_cache = full_sequence.unsqueeze(0)
         is_first_query = False
+        print("query_cache.sz:", query_cache.shape)
 
     return query_cache, answer, query_done, is_first_query
 
