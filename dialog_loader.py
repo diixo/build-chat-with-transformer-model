@@ -44,6 +44,7 @@ CrossEntropyLoss(ignore_index=pad_token_id), instead of IGNORE_INDEX = -100:
 * calculates loss only for assistant-turns
 '''
 class DialogLoader(Dataset):
+    IGNORE_INDEX = -100
 
     def __init__(self, data: List[Tuple[str, ...]], tokenizer, config: DialogConfig):
         self.tokenizer = tokenizer
@@ -77,7 +78,7 @@ class DialogLoader(Dataset):
 
         # ctx_token only once: at the very beginning of the whole dialogue
         input_ids = [self.ctx_token_id]
-        labels = [self.pad_token_id]
+        labels = [self.IGNORE_INDEX]
 
         for i, sentence in enumerate(multi_turn_sentences):
             sentence_ids = self.tokenizer(
@@ -95,7 +96,7 @@ class DialogLoader(Dataset):
             if i % 2 == predict_parity:
                 labels.extend(turn_ids)
             else:
-                labels.extend([self.pad_token_id] * len(turn_ids))
+                labels.extend([self.IGNORE_INDEX] * len(turn_ids))
 
             if len(input_ids) > self.max_len:
                 input_ids = input_ids[:self.max_len]
@@ -124,7 +125,7 @@ class DialogLoader(Dataset):
 def collate_fn_batch(
     batch: List[Dict[str, torch.Tensor]],
     padding_id: int,
-    label_padding_id: int
+    label_padding_id: int = -100
 ) -> Dict[str, torch.Tensor]:
 
     max_len = max(item["input_ids"].size(0) for item in batch)

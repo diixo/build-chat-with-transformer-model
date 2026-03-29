@@ -28,8 +28,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODEL_NAME = "gpt2"
 LEARNING_RATE = 1e-4
-EPOCHS = 25
-BATCH_SIZE = 6
+EPOCHS = 30
+BATCH_SIZE = 8
 MAX_LENGTH = 1024
 
 config = DialogConfig()
@@ -39,44 +39,88 @@ model_dir = "outputs/trained_daily_dialog"
 model_output_dir = model_dir
 
 
-def chatting(model, tokenizer):
+def chatting(query: str, is_first_query, model, tokenizer, query_cache):
 
-    turn_token = config.token_sep
+    def _preprocess(query, is_first_query, query_cache=None):
+        if is_first_query:
+            query = [tokenizer.cls_token_id] + tokenizer.encode(query) + [tokenizer.sep_token_id]
+            query_cache = torch.tensor(query, dtype=torch.long).unsqueeze(0).to(device)
+        else:
+            query = tokenizer.encode(query) + [tokenizer.sep_token_id]
+            query_cache = torch.cat([query_cache, torch.tensor(query, dtype=torch.long).unsqueeze(0).to(device)], dim=1)
+        return query_cache
 
-    print("Type 'exit' to stop.\n")
+    query_cache = None if is_first_query else query_cache
+    query_cache = _preprocess(query, is_first_query, query_cache)
+    query_done = False
+    is_first_query = False
 
-    history = ""
+    answer = []
+    while 1:
+        output = model(query_cache)
+        output = output.logits
+        pred_token = torch.argmax(output[:, -1], dim=-1)
+        answer.append(pred_token.item())
+        query_cache = torch.cat((query_cache, pred_token.unsqueeze(1)), dim=1)
 
-    while True:
-
-        user_msg = input("### User: ").strip()
-        if user_msg.lower() in {"exit", "quit"}:
+        if pred_token == tokenizer.sep_token_id:
+            answer.pop()
+            break
+        elif pred_token == tokenizer.eos_token_id:
+            answer.pop()
+            query_done = True
             break
 
-        #prompt = history + f"User: {user_msg}\n{assistant}:"
+        if query_cache.size(1) >= config.max_len:
+            query_done = True
+            break
 
-        prompt = f"{user_msg} {turn_token}"
+        if query_done:
+            query_cache = None
+            is_first_query = True
 
-        input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
+    answer = tokenizer.decode(answer)
+    return query_cache, answer, query_done, is_first_query
 
-        prompt_len = input_ids["input_ids"].shape[1]
 
-        input_ids = input_ids["input_ids"].to(device)
-        gen_ids = model.generate(
-                input_ids=input_ids,
-                max_new_tokens=50,
-                do_sample=False,
-                eos_token_id=tokenizer.eos_token_id,
-                pad_token_id=tokenizer.pad_token_id
-            )[0]
+# def chatting(model, tokenizer):
 
-        gen_ids = gen_ids[prompt_len : ]
+#     turn_token = config.token_sep
 
-        answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
+#     print("Type 'exit' to stop.\n")
 
-        print(f"### Assistant: {answer}")
+#     history = ""
 
-        history += f"### User: {user_msg}\n: {answer}"
+#     while True:
+
+#         user_msg = input("### User: ").strip()
+#         if user_msg.lower() in {"exit", "quit"}:
+#             break
+
+#         #prompt = history + f"User: {user_msg}\n{assistant}:"
+
+#         prompt = f"{user_msg} {turn_token}"
+
+#         input_ids = tokenizer(prompt, truncation=True, add_special_tokens=False, max_length=MAX_LENGTH, return_tensors="pt")
+
+#         prompt_len = input_ids["input_ids"].shape[1]
+
+#         input_ids = input_ids["input_ids"].to(device)
+#         gen_ids = model.generate(
+#                 input_ids=input_ids,
+#                 max_new_tokens=50,
+#                 do_sample=False,
+#                 eos_token_id=tokenizer.eos_token_id,
+#                 pad_token_id=tokenizer.pad_token_id
+#             )[0]
+
+#         gen_ids = gen_ids[prompt_len : ]
+
+#         answer = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
+
+#         print(f"### Assistant: {answer}")
+
+#         history += f"### User: {user_msg}\n: {answer}"
 
 
 
@@ -150,7 +194,7 @@ if __name__ == "__main__":
             data_collator=lambda x: collate_fn_batch(
                 x,
                 padding_id=tokenizer.pad_token_id,
-                label_padding_id=tokenizer.pad_token_id # -100
+                label_padding_id=-100
             ),
         )
 
@@ -169,5 +213,16 @@ if __name__ == "__main__":
 
     print("EOS_id:", tokenizer.eos_token_id, ", BOS_id:", tokenizer.bos_token_id, ", PAD_id:", tokenizer.pad_token_id)
 
+    query_cache = None
+    is_first_query = True
+    while 1:
+        query = input('Q: ')
+        if query == 'exit':
+            break
 
-    chatting(model, tokenizer)
+        query, answer, query_done, is_first_query = chatting(
+            query,
+            is_first_query,
+            model,
+            tokenizer,
+            query_cache)
