@@ -39,47 +39,55 @@ model_dir = "outputs/trained_daily_dialog"
 model_output_dir = model_dir
 
 
-def chatting(query: str, is_first_query, model, tokenizer, query_cache):
+
+def chatting(query: str, is_first_query: bool, model, tokenizer, query_cache, config, device):
 
     def _preprocess(query, is_first_query, query_cache=None):
         if is_first_query:
-            query = [tokenizer.cls_token_id] + tokenizer.encode(query) + [tokenizer.sep_token_id]
-            query_cache = torch.tensor(query, dtype=torch.long).unsqueeze(0).to(device)
+            input_ids = [tokenizer.cls_token_id] + tokenizer.encode(query) + [tokenizer.sep_token_id]
+            query_cache = torch.tensor(input_ids, dtype=torch.long, device=device).unsqueeze(0)
         else:
-            query = tokenizer.encode(query) + [tokenizer.sep_token_id]
-            query_cache = torch.cat([query_cache, torch.tensor(query, dtype=torch.long).unsqueeze(0).to(device)], dim=1)
+            input_ids = tokenizer.encode(query) + [tokenizer.sep_token_id]
+            new_tokens = torch.tensor(input_ids, dtype=torch.long, device=device).unsqueeze(0)
+            query_cache = torch.cat([query_cache, new_tokens], dim=1)
         return query_cache
 
     query_cache = None if is_first_query else query_cache
     query_cache = _preprocess(query, is_first_query, query_cache)
+
+    input_len = query_cache.size(1)
+    max_new_tokens = config.max_len - input_len
+
+    if max_new_tokens <= 0:
+        return None, "", True, True
+
+    with torch.no_grad():
+        generated = model.generate(
+            input_ids=query_cache,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            eos_token_id=[tokenizer.sep_token_id, tokenizer.eos_token_id],
+            pad_token_id=tokenizer.eos_token_id,
+        )
+
+    full_sequence = generated[0]
+    answer_tokens = full_sequence[input_len:].tolist()
+
     query_done = False
-    is_first_query = False
-
-    answer = []
-    while 1:
-        output = model(query_cache)
-        output = output.logits
-        pred_token = torch.argmax(output[:, -1], dim=-1)
-        answer.append(pred_token.item())
-        query_cache = torch.cat((query_cache, pred_token.unsqueeze(1)), dim=1)
-
-        if pred_token == tokenizer.sep_token_id:
-            answer.pop()
-            break
-        elif pred_token == tokenizer.eos_token_id:
-            answer.pop()
+    if answer_tokens:
+        if answer_tokens[-1] == tokenizer.eos_token_id:
             query_done = True
-            break
 
-        if query_cache.size(1) >= config.max_len:
-            query_done = True
-            break
+    answer = tokenizer.decode(answer_tokens, skip_special_tokens=True).strip()
 
-        if query_done:
-            query_cache = None
-            is_first_query = True
+    # query_done can use to skip current topic
+    if query_done:
+        query_cache = None
+        is_first_query = True
+    else:
+        query_cache = full_sequence.unsqueeze(0)
+        is_first_query = False
 
-    answer = tokenizer.decode(answer)
     return query_cache, answer, query_done, is_first_query
 
 
@@ -215,14 +223,19 @@ if __name__ == "__main__":
 
     query_cache = None
     is_first_query = True
+
     while 1:
-        query = input('Q: ')
+        query = input("Q: ")
         if query == 'exit':
             break
 
-        query, answer, query_done, is_first_query = chatting(
+        query_cache, answer, query_done, is_first_query = chatting(
             query,
             is_first_query,
             model,
             tokenizer,
-            query_cache)
+            query_cache,
+            config,
+            device)
+
+        print("A:", answer)
