@@ -56,9 +56,6 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
     - SEP -> обычное завершение ответа, историю сохраняем
     - EOS -> query_done=True, историю очищаем как гипотетический конец топика
     """
-    user_token_id = tokenizer.convert_tokens_to_ids(config.token_user)
-    assistant_token_id = tokenizer.convert_tokens_to_ids(config.token_assistant)
-
 
     def build_prompt_from_history(history):
         flat_tokens = []
@@ -70,7 +67,7 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
         query_cache = []
 
     # 1. attach user-utterance
-    user_tokens = [user_token_id] + tokenizer.encode(query) + [assistant_token_id]
+    user_tokens = [tokenizer.cls_token_id] + tokenizer.encode(query) + [tokenizer.sep_token_id]
     query_cache.append(user_tokens)
 
     # 2. build prompt from history
@@ -140,7 +137,7 @@ if __name__ == "__main__":
             "cls_token": config.token_cls,
             "sep_token": config.token_sep,
             "pad_token": config.token_pad,
-            "additional_special_tokens": [config.token_user, config.token_assistant]
+            "additional_special_tokens": []
         }
 
         num_added = tokenizer.add_special_tokens(special_tokens)
