@@ -56,9 +56,12 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
     - SEP -> обычное завершение ответа, историю сохраняем
     - EOS -> query_done=True, историю очищаем как гипотетический конец топика
     """
+    user_token_id = tokenizer.convert_tokens_to_ids(config.token_user)
+    assistant_token_id = tokenizer.convert_tokens_to_ids(config.token_assistant)
+
 
     def build_prompt_from_history(history):
-        flat_tokens = [tokenizer.cls_token_id]
+        flat_tokens = []
         for turn_tokens in history:
             flat_tokens.extend(turn_tokens)
         return torch.tensor(flat_tokens, dtype=torch.long, device=device).unsqueeze(0)
@@ -67,7 +70,7 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
         query_cache = []
 
     # 1. attach user-utterance
-    user_tokens = tokenizer.encode(query) + [tokenizer.sep_token_id]
+    user_tokens = [user_token_id] + tokenizer.encode(query) + [assistant_token_id]
     query_cache.append(user_tokens)
 
     # 2. build prompt from history
@@ -82,7 +85,7 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
     with torch.no_grad():
         generated = model.generate(
             input_ids=input_ids,
-            attention_mask=torch.ones_like(input_ids, device=input_ids.device),
+            #attention_mask=torch.ones_like(input_ids, device=input_ids.device),
             max_new_tokens=max_new_tokens,
             do_sample=False,
             eos_token_id=[tokenizer.sep_token_id, tokenizer.eos_token_id],
@@ -113,6 +116,7 @@ def chatting(query: str, model, tokenizer, query_cache, config, device):
         if len(query_cache) > (2*HISTORY_NUM_PAIRS):
             query_cache = query_cache[2:]
     else:
+        # clear cache as marker of reset current topic
         query_cache = None
         print("INFO: query_cache=0")
 
@@ -136,7 +140,7 @@ if __name__ == "__main__":
             "cls_token": config.token_cls,
             "sep_token": config.token_sep,
             "pad_token": config.token_pad,
-            "additional_special_tokens": []
+            "additional_special_tokens": [config.token_user, config.token_assistant]
         }
 
         num_added = tokenizer.add_special_tokens(special_tokens)
@@ -222,6 +226,7 @@ if __name__ == "__main__":
             tokenizer,
             query_cache,
             config,
-            device)
+            device
+        )
 
         print("A:", answer)

@@ -15,6 +15,9 @@ class DialogConfig:
     token_cls: str = "<|ctx|>"
     token_sep: str = "<|sep|>"
 
+    token_user: str = "<|user|>"
+    token_assistant: str = "<|assistant|>"
+
 
 def read_jsonl_dataset(file_path: str):
     # read jsonl to list of tuples
@@ -61,6 +64,9 @@ class DialogLoader(Dataset):
         self.ctx_token_id = tokenizer.cls_token_id
         self.pad_token_id = tokenizer.pad_token_id
 
+        self.user_token_id = tokenizer.convert_tokens_to_ids(config.token_user)
+        self.assistant_token_id = tokenizer.convert_tokens_to_ids(config.token_assistant)
+
         self.data = []
         for dialog in data:
             self.data.extend([dialog, dialog])
@@ -77,8 +83,8 @@ class DialogLoader(Dataset):
         #   print(f"Tokens[{i}]: {self.tokenizer.tokenize(sent)}")
 
         # ctx_token only once: at the very beginning of the whole dialogue
-        input_ids = [self.ctx_token_id]
-        labels = [self.IGNORE_INDEX]
+        input_ids = []
+        labels = []
 
         for i, sentence in enumerate(multi_turn_sentences):
             sentence_ids = self.tokenizer(
@@ -88,15 +94,18 @@ class DialogLoader(Dataset):
                 return_tensors="pt"
             )["input_ids"].squeeze(0)
 
-            turn_ids = sentence_ids.tolist() + [self.turn_sep_id]
+            turn_ids = sentence_ids.tolist()
+
+            if i % 2 == predict_parity:
+                turn_ids.append(self.turn_sep_id)
+                labels.extend(turn_ids)
+            else:
+                # masked input = <|user|> utterance <|assistant|>
+                turn_ids = [self.user_token_id] + turn_ids + [self.assistant_token_id]
+                labels.extend([self.IGNORE_INDEX] * len(turn_ids))
 
             # append first, then trim if needed
             input_ids.extend(turn_ids)
-
-            if i % 2 == predict_parity:
-                labels.extend(turn_ids)
-            else:
-                labels.extend([self.IGNORE_INDEX] * len(turn_ids))
 
             if len(input_ids) > self.max_len:
                 input_ids = input_ids[:self.max_len]
@@ -105,6 +114,19 @@ class DialogLoader(Dataset):
 
             if len(input_ids) == self.max_len:
                 break
+
+        if len(input_ids) < self.max_len:
+            if input_ids[-1] == self.turn_sep_id:
+                input_ids[-1] = self.tokenizer.eos_token_id
+                labels[-1] = self.tokenizer.eos_token_id
+            else:
+                input_ids.append(self.tokenizer.eos_token_id)
+                labels.append(self.tokenizer.eos_token_id)
+        else:
+            if input_ids[-1] == self.turn_sep_id:
+                input_ids[-1] = self.tokenizer.eos_token_id
+                labels[-1] = self.tokenizer.eos_token_id
+
 
         return torch.tensor(input_ids, dtype=torch.long), torch.tensor(labels, dtype=torch.long)
 
